@@ -14,7 +14,7 @@
 | List of questions (pagination) | `/` or `/questions`       | Everyone        |
 | Question page (pagination)     | `/question/<question id>` | Everyone        |
 | Register / Login               | `/login` and `/register`  | Everyone        |
-| New question                   | `/new_question`           | Connected Users |
+| New question                   | `/new-question`           | Connected Users |
 | Profile                        | `/profile/<user id>`      | Connected Users |
 
 ### Question page feature

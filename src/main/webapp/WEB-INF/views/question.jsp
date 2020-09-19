@@ -12,7 +12,11 @@
 </head>
 <body>
 <h1>Questions ?</h1>
-<a href="profile">Mon profile</a>
 
+<a href=".">List of question</a>
+<a href="question">Question</a>
+<a href="new-question">New question</a>
+<a href="login">Login</a>
+<a href="profile">Profile</a>
 </body>
 </html>
