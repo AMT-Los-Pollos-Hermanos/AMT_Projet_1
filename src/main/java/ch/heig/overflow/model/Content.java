@@ -17,4 +17,8 @@ public class Content {
     @Getter
     @Setter
     private List<Integer> downVote;
+
+    @Getter
+    @Setter
+    private User author;
 }
