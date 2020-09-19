@@ -12,6 +12,7 @@
 </head>
 <body>
 <h1>Questions ?</h1>
+<a href="profile">Mon profile</a>
 
 </body>
 </html>
