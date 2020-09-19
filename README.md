@@ -9,13 +9,13 @@
 
 ### Pages
 
-| Name                           | Access          |
-| ------------------------------ | --------------- |
-| List of questions (pagination) | Everyone        |
-| Question page (pagination)     | Everyone        |
-| Register / Login               | Everyone        |
-| New question                   | Connected Users |
-| Profile                        | Connected Users |
+| Name                           | Path                      | Access          |
+| ------------------------------ | ------------------------- | --------------- |
+| List of questions (pagination) | `/` or `/questions`       | Everyone        |
+| Question page (pagination)     | `/question/<question id>` | Everyone        |
+| Register / Login               | `/login` and `/register`  | Everyone        |
+| New question                   | `/new_question`           | Connected Users |
+| Profile                        | `/profile/<user id>`      | Connected Users |
 
 ### Question page feature
 
@@ -33,3 +33,11 @@
 **Content** : Page's content
 
 **Footer** : statistics (number of registered users, number of questions, etc.)
+
+### Password policy
+
+[To define]
+
+### Vote policy
+
+[To define]
