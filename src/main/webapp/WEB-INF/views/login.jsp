@@ -2,23 +2,17 @@
   Created by IntelliJ IDEA.
   User: julien
   Date: 19.09.20
-  Time: 18:08
+  Time: 19:25
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Question</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <title>Login / Register</title>
 </head>
 <body>
+<h1>Login / Register</h1>
 
-<h1>Questions ?</h1>
-
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.bundle.min.js"></script>
 <a href=".">List of question</a>
 <a href="question">Question</a>
 <a href="new-question">New question</a>
