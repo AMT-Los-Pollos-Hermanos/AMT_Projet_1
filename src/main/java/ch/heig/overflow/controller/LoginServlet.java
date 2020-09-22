@@ -34,6 +34,7 @@ public class LoginServlet extends HttpServlet {
         if(n.equals("admin") && p.equals("admin")){
             request.getSession().setAttribute("currentUser", true);
             request.getRequestDispatcher("/WEB-INF/views/question.jsp").forward(request, response);
+
         }
     }
 
