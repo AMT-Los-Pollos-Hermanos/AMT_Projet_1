@@ -1,4 +1,4 @@
-package ch.heig.overflow.model;
+package ch.heig.overflow.models;
 
 import lombok.Builder;
 

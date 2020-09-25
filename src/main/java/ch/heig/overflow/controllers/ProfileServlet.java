@@ -1,6 +1,6 @@
-package ch.heig.overflow.controller;
+package ch.heig.overflow.controllers;
 
-import ch.heig.overflow.model.User;
+import ch.heig.overflow.models.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
