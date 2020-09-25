@@ -8,13 +8,19 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebFilter(filterName = "LoginFilter", urlPatterns = "/*")
-public class loginFilter implements Filter {
+public class LoginFilter implements Filter {
     public void destroy() {
     }
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpSession session = request.getSession(false);
+
+        String uri = request.getRequestURI();
+        if(uri.startsWith("/overflow/assets")) {
+            chain.doFilter(req, resp);
+            return;
+        }
 
         // Accès à la page de login n'a pas de restriction
         if (isPublicRessource(request.getRequestURI())) {
@@ -31,7 +37,7 @@ public class loginFilter implements Filter {
             }
             request.getSession().setAttribute("targetUrl", targetUrl);
 
-            ((HttpServletResponse) resp).sendRedirect("/OverFlow-1.0-SNAPSHOT/login");
+            ((HttpServletResponse) resp).sendRedirect("/overflow/login");
         } else {
             chain.doFilter(req, resp);
         }
@@ -43,7 +49,7 @@ public class loginFilter implements Filter {
 
     boolean isPublicRessource(String URI) {
         // Seulement la page de login est accessible pour tout le monde.
-        return URI.startsWith("/OverFlow-1.0-SNAPSHOT/login");
+        return URI.startsWith("/overflow/login");
     }
 
 }
