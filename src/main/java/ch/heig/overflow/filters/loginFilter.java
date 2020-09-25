@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(filterName = "LoginFilter", urlPatterns = "")
+@WebFilter(filterName = "LoginFilter", urlPatterns = "/*")
 public class loginFilter implements Filter {
     public void destroy() {
     }
@@ -32,7 +32,8 @@ public class loginFilter implements Filter {
             request.getSession().setAttribute("targetUrl", targetUrl);
 
             ((HttpServletResponse) resp).sendRedirect("/OverFlow-1.0-SNAPSHOT/login");
-            return;
+        } else {
+            chain.doFilter(req, resp);
         }
     }
 
