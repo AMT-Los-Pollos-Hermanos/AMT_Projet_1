@@ -20,6 +20,7 @@ exports.config = {
   bootstrap: null,
   mocha: {},
   name: 'e2e',
+  translation: 'fr-FR',
   plugins: {
     retryFailedStep: {
       enabled: true
