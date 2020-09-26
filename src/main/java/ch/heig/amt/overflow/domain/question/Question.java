@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Builder(toBuilder = true)
-public class Question implements IEntity {
+public class Question implements IEntity<Question, QuestionId> {
 
     @Builder.Default
     private QuestionId id = new QuestionId();
@@ -17,4 +17,8 @@ public class Question implements IEntity {
 
     private String author;
 
+    @Override
+    public Question deepClone() {
+        return this.toBuilder().id(new QuestionId(id.toString())).build();
+    }
 }

@@ -23,10 +23,16 @@
             </form>
         </div>
         <div class="col-md-8">
-            <h2>Liste des questions</h2>
+            <h2>Dernières questions</h2>
             <c:forEach items="${requestScope.questions.questions}" var="question">
-                <h3 class="h4"><c:out value="${question.title}" /></h3>
-                <p><c:out value="${question.content}" /></p>
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <c:out value="${question.title}" />
+                    </div>
+                    <div class="card-body">
+                        <c:out value="${question.content}" />
+                    </div>
+                </div>
             </c:forEach>
         </div>
     </div>

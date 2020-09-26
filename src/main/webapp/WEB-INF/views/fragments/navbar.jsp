@@ -12,22 +12,19 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Accueil <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Nouvelle question</a>
+                    <a class="nav-link" href="<c:url value="questions" />">Accueil <span class="sr-only">(current)</span></a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
                 <c:choose>
-                    <c:when test="${sessionScope.currentUser}">
+                    <c:when test="${sessionScope.currentUser != null}">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Admin
+                                <c:out value="${sessionScope.currentUser.firstName} ${sessionScope.currentUser.lastName}"/>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="<c:url value="/logout" />">Déconnexion</a>
+                                <a class="dropdown-item" href="<c:url value="logout.do" />">Déconnexion</a>
                             </div>
                         </li>
                     </c:when>
@@ -39,7 +36,6 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="<c:url value="/login" />">Se connecter</a>
-                                <a class="dropdown-item" href="#">Créer un compte</a>
                             </div>
                         </li>
                     </c:otherwise>

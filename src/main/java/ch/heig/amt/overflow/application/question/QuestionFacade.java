@@ -2,7 +2,6 @@ package ch.heig.amt.overflow.application.question;
 
 import ch.heig.amt.overflow.domain.question.IQuestionRepository;
 import ch.heig.amt.overflow.domain.question.Question;
-import ch.heig.amt.overflow.domain.question.QuestionId;
 
 import java.util.Collection;
 import java.util.List;

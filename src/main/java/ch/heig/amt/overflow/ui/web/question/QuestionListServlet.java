@@ -15,14 +15,12 @@ import java.io.IOException;
 @WebServlet(name = "QuestionListServlet", urlPatterns = "/questions")
 public class QuestionListServlet extends HttpServlet {
 
-    private ServiceRegistry serviceRegistry;
     private QuestionFacade questionFacade;
 
     @Override
     public void init() throws ServletException {
         super.init();
-        serviceRegistry = ServiceRegistry.getServiceRegistry();
-        questionFacade = serviceRegistry.getQuestionFacade();
+        questionFacade = ServiceRegistry.getServiceRegistry().getQuestionFacade();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

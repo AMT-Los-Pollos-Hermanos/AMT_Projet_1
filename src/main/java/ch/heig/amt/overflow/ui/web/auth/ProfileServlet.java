@@ -1,4 +1,4 @@
-package ch.heig.amt.overflow.ui.web.question;
+package ch.heig.amt.overflow.ui.web.auth;
 
 import ch.heig.amt.overflow.models.User;
 

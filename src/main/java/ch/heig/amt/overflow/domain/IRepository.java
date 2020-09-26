@@ -3,11 +3,11 @@ package ch.heig.amt.overflow.domain;
 import java.util.Collection;
 import java.util.Optional;
 
-public interface IRepository<IEntity, Id> {
+public interface IRepository<ENTITY extends IEntity<ENTITY, ID>, ID extends Id> {
 
-    void save(IEntity entity);
-    void remove(Id id);
-    Optional<IEntity> findById(Id id);
-    Collection<IEntity> findAll();
+    void save(ENTITY entity);
+    void remove(ID id);
+    Optional<ENTITY> findById(ID id);
+    Collection<ENTITY> findAll();
 
 }
