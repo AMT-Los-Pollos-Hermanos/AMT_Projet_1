@@ -1,5 +1,7 @@
 package ch.heig.amt.overflow.ui.web.auth;
 
+import ch.heig.amt.overflow.domain.message.FlashMessage;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,6 +17,9 @@ public class LogoutCommandServlet extends HttpServlet {
         if(req.getSession().getAttribute("currentUser") != null) {
             req.getSession().removeAttribute("currentUser");
         }
+        req.getSession().setAttribute("flash", FlashMessage.builder()
+                .message("Vous êtes maintenant déconnecté.")
+                .build());
         resp.sendRedirect("login");
     }
 

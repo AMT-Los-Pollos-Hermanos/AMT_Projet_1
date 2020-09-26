@@ -6,6 +6,7 @@ import ch.heig.amt.overflow.application.auth.AuthFacade;
 import ch.heig.amt.overflow.application.auth.AuthenticateCommand;
 import ch.heig.amt.overflow.application.auth.AuthenticationFailedException;
 import ch.heig.amt.overflow.application.auth.CurrentUserDTO;
+import ch.heig.amt.overflow.domain.message.FlashMessage;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -38,9 +39,16 @@ public class LoginCommandServlet extends HttpServlet {
         try {
             CurrentUserDTO currentUserDTO = authFacade.authenticate(command);
             req.getSession().setAttribute("currentUser", currentUserDTO);
+            req.getSession().setAttribute("flash", FlashMessage.builder()
+                    .message("Vous êtes maintenant connecté.")
+                    .build());
             resp.sendRedirect("questions");
         } catch (AuthenticationFailedException e) {
-            e.printStackTrace();
+            req.getSession().setAttribute("flash", FlashMessage.builder()
+                    .message("Nom d'utilisateur ou mot de passe incorrect.")
+                    .type("danger")
+                    .build());
+            resp.sendRedirect("login");
         }
     }
 

@@ -47,7 +47,7 @@
                             <label for="lPassword">Mot de passe</label>
                             <input type="password" id="lPassword" name="password" class="form-control" required>
                         </div>
-                        <button type="submit" role="button" class="btn btn-primary">Se connecter</button>
+                        <button type="submit" role="button" class="btn btn-primary" id="loginBtn">Se connecter</button>
                     </form>
                 </div>
             </div>

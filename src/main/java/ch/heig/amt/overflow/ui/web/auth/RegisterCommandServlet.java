@@ -4,6 +4,7 @@ import ch.heig.amt.overflow.application.ServiceRegistry;
 import ch.heig.amt.overflow.application.auth.AuthFacade;
 import ch.heig.amt.overflow.application.auth.RegisterCommand;
 import ch.heig.amt.overflow.application.auth.RegistrationFailedException;
+import ch.heig.amt.overflow.domain.message.FlashMessage;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,9 +36,15 @@ public class RegisterCommandServlet extends HttpServlet {
 
         try {
             authFacade.register(command);
+            req.getSession().setAttribute("flash", FlashMessage.builder()
+                    .message("Compte créé avec succès. Vous pouvez maintenant vous connecter.")
+                    .build());
             resp.sendRedirect("login");
         } catch (RegistrationFailedException e) {
-            e.printStackTrace();
+            req.getSession().setAttribute("flash", FlashMessage.builder()
+                    .message("Une erreur c'est produite durant l'enregistrement: " + e.getMessage())
+                    .type("danger")
+                    .build());
             resp.sendRedirect("login");
         }
     }

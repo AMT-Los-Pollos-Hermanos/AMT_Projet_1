@@ -27,6 +27,7 @@ public class QuestionListServlet extends HttpServlet {
         QuestionsDTO questionsDTO = questionFacade.getQuestions(QuestionQuery.builder().build());
         request.setAttribute("questions", questionsDTO);
         request.getRequestDispatcher("/WEB-INF/views/questionList.jsp").forward(request, response);
+        request.getSession().removeAttribute("flash");
     }
 
 }

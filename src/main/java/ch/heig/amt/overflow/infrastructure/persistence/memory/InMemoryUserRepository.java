@@ -4,7 +4,6 @@ import ch.heig.amt.overflow.domain.IPasswordEncoder;
 import ch.heig.amt.overflow.domain.user.IUserRepository;
 import ch.heig.amt.overflow.domain.user.User;
 import ch.heig.amt.overflow.domain.user.UserId;
-import ch.heig.amt.overflow.infrastructure.security.BCryptPasswordEncoder;
 
 import java.util.Collection;
 import java.util.Optional;
