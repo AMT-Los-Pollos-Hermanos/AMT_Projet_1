@@ -1,6 +1,6 @@
-package ch.heig.overflow.controllers;
+package ch.heig.amt.overflow.ui.web.question;
 
-import ch.heig.overflow.models.LoginCommand;
+import ch.heig.amt.overflow.models.LoginCommand;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

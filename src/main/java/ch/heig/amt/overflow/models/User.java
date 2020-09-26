@@ -1,4 +1,4 @@
-package ch.heig.overflow.models;
+package ch.heig.amt.overflow.models;
 
 import lombok.Getter;
 import lombok.Setter;
