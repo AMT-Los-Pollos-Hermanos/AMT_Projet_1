@@ -42,7 +42,7 @@ public class RegisterCommandServlet extends HttpServlet {
             resp.sendRedirect("login");
         } catch (RegistrationFailedException e) {
             req.getSession().setAttribute("flash", FlashMessage.builder()
-                    .message("Une erreur c'est produite durant l'enregistrement: " + e.getMessage())
+                    .message("Une erreur s'est produite durant l'enregistrement: " + e.getMessage())
                     .type("danger")
                     .build());
             resp.sendRedirect("login");

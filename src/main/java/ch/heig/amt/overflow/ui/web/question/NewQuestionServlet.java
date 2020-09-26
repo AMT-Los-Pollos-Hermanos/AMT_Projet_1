@@ -3,6 +3,7 @@ package ch.heig.amt.overflow.ui.web.question;
 import ch.heig.amt.overflow.application.ServiceRegistry;
 import ch.heig.amt.overflow.application.question.NewQuestionCommand;
 import ch.heig.amt.overflow.application.question.QuestionFacade;
+import ch.heig.amt.overflow.domain.message.FlashMessage;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,7 +25,17 @@ public class NewQuestionServlet extends HttpServlet {
                 .content(request.getParameter("content"))
                 .build();
 
-        questionFacade.addNewQuestion(command);
+        try {
+            questionFacade.addNewQuestion(command);
+            request.getSession().setAttribute("flash", FlashMessage.builder()
+                    .message("Question publiée avec succès")
+                    .build());
+        } catch (Exception e) {
+            request.getSession().setAttribute("flash", FlashMessage.builder()
+                    .message("Une erreur s'est produite lors de l'ajout de votre question: " + e.getMessage())
+                    .type("danger")
+                    .build());
+        }
         response.sendRedirect("/overflow/questions");
     }
 

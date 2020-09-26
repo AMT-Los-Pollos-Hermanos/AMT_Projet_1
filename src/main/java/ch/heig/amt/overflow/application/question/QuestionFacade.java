@@ -16,12 +16,16 @@ public class QuestionFacade {
     }
 
     public void addNewQuestion(NewQuestionCommand command) {
-        Question submittedQuestion = Question.builder()
-                .title(command.getTitle())
-                .content(command.getContent())
-                .author(command.getAuthor())
-                .build();
-        questionRepository.save(submittedQuestion);
+        if(!command.getTitle().isEmpty() && !command.getContent().isEmpty()) {
+            Question submittedQuestion = Question.builder()
+                    .title(command.getTitle())
+                    .content(command.getContent())
+                    .author(command.getAuthor())
+                    .build();
+            questionRepository.save(submittedQuestion);
+        } else {
+            throw new IllegalArgumentException("Title and content are mandatory");
+        }
     }
 
     public QuestionsDTO getQuestions(QuestionQuery query) {
