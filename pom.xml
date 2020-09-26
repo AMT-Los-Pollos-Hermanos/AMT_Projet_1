@@ -4,10 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ch.heig</groupId>
+    <groupId>ch.heig.amt</groupId>
     <artifactId>overflow</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <name>OverFlow</name>
 
     <properties>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -57,6 +58,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.3.0</version>
+                <configuration>
+                    <warName>${project.artifactId}-${project.version}</warName>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
