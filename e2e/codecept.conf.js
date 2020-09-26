@@ -9,7 +9,7 @@ exports.config = {
   output: './output',
   helpers: {
     Puppeteer: {
-      url: 'http://localhost:8080/OverFlow-1.0-SNAPSHOT',
+      url: 'http://localhost:9080/overflow/login',
       show: true,
       windowSize: '1200x900'
     }
