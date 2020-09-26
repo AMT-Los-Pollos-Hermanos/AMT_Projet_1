@@ -29,7 +29,7 @@ public class LoginServlet extends HttpServlet {
 
         if (n.equals("admin") && p.equals("admin")) {
             request.getSession().setAttribute("currentUser", true);
-            response.sendRedirect("");
+            response.sendRedirect("/overflow/question");
         } else {
             response.sendRedirect("/overflow/login");
         }
