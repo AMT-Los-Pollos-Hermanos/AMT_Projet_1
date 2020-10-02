@@ -36,7 +36,7 @@ public class NewQuestionServlet extends HttpServlet {
                     .type("danger")
                     .build());
         }
-        response.sendRedirect("/overflow/questions");
+        response.sendRedirect(request.getContextPath() + "/questions");
     }
 
 }
