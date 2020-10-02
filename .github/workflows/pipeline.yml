@@ -34,6 +34,6 @@ jobs:
       - name: Build Docker Image
         run: |
           echo ${{ secrets.AMT_PAT }} | docker login ghcr.io -u dev-amt-project --password-stdin
-          docker build -t AMT-Los-Pollos_Hermanos/AMT_Projet_1 .
-          docker tag AMT-Los-Pollos_Hermanos/AMT_Projet_1 ghcr.io/AMT-Los-Pollos_Hermanos/AMT_Projet_1
+          docker build -t overflow .
+          docker tag overflow ghcr.io/AMT-Los-Pollos_Hermanos/AMT_Projet_1
           docker push ghcr.io/AMT-Los-Pollos_Hermanos/AMT_Projet_1
