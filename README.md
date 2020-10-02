@@ -41,3 +41,16 @@
 ### Vote policy
 
 [To define]
+
+
+### Installation
+
+First you need to pull the image from GitHub Packages. The package is public so you only need to copy the command of the [overflow package](https://github.com/orgs/AMT-Los-Pollos-Hermanos/packages). 
+
+Then when the pull is finished, you need to run this command: `docker run -p 9080:9080 <container_id>`. The id of the container can be found using `docker ps`.
+
+
+
+Finally, to connect to the web-app, you need to connect to:
+
+ `http://localhost:9080/overflow-1.0-SNAPSHOT/login`.
