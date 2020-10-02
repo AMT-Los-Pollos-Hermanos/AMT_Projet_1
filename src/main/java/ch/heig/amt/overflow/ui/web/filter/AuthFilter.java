@@ -20,7 +20,7 @@ public class AuthFilter implements Filter {
         HttpSession session = request.getSession(false);
 
         // Accès à la page de login n'a pas de restriction
-        if (isPublicRessource(request.getRequestURI())) {
+        if (isPublicRessource(request.getRequestURI(), request.getContextPath())) {
             chain.doFilter(req, resp);
             return;
         }
@@ -34,17 +34,17 @@ public class AuthFilter implements Filter {
             }
             request.getSession().setAttribute("targetUrl", targetUrl);
 
-            ((HttpServletResponse) resp).sendRedirect("/overflow/login");
+            ((HttpServletResponse) resp).sendRedirect(request.getContextPath() + "/login");
         } else {
             chain.doFilter(req, resp);
         }
     }
 
-    boolean isPublicRessource(String uri) {
+    boolean isPublicRessource(String uri, String prefix) {
         // Seulement la page de login est accessible pour tout le monde.
-        return uri.startsWith("/overflow/login") ||
-                uri.startsWith("/overflow/register.do") ||
-                uri.startsWith("/overflow/assets");
+        return uri.startsWith(prefix + "/login") ||
+                uri.startsWith(prefix + "/register.do") ||
+                uri.startsWith(prefix + "/assets");
     }
 
 }
