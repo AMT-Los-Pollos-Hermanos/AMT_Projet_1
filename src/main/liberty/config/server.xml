@@ -1,4 +1,4 @@
-<server description="Liberty Server"
+<server description="Liberty Server">
     <featureManager>
         <feature>webProfile-8.0 </feature>
     </featureManager>
