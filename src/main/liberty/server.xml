@@ -1,0 +1,14 @@
+<server description="Liberty Server"
+    <featureManager>
+        <feature>webProfile-8.0 </feature>
+    </featureManager>
+
+    <variable name="default.http.port" defaultValue="9080"/>
+    <variable name="default.http.port" defaultValue="9443"/>
+
+    <webApplication location="overflow-1.0-SNAPSHOT.war" contextRoot="/"/>
+
+    <httpEndpoint host="*" httpPort="${default.http.port}"
+                  httpPort="${default.https.port}" id="defaultHttpEndpoint"/>
+
+</server>
