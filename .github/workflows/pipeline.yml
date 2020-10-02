@@ -33,6 +33,6 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          echo ${{ secrets.AMT_PAT }} | docker login ghcr.io -u dev-amt-project --password-stdin
-          docker build -t ghcr.io/amt-los-pollos-hermanos/amt_projet_1:$GITHUB_SHA .
-          docker push ghcr.io/amt-los-pollos-hermanos/amt_projet_1:$GITHUB_SHA
+          echo ${{ secrets.DOCKER_PAT }} | docker login ghcr.io -u balsigergil --password-stdin
+          docker build -t ghcr.io/amt-los-pollos-hermanos/overflow:$GITHUB_SHA .
+          docker push ghcr.io/amt-los-pollos-hermanos/overflow:$GITHUB_SHA
