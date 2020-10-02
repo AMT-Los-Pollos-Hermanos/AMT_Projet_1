@@ -4,10 +4,6 @@ on:
   push:
     branches:
       - master
-      - fb-workflow
-  pull_request:
-    branches: 
-      - master
 
 jobs:
   build:
