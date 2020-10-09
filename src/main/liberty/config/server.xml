@@ -1,0 +1,23 @@
+<server description="Overflow">
+    <featureManager>
+        <feature>jsp-2.3</feature>
+    </featureManager>
+    <httpEndpoint id="defaultHttpEndpoint"
+                  httpPort="9080"
+                  httpsPort="9443" />
+    <applicationManager autoExpand="true" />
+
+    <library id="MySqlLib">
+        <fileset dir="${server.config.dir}" includes="*.jar" />
+    </library>
+
+    <dataSource jndiName="jdbc/OverflowDS">
+        <jdbcDriver libraryRef="MySqlLib" />
+        <properties databaseName="AMT_OVERFLOW"
+                    serverName="localhost"
+                    portNumber="9906"
+                    user="root"
+                    password="root" />
+    </dataSource>
+
+</server>
