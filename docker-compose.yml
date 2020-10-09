@@ -1,0 +1,20 @@
+version: "3.1"
+services:
+  db:
+    image: mysql:8.0.21
+    container_name: overflow_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABSE: overflow
+      MYSQL_PASSWORD: root
+    ports:
+      - "9906:3306"
+    
+  web: 
+    image: ghcr.io/amt-los-pollos-hermanos/overflow:latest
+    container_name: overflow
+    ports:
+      - "9080:9080"
+
+
