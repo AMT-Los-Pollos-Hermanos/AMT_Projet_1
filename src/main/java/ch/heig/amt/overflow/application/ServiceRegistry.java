@@ -6,31 +6,27 @@ import ch.heig.amt.overflow.domain.IPasswordEncoder;
 import ch.heig.amt.overflow.domain.question.IQuestionRepository;
 import ch.heig.amt.overflow.domain.user.IUserRepository;
 import ch.heig.amt.overflow.infrastructure.persistence.memory.InMemoryQuestionRepository;
-import ch.heig.amt.overflow.infrastructure.persistence.memory.InMemoryUserRepository;
 import ch.heig.amt.overflow.infrastructure.security.BCryptPasswordEncoder;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+
+@ApplicationScoped
 public class ServiceRegistry {
 
-    private static ServiceRegistry singleton;
+    IQuestionRepository questionRepository;
 
-    private final IQuestionRepository questionRepository;
-    private final IUserRepository userRepository;
-    private final QuestionFacade questionFacade;
-    private final AuthFacade authFacade;
-    private final IPasswordEncoder passwordEncoder;
-
-    public static ServiceRegistry getServiceRegistry() {
-        if(singleton == null) {
-            singleton = new ServiceRegistry();
-        }
-        return singleton;
-    }
+    @Inject @Named("JdbcUserRepository")
+    IUserRepository userRepository;
+    QuestionFacade questionFacade;
+    AuthFacade authFacade;
+    IPasswordEncoder passwordEncoder;
 
     private ServiceRegistry() {
         questionRepository = new InMemoryQuestionRepository();
         questionFacade = new QuestionFacade(questionRepository);
         passwordEncoder = new BCryptPasswordEncoder();
-        userRepository = new InMemoryUserRepository(passwordEncoder);
         authFacade = new AuthFacade(userRepository);
     }
 

@@ -21,6 +21,8 @@ public class JdbcUserRepository implements IUserRepository {
     @Resource(lookup = "jdbc/OverflowDS")
     DataSource dataSource;
 
+    public JdbcUserRepository() {}
+
     public JdbcUserRepository(DataSource dataSource) {
         this.dataSource = dataSource;
     }

@@ -6,6 +6,7 @@ import ch.heig.amt.overflow.application.auth.RegisterCommand;
 import ch.heig.amt.overflow.application.auth.RegistrationFailedException;
 import ch.heig.amt.overflow.domain.message.FlashMessage;
 
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,12 +17,15 @@ import java.io.IOException;
 @WebServlet(name = "RegisterCommandServlet", urlPatterns = "/register.do")
 public class RegisterCommandServlet extends HttpServlet {
 
+    @Inject
+    ServiceRegistry serviceRegistry;
+
     AuthFacade authFacade;
 
     @Override
     public void init() throws ServletException {
         super.init();
-        authFacade =  ServiceRegistry.getServiceRegistry().getAuthFacade();
+        authFacade =  serviceRegistry.getAuthFacade();
     }
 
     @Override

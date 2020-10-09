@@ -13,7 +13,7 @@
 
     <dataSource jndiName="jdbc/OverflowDS">
         <jdbcDriver libraryRef="MySqlLib" />
-        <properties databaseName="AMT_OVERFLOW"
+        <properties databaseName="overflow"
                     serverName="localhost"
                     portNumber="9906"
                     user="root"
