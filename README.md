@@ -55,3 +55,13 @@ First you need to pull the image from GitHub Packages. The package is public so 
 Then when the pull is finished, you need to run this command: `docker run -p 9080:9080 <image_id>`. The id of the image can be found using `docker images`.
 
 Finally, to connect to the web-app, you need to connect to: http://localhost:9080/overflow-1.0-SNAPSHOT/login
+
+### JMeter
+
+##### Création du test JMeter 
+
+- Ouvrir JMeter 
+- Aller dans File > Open et choisir le fichier overflow_test1.jmx situé dans le répértoire jmeter de notre projet 
+- Cliquer sur Start  
+- Les résultats sont visibles dans la section View Results Tree
+
