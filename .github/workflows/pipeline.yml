@@ -47,8 +47,17 @@ jobs:
           name: war
           path: target
 
-      - name: Build Docker Image
-        run: |
-          echo ${{ secrets.DOCKER_PAT }} | docker login ghcr.io -u balsigergil --password-stdin
-          docker build -t ghcr.io/amt-los-pollos-hermanos/overflow:latest .
-          docker push ghcr.io/amt-los-pollos-hermanos/overflow:latest
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: gil
+          password: ${{ secrets.DOCKER_PAT }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          registry: ghcr.io
+          repository: amt-los-pollos-hermanos
+          tags: overflow:latest
