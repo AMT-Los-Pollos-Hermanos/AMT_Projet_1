@@ -38,6 +38,7 @@ public class JdbcUserRepository implements IUserRepository {
 
             while (rs.next()) {
                 user = User.builder()
+                        .id(new UserId(rs.getString("id")))
                         .firstName(rs.getString("first_name"))
                         .lastName(rs.getString("last_name"))
                         .email(rs.getString("email"))
@@ -64,7 +65,7 @@ public class JdbcUserRepository implements IUserRepository {
             ResultSet rs = select.executeQuery();
             int size = 0;
             if (rs.next()) {
-                size = rs.getShort(1);
+                size = rs.getInt(1);
             }
             if (size == 0) {
                 // Create user
@@ -99,8 +100,8 @@ public class JdbcUserRepository implements IUserRepository {
                     throw new RuntimeException("Error while updating user in the database");
                 }
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -113,8 +114,8 @@ public class JdbcUserRepository implements IUserRepository {
             if (rows == 0) {
                 throw new RuntimeException("No user deleted, user with id '" + id.toString() + "' not found in database");
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

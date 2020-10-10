@@ -39,14 +39,13 @@ public class AuthFacade {
             throw new AuthenticationFailedException("Invalid credentials");
         }
 
-        CurrentUserDTO currentUser = CurrentUserDTO.builder()
+        return CurrentUserDTO.builder()
+                .id(user.getId())
                 .username(user.getUsername())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())
                 .build();
-
-        return currentUser;
     }
 
 }

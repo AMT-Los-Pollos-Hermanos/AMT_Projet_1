@@ -1,5 +1,6 @@
 package ch.heig.amt.overflow.application.question;
 
+import ch.heig.amt.overflow.domain.user.UserId;
 import lombok.Builder;
 import lombok.Value;
 
@@ -10,8 +11,7 @@ public class NewQuestionCommand {
     @Builder.Default
     String title = "No title";
 
-    @Builder.Default
-    String author = "Anonymous";
+    UserId author;
 
     @Builder.Default
     String content = "No content";

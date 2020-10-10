@@ -32,47 +32,118 @@ public class JdbcQuestionRepository implements IQuestionRepository {
 
         try {
             String sql = "SELECT * FROM questions INNER JOIN users ON questions.user_id = users.id";
-            if(!query.getSearch().isEmpty()) {
+            if (!query.getSearch().isEmpty()) {
                 sql += " WHERE title = ?";
             }
             PreparedStatement statement = dataSource.getConnection().prepareStatement(sql);
-            if(!query.getSearch().isEmpty()) {
+            if (!query.getSearch().isEmpty()) {
                 statement.setString(1, query.getSearch());
             }
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                questions.add(Question.builder()
-                        .author(User.builder()
-                                .id(new UserId(rs.getString("users.id")))
-                                .username(rs.getString("username"))
-                                .email(rs.getString("email"))
-                                .encryptedPassword(rs.getString("password"))
-                                .lastName(rs.getString("last_name"))
-                                .firstName(rs.getString("first_name"))
-                                .build())
-                        .title(rs.getString("title"))
-                        .content(rs.getString("content"))
-                        .build());
+                questions.add(resultToQuestion(rs));
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return questions;
     }
 
     @Override
     public void save(Question entity) {
-
+        try {
+            PreparedStatement select = dataSource.getConnection().prepareStatement("SELECT COUNT(*) FROM questions WHERE id = ?");
+            select.setString(1, entity.getId().toString());
+            ResultSet rs = select.executeQuery();
+            int size = 0;
+            if (rs.next()) {
+                size = rs.getInt(1);
+            }
+            if (size == 0) {
+                // Create question
+                PreparedStatement create = dataSource
+                        .getConnection()
+                        .prepareStatement("INSERT INTO questions (id, title, content, user_id) VALUES (?, ?, ?, ?)");
+                int i = 1;
+                create.setString(i++, entity.getId().toString());
+                create.setString(i++, entity.getTitle());
+                create.setString(i++, entity.getContent());
+                create.setString(i, entity.getAuthor().getId().toString());
+                int rows = create.executeUpdate();
+                if (rows == 0) {
+                    throw new RuntimeException("Error while adding new question to the database");
+                }
+            } else {
+                // Update user
+                PreparedStatement create = dataSource
+                        .getConnection()
+                        .prepareStatement("UPDATE questions SET title = ?, content = ?, user_id = ? WHERE id = ?");
+                int i = 1;
+                create.setString(i++, entity.getTitle());
+                create.setString(i++, entity.getContent());
+                create.setString(i++, entity.getAuthor().getId().toString());
+                create.setString(i, entity.getId().toString());
+                int rows = create.executeUpdate();
+                if (rows == 0) {
+                    throw new RuntimeException("Error while updating user in the database");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void remove(QuestionId id) {
-
+        try {
+            PreparedStatement select = dataSource.getConnection().prepareStatement("DELETE FROM questions WHERE id = ?");
+            select.setString(1, id.toString());
+            int rows = select.executeUpdate();
+            if (rows == 0) {
+                throw new RuntimeException("No question deleted, question with id '" + id.toString() + "' not found in database");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public Optional<Question> findById(QuestionId id) {
-        return Optional.empty();
+        Question question = null;
+
+        try {
+            String sql = "SELECT * FROM questions INNER JOIN users ON questions.user_id = users.id WHERE questions.id = ?";
+            PreparedStatement statement = dataSource.getConnection().prepareStatement(sql);
+            statement.setString(1, id.toString());
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                question = resultToQuestion(rs);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (question != null) {
+            return Optional.of(question);
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    private Question resultToQuestion(ResultSet rs) throws SQLException {
+        return Question.builder()
+                .id(new QuestionId(rs.getString("questions.id")))
+                .author(User.builder()
+                        .id(new UserId(rs.getString("users.id")))
+                        .username(rs.getString("username"))
+                        .email(rs.getString("email"))
+                        .encryptedPassword(rs.getString("password"))
+                        .lastName(rs.getString("last_name"))
+                        .firstName(rs.getString("first_name"))
+                        .build())
+                .title(rs.getString("title"))
+                .content(rs.getString("content"))
+                .build();
     }
 
     @Override

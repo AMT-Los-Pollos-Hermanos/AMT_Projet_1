@@ -47,29 +47,6 @@ public class User implements IEntity<User, UserId> {
             return this;
         }
 
-        public User build() {
-            if(id == null) {
-                id = new UserId();
-            }
-            if(username == null || username.isEmpty()) {
-                throw new IllegalArgumentException("Username is mandatory");
-            }
-            if(encryptedPassword == null || encryptedPassword.isEmpty()) {
-                throw new IllegalArgumentException("Password is mandatory");
-            }
-            if(firstName == null || firstName.isEmpty()) {
-                throw new IllegalArgumentException("First name is mandatory");
-            }
-            if(lastName == null || lastName.isEmpty()) {
-                throw new IllegalArgumentException("Last name is mandatory");
-            }
-            if(email == null || email.isEmpty()) {
-                throw new IllegalArgumentException("Email is mandatory");
-            }
-
-            return new User(id, username, email, firstName, lastName, encryptedPassword);
-        }
-
     }
 
 }
