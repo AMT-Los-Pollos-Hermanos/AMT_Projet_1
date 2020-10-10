@@ -5,6 +5,7 @@ import ch.heig.amt.overflow.application.question.NewQuestionCommand;
 import ch.heig.amt.overflow.application.question.QuestionFacade;
 import ch.heig.amt.overflow.domain.message.FlashMessage;
 
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,7 +16,8 @@ import java.io.IOException;
 @WebServlet(name = "NewQuestionServlet", urlPatterns = "/submitQuestion.do")
 public class NewQuestionServlet extends HttpServlet {
 
-    QuestionFacade questionFacade = ServiceRegistry.getServiceRegistry().getQuestionFacade();
+    @Inject
+    ServiceRegistry serviceRegistry;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -26,7 +28,7 @@ public class NewQuestionServlet extends HttpServlet {
                 .build();
 
         try {
-            questionFacade.addNewQuestion(command);
+            serviceRegistry.getQuestionFacade().addNewQuestion(command);
             request.getSession().setAttribute("flash", FlashMessage.builder()
                     .message("Question publiée avec succès")
                     .build());

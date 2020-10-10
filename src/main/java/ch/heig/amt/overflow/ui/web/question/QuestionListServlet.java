@@ -5,6 +5,7 @@ import ch.heig.amt.overflow.application.question.QuestionFacade;
 import ch.heig.amt.overflow.application.question.QuestionQuery;
 import ch.heig.amt.overflow.application.question.QuestionsDTO;
 
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,12 +16,14 @@ import java.io.IOException;
 @WebServlet(name = "QuestionListServlet", urlPatterns = "/questions")
 public class QuestionListServlet extends HttpServlet {
 
+    @Inject
+    private ServiceRegistry serviceRegistry;
     private QuestionFacade questionFacade;
 
     @Override
     public void init() throws ServletException {
         super.init();
-        questionFacade = ServiceRegistry.getServiceRegistry().getQuestionFacade();
+        questionFacade = serviceRegistry.getQuestionFacade();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

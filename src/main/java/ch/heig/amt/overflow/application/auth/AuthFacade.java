@@ -5,7 +5,7 @@ import ch.heig.amt.overflow.domain.user.User;
 
 public class AuthFacade {
 
-    private final IUserRepository userRepository;
+    IUserRepository userRepository;
 
     public AuthFacade(IUserRepository userRepository) {
         this.userRepository = userRepository;

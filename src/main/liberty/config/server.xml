@@ -1,6 +1,7 @@
 <server description="Overflow">
     <featureManager>
         <feature>jsp-2.3</feature>
+        <feature>cdi-2.0</feature>
     </featureManager>
     <httpEndpoint id="defaultHttpEndpoint"
                   httpPort="9080"

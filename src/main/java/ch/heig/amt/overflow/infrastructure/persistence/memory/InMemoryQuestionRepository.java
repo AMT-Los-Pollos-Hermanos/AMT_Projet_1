@@ -5,9 +5,14 @@ import ch.heig.amt.overflow.domain.question.IQuestionRepository;
 import ch.heig.amt.overflow.domain.question.Question;
 import ch.heig.amt.overflow.domain.question.QuestionId;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
+import javax.inject.Named;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+@ApplicationScoped
+@Named("InMemoryQuestionRepository")
 public class InMemoryQuestionRepository extends InMemoryRepository<Question, QuestionId> implements IQuestionRepository {
 
     public Collection<Question> find(QuestionQuery query) {

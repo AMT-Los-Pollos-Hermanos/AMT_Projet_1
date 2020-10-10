@@ -1,7 +1,7 @@
 package ch.heig.amt.overflow.domain.user;
 
-import ch.heig.amt.overflow.application.ServiceRegistry;
 import ch.heig.amt.overflow.domain.IEntity;
+import ch.heig.amt.overflow.infrastructure.security.BCryptPasswordEncoder;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,7 +21,7 @@ public class User implements IEntity<User, UserId> {
     private String encryptedPassword;
 
     public boolean authenticate(String clearTextPassword) {
-        return ServiceRegistry.getServiceRegistry().getPasswordEncoder().verify(clearTextPassword, encryptedPassword);
+        return BCryptPasswordEncoder.verify(clearTextPassword, encryptedPassword);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class User implements IEntity<User, UserId> {
             if(clearTextPassword == null || clearTextPassword.isEmpty()) {
                 throw new IllegalArgumentException("Password is mandatory");
             } else {
-                encryptedPassword = ServiceRegistry.getServiceRegistry().getPasswordEncoder().hash(clearTextPassword);
+                encryptedPassword = BCryptPasswordEncoder.hash(clearTextPassword);
             }
             return this;
         }

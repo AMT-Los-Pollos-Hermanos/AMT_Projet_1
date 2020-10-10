@@ -2,12 +2,10 @@ package ch.heig.amt.overflow.application;
 
 import ch.heig.amt.overflow.application.auth.AuthFacade;
 import ch.heig.amt.overflow.application.question.QuestionFacade;
-import ch.heig.amt.overflow.domain.IPasswordEncoder;
 import ch.heig.amt.overflow.domain.question.IQuestionRepository;
 import ch.heig.amt.overflow.domain.user.IUserRepository;
-import ch.heig.amt.overflow.infrastructure.persistence.memory.InMemoryQuestionRepository;
-import ch.heig.amt.overflow.infrastructure.security.BCryptPasswordEncoder;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -15,19 +13,19 @@ import javax.inject.Named;
 @ApplicationScoped
 public class ServiceRegistry {
 
-    IQuestionRepository questionRepository;
+    @Inject @Named("InMemoryQuestionRepository")
+    private IQuestionRepository questionRepository;
 
-    @Inject @Named("JdbcUserRepository")
-    IUserRepository userRepository;
-    QuestionFacade questionFacade;
-    AuthFacade authFacade;
-    IPasswordEncoder passwordEncoder;
+    @Inject @Named("InMemoryUserRepository")
+    private IUserRepository userRepository;
 
-    private ServiceRegistry() {
-        questionRepository = new InMemoryQuestionRepository();
-        questionFacade = new QuestionFacade(questionRepository);
-        passwordEncoder = new BCryptPasswordEncoder();
+    private QuestionFacade questionFacade;
+    private AuthFacade authFacade;
+
+    @PostConstruct
+    private void init() {
         authFacade = new AuthFacade(userRepository);
+        questionFacade = new QuestionFacade(questionRepository);
     }
 
     public QuestionFacade getQuestionFacade() {
@@ -38,7 +36,4 @@ public class ServiceRegistry {
         return authFacade;
     }
 
-    public IPasswordEncoder getPasswordEncoder() {
-        return passwordEncoder;
-    }
 }

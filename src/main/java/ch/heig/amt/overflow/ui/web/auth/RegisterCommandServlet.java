@@ -20,14 +20,6 @@ public class RegisterCommandServlet extends HttpServlet {
     @Inject
     ServiceRegistry serviceRegistry;
 
-    AuthFacade authFacade;
-
-    @Override
-    public void init() throws ServletException {
-        super.init();
-        authFacade =  serviceRegistry.getAuthFacade();
-    }
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         RegisterCommand command = RegisterCommand.builder()
@@ -39,7 +31,7 @@ public class RegisterCommandServlet extends HttpServlet {
                 .build();
 
         try {
-            authFacade.register(command);
+            serviceRegistry.getAuthFacade().register(command);
             req.getSession().setAttribute("flash", FlashMessage.builder()
                     .message("Compte créé avec succès. Vous pouvez maintenant vous connecter.")
                     .build());
