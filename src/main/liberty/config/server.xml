@@ -18,7 +18,7 @@
         <jdbcDriver libraryRef="MySqlLib" />
         <properties databaseName="overflow"
                     serverName="db"
-                    portNumber="9906"
+                    portNumber="3306"
                     user="overflow"
                     password="overflow" />
     </dataSource>

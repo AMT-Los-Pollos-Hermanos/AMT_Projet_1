@@ -13,7 +13,7 @@ services:
       - "./db.sql:/docker-entrypoint-initdb.d/db.sql"
     
   web:
-    image: ghcr.io/amt-los-pollos-hermanos/overflow:latest
+    build: .
     ports:
       - "9080:9080"
 
