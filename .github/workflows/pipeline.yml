@@ -58,6 +58,6 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          registry: ghcr.io
-          repository: amt-los-pollos-hermanos
-          tags: overflow:latest
+          tags: ghcr.io/amt-los-pollos-hermanos/overflow:latest
+          cache-from: type=ghcr.io,ref=amt-los-pollos-hermanos/overflow:latest
+          cache-to: type=inline
