@@ -3,7 +3,7 @@
         <feature>jsp-2.3</feature>
         <feature>cdi-2.0</feature>
         <feature>servlet-4.0</feature>
-        <feature>jdbc-4.3</feature>
+        <feature>jdbc-4.2</feature>
     </featureManager>
     <httpEndpoint id="defaultHttpEndpoint"
                   httpPort="9080"
