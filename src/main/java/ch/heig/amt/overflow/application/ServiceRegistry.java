@@ -13,7 +13,7 @@ import javax.inject.Named;
 @ApplicationScoped
 public class ServiceRegistry {
 
-    @Inject @Named("InMemoryQuestionRepository")
+    @Inject @Named("JdbcQuestionRepository")
     private IQuestionRepository questionRepository;
 
     @Inject @Named("JdbcUserRepository")

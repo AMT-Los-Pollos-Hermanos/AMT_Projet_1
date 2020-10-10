@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 @ApplicationScoped
 @Named("InMemoryUserRepository")
+@Deprecated
 public class InMemoryUserRepository extends InMemoryRepository<User, UserId> implements IUserRepository {
 
     public InMemoryUserRepository() {

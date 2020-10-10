@@ -2,6 +2,8 @@ package ch.heig.amt.overflow.application.question;
 
 import ch.heig.amt.overflow.domain.question.IQuestionRepository;
 import ch.heig.amt.overflow.domain.question.Question;
+import ch.heig.amt.overflow.domain.user.User;
+import ch.heig.amt.overflow.domain.user.UserId;
 
 import java.util.Collection;
 import java.util.List;
@@ -20,7 +22,7 @@ public class QuestionFacade {
             Question submittedQuestion = Question.builder()
                     .title(command.getTitle())
                     .content(command.getContent())
-                    .author(command.getAuthor())
+                    .author(User.builder().id(new UserId(command.getAuthor())).build())
                     .build();
             questionRepository.save(submittedQuestion);
         } else {

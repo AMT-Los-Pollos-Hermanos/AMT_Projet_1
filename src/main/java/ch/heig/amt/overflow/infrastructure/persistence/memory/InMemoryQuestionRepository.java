@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 @ApplicationScoped
 @Named("InMemoryQuestionRepository")
+@Deprecated
 public class InMemoryQuestionRepository extends InMemoryRepository<Question, QuestionId> implements IQuestionRepository {
 
     public Collection<Question> find(QuestionQuery query) {

@@ -1,6 +1,7 @@
 package ch.heig.amt.overflow.domain.question;
 
 import ch.heig.amt.overflow.domain.IEntity;
+import ch.heig.amt.overflow.domain.user.User;
 import lombok.Builder;
 import lombok.Data;
 
@@ -15,7 +16,7 @@ public class Question implements IEntity<Question, QuestionId> {
 
     private String content;
 
-    private String author;
+    private User author;
 
     @Override
     public Question deepClone() {

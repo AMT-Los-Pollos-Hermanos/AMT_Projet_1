@@ -2,7 +2,6 @@ package ch.heig.amt.overflow.ui.web.question;
 
 import ch.heig.amt.overflow.application.ServiceRegistry;
 import ch.heig.amt.overflow.application.question.NewQuestionCommand;
-import ch.heig.amt.overflow.application.question.QuestionFacade;
 import ch.heig.amt.overflow.domain.message.FlashMessage;
 
 import javax.inject.Inject;
