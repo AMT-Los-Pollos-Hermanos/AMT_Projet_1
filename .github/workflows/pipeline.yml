@@ -7,25 +7,44 @@ on:
 
 jobs:
   build:
-    runs-on:  ubuntu-latest
+    runs-on: ubuntu-latest
+    name: Build Maven project to war file
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: Setup JDK 11
+      - name: Setup JDK 8
         uses: actions/setup-java@v1
         with:
-          java-version: 11
+          java-version: 8
 
-      - uses: actions/cache@v1
+      - name: Cache local Maven repository
+        uses: actions/cache@v2
         with:
           path: ~/.m2/repository
-          key:  ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
-            ${{ runner.os }}-maven-$
+            ${{ runner.os }}-maven-
 
       - name: Build with maven
-        run:  mvn clean package
+        run: mvn clean package
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: war
+          path: target/overflow-1.0-SNAPSHOT.war
+
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy Docker image to the GitHub Docker Registry
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: war
+          path: target
 
       - name: Build Docker Image
         run: |
