@@ -2,6 +2,8 @@
     <featureManager>
         <feature>jsp-2.3</feature>
         <feature>cdi-2.0</feature>
+        <feature>servlet-4.0</feature>
+        <feature>jdbc-4.3</feature>
     </featureManager>
     <httpEndpoint id="defaultHttpEndpoint"
                   httpPort="9080"
@@ -9,7 +11,7 @@
     <applicationManager autoExpand="true" />
 
     <library id="MySqlLib">
-        <fileset dir="${server.config.dir}" includes="*.jar" />
+        <file name="${server.config.dir}/mysql-connector-java-8.0.21.jar" />
     </library>
 
     <dataSource jndiName="jdbc/OverflowDS">

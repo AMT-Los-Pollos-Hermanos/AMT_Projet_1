@@ -16,7 +16,7 @@ public class ServiceRegistry {
     @Inject @Named("InMemoryQuestionRepository")
     private IQuestionRepository questionRepository;
 
-    @Inject @Named("InMemoryUserRepository")
+    @Inject @Named("JdbcUserRepository")
     private IUserRepository userRepository;
 
     private QuestionFacade questionFacade;
