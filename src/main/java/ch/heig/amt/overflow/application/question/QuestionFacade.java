@@ -1,5 +1,6 @@
 package ch.heig.amt.overflow.application.question;
 
+import ch.heig.amt.overflow.application.auth.CurrentUserDTO;
 import ch.heig.amt.overflow.domain.question.IQuestionRepository;
 import ch.heig.amt.overflow.domain.question.Question;
 import ch.heig.amt.overflow.domain.user.User;
@@ -36,6 +37,14 @@ public class QuestionFacade {
                 QuestionsDTO.QuestionDTO.builder()
                         .title(question.getTitle())
                         .content(question.getContent())
+                        .createdAt(question.getCreatedAt())
+                        .author(CurrentUserDTO.builder()
+                                .id(question.getAuthor().getId())
+                                .username(question.getAuthor().getUsername())
+                                .firstName(question.getAuthor().getFirstName())
+                                .lastName(question.getAuthor().getLastName())
+                                .email(question.getAuthor().getEmail())
+                                .build())
                         .build())
                 .collect(Collectors.toList());
 

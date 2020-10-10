@@ -23,11 +23,21 @@
             </form>
         </div>
         <div class="col-md-8">
-            <h2>Dernières questions</h2>
+            <h2 class="mb-3">Dernières questions</h2>
             <c:forEach items="${requestScope.questions.questions}" var="question">
                 <div class="card mb-3">
                     <div class="card-header">
-                        <c:out value="${question.title}" />
+                        <h3 class="h5">
+                            <c:out value="${question.title}" />
+                        </h3>
+                        <div class="d-flex justify-content-between">
+                            <div class="text-muted">
+                                <c:out value="${question.author.firstName} ${question.author.lastName}" />
+                            </div>
+                            <small class="text-muted">
+                                <c:out value="${question.formattedCreatedAt()}" />
+                            </small>
+                        </div>
                     </div>
                     <div class="card-body">
                         <c:out value="${question.content}" />

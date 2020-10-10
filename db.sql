@@ -16,10 +16,12 @@ CREATE TABLE users
 
 CREATE TABLE questions
 (
-    id      VARCHAR(255) PRIMARY KEY,
-    title   VARCHAR(255),
-    content LONGTEXT,
-    user_id VARCHAR(255),
+    id         VARCHAR(255) PRIMARY KEY,
+    title      VARCHAR(255),
+    content    LONGTEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at  DATETIME ON UPDATE CURRENT_TIMESTAMP,
+    user_id    VARCHAR(255),
     FOREIGN KEY (user_id) REFERENCES users (id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
@@ -30,6 +32,8 @@ CREATE TABLE answers
     id          INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     title       VARCHAR(255),
     content     LONGTEXT,
+    created_at  DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at   DATETIME ON UPDATE CURRENT_TIMESTAMP,
     question_id VARCHAR(255) NOT NULL,
     user_id     VARCHAR(255) NOT NULL,
     FOREIGN KEY (question_id) REFERENCES questions (id)

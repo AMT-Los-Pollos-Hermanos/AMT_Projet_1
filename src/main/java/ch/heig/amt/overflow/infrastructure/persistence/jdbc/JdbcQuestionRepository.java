@@ -14,10 +14,10 @@ import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @ApplicationScoped
 @Named("JdbcQuestionRepository")
@@ -35,6 +35,7 @@ public class JdbcQuestionRepository implements IQuestionRepository {
             if (!query.getSearch().isEmpty()) {
                 sql += " WHERE title = ?";
             }
+            sql += " ORDER BY created_at DESC";
             PreparedStatement statement = dataSource.getConnection().prepareStatement(sql);
             if (!query.getSearch().isEmpty()) {
                 statement.setString(1, query.getSearch());
@@ -131,19 +132,32 @@ public class JdbcQuestionRepository implements IQuestionRepository {
     }
 
     private Question resultToQuestion(ResultSet rs) throws SQLException {
-        return Question.builder()
-                .id(new QuestionId(rs.getString("questions.id")))
-                .author(User.builder()
-                        .id(new UserId(rs.getString("users.id")))
-                        .username(rs.getString("username"))
-                        .email(rs.getString("email"))
-                        .encryptedPassword(rs.getString("password"))
-                        .lastName(rs.getString("last_name"))
-                        .firstName(rs.getString("first_name"))
-                        .build())
-                .title(rs.getString("title"))
-                .content(rs.getString("content"))
-                .build();
+        Date updateAt = null;
+        DateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        try {
+            if (rs.getString("updated_at") != null) {
+                updateAt = utcFormat.parse(rs.getString("updated_at"));
+            }
+            return Question.builder()
+                    .id(new QuestionId(rs.getString("questions.id")))
+                    .author(User.builder()
+                            .id(new UserId(rs.getString("users.id")))
+                            .username(rs.getString("username"))
+                            .email(rs.getString("email"))
+                            .encryptedPassword(rs.getString("password"))
+                            .lastName(rs.getString("last_name"))
+                            .firstName(rs.getString("first_name"))
+                            .build())
+                    .title(rs.getString("title"))
+                    .content(rs.getString("content"))
+                    .createdAt(utcFormat.parse(rs.getString("created_at")))
+                    .updatedAt(updateAt)
+                    .build();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override

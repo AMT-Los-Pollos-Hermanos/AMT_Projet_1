@@ -5,6 +5,9 @@ import ch.heig.amt.overflow.domain.user.User;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Date;
+
+
 @Data
 @Builder(toBuilder = true)
 public class Question implements IEntity<Question, QuestionId> {
@@ -17,6 +20,10 @@ public class Question implements IEntity<Question, QuestionId> {
     private String content;
 
     private User author;
+
+    private Date createdAt;
+
+    private Date updatedAt;
 
     @Override
     public Question deepClone() {
