@@ -16,11 +16,11 @@
 
     <dataSource jndiName="jdbc/OverflowDS">
         <jdbcDriver libraryRef="MySqlLib" />
-        <properties databaseName="overflow"
-                    serverName="db"
-                    portNumber="3306"
-                    user="overflow"
-                    password="overflow" />
+        <properties databaseName="${db.name}"
+                    serverName="${db.host}"
+                    portNumber="${db.port}"
+                    user="${db.user}"
+                    password="${db.pass}" />
     </dataSource>
 
 </server>
