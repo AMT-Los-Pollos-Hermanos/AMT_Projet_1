@@ -11,10 +11,16 @@ services:
       - "9906:3306"
     volumes:
       - "./db.sql:/docker-entrypoint-initdb.d/db.sql"
-    
+
   web:
     build: .
+    depends_on:
+      - db
+    environment:
+      DB_NAME: overflow
+      DB_HOST: db
+      DB_USER: overflow
+      DB_PASS: overflow
+      DB_PORT: 3306
     ports:
       - "9080:9080"
-
-

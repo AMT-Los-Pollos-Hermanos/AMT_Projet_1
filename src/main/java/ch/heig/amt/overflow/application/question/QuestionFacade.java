@@ -22,7 +22,7 @@ public class QuestionFacade {
             Question submittedQuestion = Question.builder()
                     .title(command.getTitle())
                     .content(command.getContent())
-                    .author(User.builder().id(command.getAuthor()).build())
+                    .author(User.builder().id(command.getAuthorId()).build())
                     .build();
             questionRepository.save(submittedQuestion);
         } else {

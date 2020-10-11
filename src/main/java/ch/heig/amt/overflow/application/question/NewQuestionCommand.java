@@ -11,7 +11,7 @@ public class NewQuestionCommand {
     @Builder.Default
     String title = "No title";
 
-    UserId author;
+    UserId authorId;
 
     @Builder.Default
     String content = "No content";
