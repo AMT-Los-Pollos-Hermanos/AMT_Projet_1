@@ -1,4 +1,4 @@
-name: Build and publish of the docker image of the project
+name: Build and deploy
 
 on:
   push:
@@ -13,10 +13,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Setup JDK 8
+      - name: Setup JDK 11
         uses: actions/setup-java@v1
         with:
-          java-version: 8
+          java-version: 11
 
       - name: Cache local Maven repository
         uses: actions/cache@v2
@@ -27,7 +27,7 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Build with maven
-        run: mvn clean package
+        run: mvn -B clean package
 
       - uses: actions/upload-artifact@v2
         with:

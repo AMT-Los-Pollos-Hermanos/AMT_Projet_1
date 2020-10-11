@@ -4,7 +4,6 @@
 > Date : 19.09.2020
 
 
-
 ## Specifications
 
 ### Pages
