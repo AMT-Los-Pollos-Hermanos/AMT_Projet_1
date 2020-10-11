@@ -23,7 +23,7 @@ public class NewQuestionServlet extends HttpServlet {
 
         CurrentUserDTO currentUser = (CurrentUserDTO) request.getSession().getAttribute("currentUser");
         NewQuestionCommand command = NewQuestionCommand.builder()
-                .author(currentUser.getId())
+                .authorId(currentUser.getId())
                 .title(request.getParameter("title"))
                 .content(request.getParameter("content"))
                 .build();
