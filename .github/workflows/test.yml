@@ -3,9 +3,9 @@ name: Test
 on: [ push ]
 
 jobs:
-  test:
+  unit-tests:
     runs-on: ubuntu-latest
-    name: Test project with JUnit
+    name: Unit tests with JUnit
 
     steps:
       - uses: actions/checkout@v2
@@ -28,18 +28,20 @@ jobs:
 
   e2e:
     runs-on: ubuntu-latest
-    name: End user acceptance testing
+    name: End-to-end tests with CodeceptJS
 
     steps:
       - uses: actions/checkout@v2
 
-      - uses: actions/setup-java@v1
+      - name: Setup Java 11
+        uses: actions/setup-java@v1
         with:
           java-version: 11
 
-      - uses: actions/setup-node@v1
+      - name: Setup NodeJS 12
+        uses: actions/setup-node@v1
         with:
-          node-version: '12'
+          node-version: 12
 
       - name: Cache local Maven repository
         uses: actions/cache@v2
@@ -63,6 +65,9 @@ jobs:
       - name: Start services
         run: docker-compose -f docker-compose.test.yml up -d --build
 
+      - name: Wait for services to be started
+        run: sleep 15s
+
       - name: Install dependencies and run tests
         run: npm install && npm run test
         working-directory: e2e
@@ -70,8 +75,9 @@ jobs:
           ENDPOINT: 'http://localhost:9080/overflow-1.0-SNAPSHOT'
           HEADLESS: true
 
-      - uses: actions/upload-artifact@v2
-        if: ${{ always() }}
+      - name: Upload screenshots if failure
+        uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
         with:
           name: screenshots
           path: e2e/output/*.png
