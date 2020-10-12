@@ -4,12 +4,14 @@ const { setHeadlessWhen } = require('@codeceptjs/configure');
 // export HEADLESS=true && npx codeceptjs run
 setHeadlessWhen(process.env.HEADLESS);
 
+const endpoint = process.env.ENDPOINT || 'http://localhost:9080/overflow'
+
 exports.config = {
   tests: './*_test.js',
   output: './output',
   helpers: {
     Playwright: {
-      url: 'http://localhost:9080/overflow',
+      url: endpoint,
       show: true,
       browser: 'chromium'
     }
