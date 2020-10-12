@@ -17,8 +17,8 @@
                         <input type="text" id="title" name="title" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label for="content">Contenu</label>
-                        <textarea id="content" name="content" class="form-control"></textarea>
+                        <label for="editor">Contenu</label>
+                        <textarea id="editor" name="content" class="form-control"></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Ajouter</button>
                 </form>
@@ -61,7 +61,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <c:out value="${question.content}"/>
+                            <c:out value="${question.content}" escapeXml="false"/>
                         </div>
                     </div>
                 </c:forEach>
