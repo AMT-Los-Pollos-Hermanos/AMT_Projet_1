@@ -1,19 +1,25 @@
 package ch.heig.amt.overflow.domain.user;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserTest {
 
-    @BeforeEach
-    void setUp() {
-    }
-
-    @AfterEach
-    void tearDown() {
+    @Test
+    void testBuilder() {
+        User u = User.builder()
+                .firstName("Gil")
+                .lastName("Balsiger")
+                .email("gil.balsiger@heig-vd.ch")
+                .username("gil")
+                .clearTextPassword("1234")
+                .build();
+        assertNotNull(u.getId());
+        assertEquals("Gil", u.getFirstName());
+        assertEquals("Balsiger", u.getLastName());
+        assertEquals("gil.balsiger@heig-vd.ch", u.getEmail());
+        assertEquals("gil", u.getUsername());
     }
 
     @Test

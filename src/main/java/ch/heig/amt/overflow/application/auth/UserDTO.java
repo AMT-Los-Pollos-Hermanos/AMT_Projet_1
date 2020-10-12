@@ -6,7 +6,7 @@ import lombok.Value;
 
 @Value
 @Builder
-public class CurrentUserDTO {
+public class UserDTO {
 
     UserId id;
     String username;

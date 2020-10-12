@@ -1,10 +1,6 @@
 package ch.heig.amt.overflow.infrastructure.security;
 
-import ch.heig.amt.overflow.domain.IPasswordEncoder;
 import org.mindrot.jbcrypt.BCrypt;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Named;
 
 public class BCryptPasswordEncoder {
 

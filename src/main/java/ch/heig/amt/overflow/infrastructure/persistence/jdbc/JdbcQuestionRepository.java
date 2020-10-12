@@ -33,12 +33,13 @@ public class JdbcQuestionRepository implements IQuestionRepository {
         try {
             String sql = "SELECT * FROM questions INNER JOIN users ON questions.user_id = users.id";
             if (!query.getSearch().isEmpty()) {
-                sql += " WHERE title = ?";
+                sql += " WHERE LOWER(title) LIKE ? OR LOWER(first_name) LIKE ?";
             }
             sql += " ORDER BY created_at DESC";
             PreparedStatement statement = dataSource.getConnection().prepareStatement(sql);
             if (!query.getSearch().isEmpty()) {
-                statement.setString(1, query.getSearch());
+                statement.setString(1, "%" + query.getSearch() + "%");
+                statement.setString(2, "%" + query.getSearch() + "%");
             }
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
