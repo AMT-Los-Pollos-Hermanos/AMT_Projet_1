@@ -1,6 +1,6 @@
 package ch.heig.amt.overflow.application.question;
 
-import ch.heig.amt.overflow.application.auth.CurrentUserDTO;
+import ch.heig.amt.overflow.application.auth.UserDTO;
 import ch.heig.amt.overflow.domain.question.IQuestionRepository;
 import ch.heig.amt.overflow.domain.question.Question;
 import ch.heig.amt.overflow.domain.user.User;
@@ -31,14 +31,14 @@ public class QuestionFacade {
     }
 
     public QuestionsDTO getQuestions(QuestionQuery query) {
-        Collection<Question> allQuestions = questionRepository.findAll();
+        Collection<Question> allQuestions = questionRepository.find(query);
 
         List<QuestionsDTO.QuestionDTO> allQuestionsDTO = allQuestions.stream().map(question ->
                 QuestionsDTO.QuestionDTO.builder()
                         .title(question.getTitle())
                         .content(question.getContent())
                         .createdAt(question.getCreatedAt())
-                        .author(CurrentUserDTO.builder()
+                        .author(UserDTO.builder()
                                 .id(question.getAuthor().getId())
                                 .username(question.getAuthor().getUsername())
                                 .firstName(question.getAuthor().getFirstName())

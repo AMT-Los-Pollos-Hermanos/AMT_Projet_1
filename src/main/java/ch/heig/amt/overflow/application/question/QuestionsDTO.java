@@ -1,6 +1,6 @@
 package ch.heig.amt.overflow.application.question;
 
-import ch.heig.amt.overflow.application.auth.CurrentUserDTO;
+import ch.heig.amt.overflow.application.auth.UserDTO;
 import lombok.Builder;
 import lombok.Singular;
 import lombok.Value;
@@ -21,7 +21,7 @@ public class QuestionsDTO {
         String title;
         String content;
         Date createdAt;
-        CurrentUserDTO author;
+        UserDTO author;
 
         public String formattedCreatedAt() {
             DateFormat format = new SimpleDateFormat("'Le 'dd.MM.yyyy' à 'HH:mm:ss");

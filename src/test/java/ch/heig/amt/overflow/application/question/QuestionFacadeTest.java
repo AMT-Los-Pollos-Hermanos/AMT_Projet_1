@@ -79,6 +79,7 @@ class QuestionFacadeTest {
         QuestionsDTO dto = facade.getQuestions(QuestionQuery.builder().build());
         assertEquals("Hello World", dto.getQuestions().get(0).getTitle());
         assertEquals("This is the content", dto.getQuestions().get(0).getContent());
+        assertEquals(1, dto.getQuestions().size());
     }
 
     // TODO: tester la query lors getQuestions

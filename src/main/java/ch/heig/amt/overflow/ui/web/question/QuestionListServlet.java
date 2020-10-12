@@ -27,8 +27,16 @@ public class QuestionListServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        QuestionsDTO questionsDTO = questionFacade.getQuestions(QuestionQuery.builder().build());
+        String search = request.getParameter("s");
+        QuestionQuery query;
+        if(search != null && !search.isEmpty()) {
+            query = QuestionQuery.builder().search(search).build();
+        } else {
+            query = QuestionQuery.builder().build();
+        }
+        QuestionsDTO questionsDTO = questionFacade.getQuestions(query);
         request.setAttribute("questions", questionsDTO);
+        request.setAttribute("search", search);
         request.getRequestDispatcher("/WEB-INF/views/questionList.jsp").forward(request, response);
         request.getSession().removeAttribute("flash");
     }

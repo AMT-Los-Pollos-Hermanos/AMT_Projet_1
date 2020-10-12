@@ -32,14 +32,14 @@ public class AuthFacade {
         }
     }
 
-    public CurrentUserDTO authenticate(AuthenticateCommand command) throws AuthenticationFailedException {
+    public UserDTO authenticate(AuthenticateCommand command) throws AuthenticationFailedException {
         User user = userRepository.findByUsername(command.getUsername()).orElse(null);
 
         if(!(user != null && user.authenticate(command.getClearTextPassword()))) {
             throw new AuthenticationFailedException("Invalid credentials");
         }
 
-        return CurrentUserDTO.builder()
+        return UserDTO.builder()
                 .id(user.getId())
                 .username(user.getUsername())
                 .firstName(user.getFirstName())
