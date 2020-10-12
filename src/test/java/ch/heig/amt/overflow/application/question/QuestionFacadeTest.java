@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -62,7 +63,7 @@ class QuestionFacadeTest {
 
     @Test
     void testGetNoQuestion() {
-        when(repository.findAll()).thenReturn(new ArrayList<>());
+        when(repository.find(any())).thenReturn(new ArrayList<>());
         QuestionsDTO dto = facade.getQuestions(QuestionQuery.builder().build());
         assertEquals(0, dto.getQuestions().size());
     }
@@ -75,13 +76,20 @@ class QuestionFacadeTest {
                 .content("This is the content")
                 .author(User.builder().build())
                 .build());
-        when(repository.findAll()).thenReturn(questions);
+        when(repository.find(any())).thenReturn(questions);
         QuestionsDTO dto = facade.getQuestions(QuestionQuery.builder().build());
         assertEquals("Hello World", dto.getQuestions().get(0).getTitle());
         assertEquals("This is the content", dto.getQuestions().get(0).getContent());
         assertEquals(1, dto.getQuestions().size());
     }
 
-    // TODO: tester la query lors getQuestions
+    @Test
+    void testQueryQuestion() {
+        QuestionQuery query = QuestionQuery.builder().build();
+        facade.getQuestions(query);
+        ArgumentCaptor<QuestionQuery> captor = ArgumentCaptor.forClass(QuestionQuery.class);
+        verify(repository).find(captor.capture());
+        assertSame(query, captor.getValue());
+    }
 
 }
