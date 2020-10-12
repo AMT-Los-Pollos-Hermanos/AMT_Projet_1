@@ -33,10 +33,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Setup JDK 11
-        uses: actions/setup-java@v1
+      - uses: actions/setup-java@v1
         with:
           java-version: 11
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12'
 
       - name: Cache local Maven repository
         uses: actions/cache@v2
@@ -46,15 +49,19 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Test with maven
-        run: mvn -B clean package
+      - name: Cache local NPM packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Build with maven
+        run: mvn -B clean package -Dmaven.test.skip=true
 
       - name: Start services
         run: docker-compose -f docker-compose.test.yml up -d --build
-
-      - uses: actions/setup-node@v1
-
-      - uses: microsoft/playwright-github-action@v1
 
       - name: Install dependencies and run tests
         run: npm install && npm run test
