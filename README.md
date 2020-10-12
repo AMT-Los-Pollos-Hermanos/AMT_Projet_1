@@ -1,6 +1,7 @@
 <h1 align="center">AMT : Project 1 - Overflow</h1>
 <h3 align="center">Gil Balsiger, Chris Barros, Julien Béguin & Gaëtan Daubresse</h3>
 <p align="center">
+  <img src="https://github.com/AMT-Los-Pollos-Hermanos/AMT_Projet_1/workflows/Test/badge.svg?branch=master">
   <img src="https://github.com/AMT-Los-Pollos-Hermanos/AMT_Projet_1/workflows/Build%20and%20deploy/badge.svg?branch=master">
   <img src="https://img.shields.io/badge/Platform-Jakarta_EE_8-orange?logo=java">
   <img src="https://img.shields.io/badge/Version-1.0--SNAPSHOT-blue">
