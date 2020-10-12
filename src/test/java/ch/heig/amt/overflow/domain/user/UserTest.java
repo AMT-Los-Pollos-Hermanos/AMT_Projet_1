@@ -7,6 +7,22 @@ import static org.junit.jupiter.api.Assertions.*;
 class UserTest {
 
     @Test
+    void testBuilder() {
+        User u = User.builder()
+                .firstName("Gil")
+                .lastName("Balsiger")
+                .email("gil.balsiger@heig-vd.ch")
+                .username("gil")
+                .clearTextPassword("1234")
+                .build();
+        assertNotNull(u.getId());
+        assertEquals("Gil", u.getFirstName());
+        assertEquals("Balsiger", u.getLastName());
+        assertEquals("gil.balsiger@heig-vd.ch", u.getEmail());
+        assertEquals("gil", u.getUsername());
+    }
+
+    @Test
     void testAuthenticate() {
         User user1 = User.builder().clearTextPassword("1234").build();
         assertTrue(user1.authenticate("1234"));
