@@ -1,9 +1,11 @@
-package ch.heig.amt.overflow.ui.web.question;
+package ch.heig.amt.overflow.ui.web;
 
 import ch.heig.amt.overflow.application.ServiceRegistry;
+import ch.heig.amt.overflow.application.answer.AnswerFacade;
 import ch.heig.amt.overflow.application.question.QuestionFacade;
 import ch.heig.amt.overflow.application.question.QuestionQuery;
 import ch.heig.amt.overflow.application.question.QuestionsDTO;
+import ch.heig.amt.overflow.domain.answer.Answer;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -12,9 +14,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
-@WebServlet(name = "QuestionListServlet", urlPatterns = "/questions")
-public class QuestionListServlet extends HttpServlet {
+@WebServlet(name = "AnswerTmpServlet", urlPatterns = "/tmp")
+public class AnswerTmpServlet extends HttpServlet {
 
     @Inject
     private ServiceRegistry serviceRegistry;
@@ -27,18 +30,10 @@ public class QuestionListServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String search = request.getParameter("s");
-        QuestionQuery query;
-        if(search != null && !search.isEmpty()) {
-            query = QuestionQuery.builder().search(search).build();
-        } else {
-            query = QuestionQuery.builder().build();
-        }
-        QuestionsDTO questionsDTO = questionFacade.getQuestions(query);
-        request.setAttribute("questions", questionsDTO);
-        request.setAttribute("search", search);
-        request.getRequestDispatcher("/WEB-INF/views/questionList.jsp").forward(request, response);
-        request.getSession().removeAttribute("flash");
-    }
+        PrintWriter writer = response.getWriter();
+        writer.write("dwa\n");
 
+        QuestionsDTO questionsDTO = questionFacade.getQuestions(QuestionQuery.builder().build());
+
+    }
 }

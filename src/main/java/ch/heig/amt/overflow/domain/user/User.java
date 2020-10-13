@@ -10,7 +10,8 @@ import lombok.EqualsAndHashCode;
 @Builder(toBuilder = true)
 public class User implements IEntity<User, UserId> {
 
-    private UserId id;
+    @Builder.Default
+    private UserId id = new UserId();
 
     private String username;
     private String email;
@@ -24,10 +25,10 @@ public class User implements IEntity<User, UserId> {
         return BCryptPasswordEncoder.verify(clearTextPassword, encryptedPassword);
     }
 
-    @Override
-    public UserId getId() {
-        return this.id;
-    }
+//    @Override
+//    public UserId getId() {
+//        return this.id;
+//    }
 
     @Override
     public User deepClone() {

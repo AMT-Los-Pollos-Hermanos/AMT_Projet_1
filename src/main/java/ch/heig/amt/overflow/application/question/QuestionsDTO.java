@@ -1,7 +1,7 @@
 package ch.heig.amt.overflow.application.question;
 
 import ch.heig.amt.overflow.application.answer.AnswersDTO;
-import ch.heig.amt.overflow.application.auth.CurrentUserDTO;
+import ch.heig.amt.overflow.application.auth.UserDTO;
 import ch.heig.amt.overflow.domain.question.QuestionId;
 import lombok.Builder;
 import lombok.Singular;
@@ -9,7 +9,6 @@ import lombok.Value;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -25,7 +24,7 @@ public class QuestionsDTO {
         String title;
         String content;
         Date createdAt;
-        CurrentUserDTO author;
+        UserDTO author;
         AnswersDTO answersDTO;
 
         public String formattedCreatedAt() {

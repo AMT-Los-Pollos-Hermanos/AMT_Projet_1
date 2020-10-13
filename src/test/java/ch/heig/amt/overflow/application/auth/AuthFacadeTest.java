@@ -78,7 +78,7 @@ class AuthFacadeTest {
                 .clearTextPassword("1234")
                 .build();
 
-        CurrentUserDTO dto = assertDoesNotThrow(() -> facade.authenticate(cmd));
+        UserDTO dto = assertDoesNotThrow(() -> facade.authenticate(cmd));
         assertNotNull(dto);
         assertEquals("John", dto.getFirstName());
         assertEquals("Doe", dto.getLastName());

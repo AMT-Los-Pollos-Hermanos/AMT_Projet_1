@@ -43,7 +43,10 @@ public class AuthFilter implements Filter {
         // Seulement la page de login est accessible pour tout le monde.
         return uri.startsWith(prefix + "/login") ||
                 uri.startsWith(prefix + "/register.do") ||
-                uri.startsWith(prefix + "/assets");
+                uri.startsWith(prefix + "/assets") ||
+                uri.startsWith(prefix + "/questions") ||
+                uri.equals(prefix) ||
+                uri.equals(prefix + "/");
     }
 
 }

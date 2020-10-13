@@ -1,7 +1,7 @@
 package ch.heig.amt.overflow.ui.web.question;
 
 import ch.heig.amt.overflow.application.ServiceRegistry;
-import ch.heig.amt.overflow.application.auth.CurrentUserDTO;
+import ch.heig.amt.overflow.application.auth.UserDTO;
 import ch.heig.amt.overflow.application.question.NewQuestionCommand;
 import ch.heig.amt.overflow.domain.message.FlashMessage;
 
@@ -21,7 +21,7 @@ public class NewQuestionServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        CurrentUserDTO currentUser = (CurrentUserDTO) request.getSession().getAttribute("currentUser");
+        UserDTO currentUser = (UserDTO) request.getSession().getAttribute("currentUser");
         NewQuestionCommand command = NewQuestionCommand.builder()
                 .authorId(currentUser.getId())
                 .title(request.getParameter("title"))

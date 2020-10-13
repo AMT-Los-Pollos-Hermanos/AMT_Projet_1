@@ -4,7 +4,7 @@ package ch.heig.amt.overflow.ui.web.auth;
 import ch.heig.amt.overflow.application.ServiceRegistry;
 import ch.heig.amt.overflow.application.auth.AuthenticateCommand;
 import ch.heig.amt.overflow.application.auth.AuthenticationFailedException;
-import ch.heig.amt.overflow.application.auth.CurrentUserDTO;
+import ch.heig.amt.overflow.application.auth.UserDTO;
 import ch.heig.amt.overflow.domain.message.FlashMessage;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -34,8 +34,8 @@ public class LoginCommandServlet extends HttpServlet {
                 .build();
 
         try {
-            CurrentUserDTO currentUserDTO = serviceRegistry.getAuthFacade().authenticate(command);
-            req.getSession().setAttribute("currentUser", currentUserDTO);
+            UserDTO userDTO = serviceRegistry.getAuthFacade().authenticate(command);
+            req.getSession().setAttribute("currentUser", userDTO);
             req.getSession().setAttribute("flash", FlashMessage.builder()
                     .message("Vous êtes maintenant connecté.")
                     .build());

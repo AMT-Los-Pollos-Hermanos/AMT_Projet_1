@@ -1,6 +1,6 @@
 Feature('registration');
 
-Scenario('test registration success', (I) => {
+Scenario('test registration success', ({ I }) => {
     I.amOnPage('/login')
     I.see('Créer un nouveau compte')
     I.fillField('#rFirstName', 'Albert')
@@ -13,7 +13,7 @@ Scenario('test registration success', (I) => {
     I.see('Compte créé avec succès. Vous pouvez maintenant vous connecter.')
 });
 
-Scenario('test registration failed', (I) => {
+Scenario('test registration failed', ({ I }) => {
     I.amOnPage('/login')
     I.see('Créer un nouveau compte')
     I.fillField('#rFirstName', 'Albert')

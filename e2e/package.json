@@ -1,15 +1,16 @@
 {
-  "name": "e2e",
-  "version": "1.0.0",
-  "description": "",
-  "scripts": {
-    "test": "codeceptjs run --steps"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "codeceptjs": "^2.6.11",
-    "puppeteer": "^5.3.1"
-  }
+    "name": "codeceptjs-tests",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "test": "codeceptjs run --steps",
+        "test:ui": "codecept-ui --app"
+    },
+    "devDependencies": {
+        "@codeceptjs/configure": "^0.6.0",
+        "@codeceptjs/examples": "^1.2.1",
+        "@codeceptjs/ui": "^0.4.1",
+        "codeceptjs": "^3.0.0",
+        "playwright": "^1.4.2"
+    }
 }
