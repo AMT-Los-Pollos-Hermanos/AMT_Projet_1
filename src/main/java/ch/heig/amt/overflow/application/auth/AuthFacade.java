@@ -3,6 +3,9 @@ package ch.heig.amt.overflow.application.auth;
 import ch.heig.amt.overflow.domain.user.IUserRepository;
 import ch.heig.amt.overflow.domain.user.User;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
 public class AuthFacade {
 
     IUserRepository userRepository;
