@@ -3,10 +3,13 @@ package ch.heig.amt.overflow.application.question;
 import ch.heig.amt.overflow.application.auth.CurrentUserDTO;
 import ch.heig.amt.overflow.domain.question.IQuestionRepository;
 import ch.heig.amt.overflow.domain.question.Question;
+import ch.heig.amt.overflow.domain.question.QuestionId;
 import ch.heig.amt.overflow.domain.user.User;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class QuestionFacade {
@@ -33,7 +36,26 @@ public class QuestionFacade {
     public QuestionsDTO getQuestions(QuestionQuery query) {
         Collection<Question> allQuestions = questionRepository.findAll();
 
-        List<QuestionsDTO.QuestionDTO> allQuestionsDTO = allQuestions.stream().map(question ->
+        return QuestionsDTO.builder()
+                .questions(mapQuestionDTO(allQuestions))
+                .build();
+    }
+
+    public QuestionsDTO.QuestionDTO getQuestion(QuestionId questionId) throws QuestionNotFoundException {
+        Optional<Question> question = questionRepository.findById(questionId);
+
+        if (!question.isPresent()) {
+            throw new QuestionNotFoundException("Question not found");
+        }
+
+        Collection<Question> allQuestions = new ArrayList<>();
+        allQuestions.add(question.get());
+
+        return mapQuestionDTO(allQuestions).get(0);
+    }
+
+    private List<QuestionsDTO.QuestionDTO> mapQuestionDTO(Collection<Question> allQuestions) {
+        return allQuestions.stream().map(question ->
                 QuestionsDTO.QuestionDTO.builder()
                         .title(question.getTitle())
                         .content(question.getContent())
@@ -47,9 +69,5 @@ public class QuestionFacade {
                                 .build())
                         .build())
                 .collect(Collectors.toList());
-
-        return QuestionsDTO.builder()
-                .questions(allQuestionsDTO)
-                .build();
     }
 }
