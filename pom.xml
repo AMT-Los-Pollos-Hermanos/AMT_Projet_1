@@ -15,9 +15,6 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <!-- Liberty configuration -->
-        <liberty.var.default.http.port>9080</liberty.var.default.http.port>
-        <liberty.var.default.https.port>9443</liberty.var.default.https.port>
     </properties>
 
     <dependencyManagement>
@@ -58,12 +55,6 @@
 
         <!-- Testing -->
         <dependency>
-            <groupId>org.jboss.weld.se</groupId>
-            <artifactId>weld-se-shaded</artifactId>
-            <version>3.1.5.SP1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>5.7.0</version>
@@ -78,7 +69,7 @@
         <dependency>
             <groupId>org.junit.vintage</groupId>
             <artifactId>junit-vintage-engine</artifactId>
-            <version>5.6.2</version>
+            <version>5.7.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -131,6 +122,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.3.0</version>
                 <configuration>
+                    <packagingExcludes>pom.xml</packagingExcludes>
                     <warName>${project.artifactId}-${project.version}</warName>
                 </configuration>
             </plugin>
@@ -141,19 +133,6 @@
             <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>2.22.2</version>
-                <configuration>
-                    <systemPropertyVariables>
-                        <http.port>${liberty.var.default.http.port}</http.port>
-                    </systemPropertyVariables>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
