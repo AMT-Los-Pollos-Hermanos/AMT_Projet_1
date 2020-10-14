@@ -29,7 +29,7 @@ CREATE TABLE questions
 
 CREATE TABLE answers
 (
-    id          INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    id          VARCHAR(255) PRIMARY KEY,
     title       VARCHAR(255),
     content     LONGTEXT,
     created_at  DATETIME DEFAULT CURRENT_TIMESTAMP,

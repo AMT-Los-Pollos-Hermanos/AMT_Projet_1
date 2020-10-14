@@ -2,7 +2,6 @@ package ch.heig.amt.overflow.application.answer;
 
 import ch.heig.amt.overflow.domain.answer.Answer;
 import ch.heig.amt.overflow.domain.answer.IAnswerRepository;
-import ch.heig.amt.overflow.domain.question.Question;
 import ch.heig.amt.overflow.domain.user.User;
 
 public class AnswerFacade {
@@ -19,7 +18,7 @@ public class AnswerFacade {
                     .title(command.getTitle())
                     .content(command.getContent())
                     .author(User.builder().id(command.getAuthorId()).build())
-                    .question(Question.builder().id(command.getQuestionId()).build())
+                    .questionId(command.getQuestionId())
                     .build();
             answerRepository.save(submittedAnswer);
         } else {

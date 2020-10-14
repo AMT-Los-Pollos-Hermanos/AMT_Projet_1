@@ -76,7 +76,7 @@ public class JdbcQuestionRepository implements IQuestionRepository {
                     throw new RuntimeException("Error while adding new question to the database");
                 }
             } else {
-                // Update user
+                // Update question
                 PreparedStatement create = dataSource
                         .getConnection()
                         .prepareStatement("UPDATE questions SET title = ?, content = ?, user_id = ? WHERE id = ?");
@@ -87,7 +87,7 @@ public class JdbcQuestionRepository implements IQuestionRepository {
                 create.setString(i, entity.getId().toString());
                 int rows = create.executeUpdate();
                 if (rows == 0) {
-                    throw new RuntimeException("Error while updating user in the database");
+                    throw new RuntimeException("Error while updating question in the database");
                 }
             }
         } catch (SQLException e) {

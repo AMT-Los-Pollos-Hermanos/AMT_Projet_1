@@ -1,7 +1,7 @@
 package ch.heig.amt.overflow.domain.answer;
 
 import ch.heig.amt.overflow.domain.IEntity;
-import ch.heig.amt.overflow.domain.question.Question;
+import ch.heig.amt.overflow.domain.question.QuestionId;
 import ch.heig.amt.overflow.domain.user.User;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +22,7 @@ public class Answer implements IEntity<Answer, AnswerId> {
 
     private User author;
 
-    private Question question;
+    private QuestionId questionId;
 
     private Date createdAt;
 
