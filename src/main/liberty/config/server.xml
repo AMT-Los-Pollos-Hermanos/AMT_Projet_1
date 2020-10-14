@@ -11,24 +11,22 @@
 
     <httpEndpoint id="defaultHttpEndpoint"
                   httpPort="9080"
-                  httpsPort="9443" />
+                  httpsPort="9443"/>
 
-<!--    <applicationManager autoExpand="true" />-->
-<!--    <applicationMonitor updateTrigger="mbean"/>-->
-
-    <webApplication location="overflow-1.0-SNAPSHOT.war" context-root="/" />
+    <applicationMonitor updateTrigger="mbean"/>
+    <webApplication location="overflow.war" context-root="/"/>
 
     <library id="MySqlLib">
-        <file name="${server.config.dir}/mysql-connector-java-8.0.21.jar" />
+        <file name="${server.config.dir}/mysql-connector-java-8.0.21.jar"/>
     </library>
 
     <dataSource jndiName="jdbc/OverflowDS">
-        <jdbcDriver libraryRef="MySqlLib" />
+        <jdbcDriver libraryRef="MySqlLib"/>
         <properties databaseName="${db.name}"
                     serverName="${db.host}"
                     portNumber="${db.port}"
                     user="${db.user}"
-                    password="${db.pass}" />
+                    password="${db.pass}"/>
     </dataSource>
 
 </server>

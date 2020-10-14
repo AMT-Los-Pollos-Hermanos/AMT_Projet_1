@@ -8,13 +8,14 @@
     <artifactId>overflow</artifactId>
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>OverFlow</name>
 
     <properties>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+<!--        <liberty.var.default.http.port>9080</liberty.var.default.http.port>-->
+<!--        <liberty.var.default.https.port>9443</liberty.var.default.https.port>-->
     </properties>
 
     <dependencyManagement>
@@ -86,13 +87,13 @@
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-rs-client</artifactId>
-            <version>3.3.6</version>
+            <version>3.1.11</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-rs-extension-providers</artifactId>
-            <version>3.3.6</version>
+            <version>3.1.11</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -115,16 +116,11 @@
             <plugin>
                 <groupId>io.openliberty.tools</groupId>
                 <artifactId>liberty-maven-plugin</artifactId>
-                <version>3.2</version>
+                <version>3.2.3</version>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>3.3.0</version>
-                <configuration>
-                    <packagingExcludes>pom.xml</packagingExcludes>
-                    <warName>${project.artifactId}-${project.version}</warName>
-                </configuration>
+                <version>3.2.3</version>
             </plugin>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>

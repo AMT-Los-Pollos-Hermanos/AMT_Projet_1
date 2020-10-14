@@ -10,7 +10,8 @@ import lombok.EqualsAndHashCode;
 @Builder(toBuilder = true)
 public class User implements IEntity<User, UserId> {
 
-    private UserId id;
+    @Builder.Default
+    private UserId id = new UserId();
 
     private String username;
     private String email;
