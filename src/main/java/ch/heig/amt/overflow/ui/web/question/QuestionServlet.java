@@ -1,9 +1,9 @@
 package ch.heig.amt.overflow.ui.web.question;
 
 import ch.heig.amt.overflow.application.ServiceRegistry;
+import ch.heig.amt.overflow.application.answer.AnswerFacade;
 import ch.heig.amt.overflow.application.question.QuestionFacade;
 import ch.heig.amt.overflow.application.question.QuestionNotFoundException;
-import ch.heig.amt.overflow.application.question.QuestionQuery;
 import ch.heig.amt.overflow.application.question.QuestionsDTO;
 import ch.heig.amt.overflow.domain.message.FlashMessage;
 import ch.heig.amt.overflow.domain.question.QuestionId;
@@ -22,19 +22,22 @@ public class QuestionServlet extends HttpServlet {
     @Inject
     private ServiceRegistry serviceRegistry;
     private QuestionFacade questionFacade;
+    private AnswerFacade answerFacade;
 
     @Override
     public void init() throws ServletException {
         super.init();
         questionFacade = serviceRegistry.getQuestionFacade();
+        answerFacade = serviceRegistry.getAnswerFacade();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String questionId = request.getPathInfo().split("/")[1];
+        QuestionId questionId = new QuestionId(request.getPathInfo().split("/")[1]);
         QuestionsDTO.QuestionDTO questionDTO;
 
         try {
-            questionDTO = questionFacade.getQuestion(new QuestionId(questionId));
+            questionDTO = questionFacade.getQuestion(questionId);
+            questionDTO.setAnswersDTO(answerFacade.getAnswerFromQuestionId(questionId));
         } catch (QuestionNotFoundException e) {
             e.printStackTrace();
             request.getSession().setAttribute("flash", FlashMessage.builder()

@@ -1,6 +1,7 @@
 package ch.heig.amt.overflow.application.answer;
 
 import ch.heig.amt.overflow.application.auth.UserDTO;
+import ch.heig.amt.overflow.domain.answer.AnswerId;
 import lombok.Builder;
 import lombok.Singular;
 import lombok.Value;
@@ -18,6 +19,7 @@ public class AnswersDTO {
     @Builder
     @Value
     public static class AnswerDTO {
+        AnswerId answerId;
         String title;
         String content;
         Date createdAt;
