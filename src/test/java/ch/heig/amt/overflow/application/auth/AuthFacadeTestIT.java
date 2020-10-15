@@ -37,7 +37,6 @@ public class AuthFacadeTestIT {
                 .username("johndoe")
                 .clearTextPassword("1234")
                 .build();
-
         try {
             serviceRegistry.getAuthFacade().register(cmd);
         } catch (RegistrationFailedException e) {

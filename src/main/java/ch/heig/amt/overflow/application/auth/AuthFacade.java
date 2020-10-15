@@ -15,14 +15,11 @@ public class AuthFacade {
     }
 
     public void register(RegisterCommand command) throws RegistrationFailedException {
-        System.out.println("A");
         User existingUser = userRepository.findByUsername(command.getUsername()).orElse(null);
 
-        System.out.println("B");
         if(existingUser != null) {
             throw new RegistrationFailedException("Username is already used");
         }
-        System.out.println("C");
 
         try {
             User newUser = User.builder()
@@ -32,9 +29,7 @@ public class AuthFacade {
                     .email(command.getEmail())
                     .clearTextPassword(command.getClearTextPassword())
                     .build();
-            System.out.println("D");
             userRepository.save(newUser);
-            System.out.println("E");
         } catch (Exception e) {
             throw new RegistrationFailedException(e.getMessage());
         }
