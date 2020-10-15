@@ -17,14 +17,13 @@ public class QuestionsDTO {
 
     @Builder
     @Getter
-    @RequiredArgsConstructor
     @EqualsAndHashCode
     public static class QuestionDTO {
-        private QuestionId questionId;
-        private String title;
-        private String content;
-        private Date createdAt;
-        private UserDTO author;
+        private final QuestionId questionId;
+        private final String title;
+        private final String content;
+        private final Date createdAt;
+        private final UserDTO author;
 
         @Setter
         private AnswersDTO answersDTO;
