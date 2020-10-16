@@ -20,7 +20,7 @@ CREATE TABLE questions
     title      VARCHAR(255),
     content    LONGTEXT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at  DATETIME ON UPDATE CURRENT_TIMESTAMP,
+    updated_at DATETIME ON UPDATE CURRENT_TIMESTAMP,
     user_id    VARCHAR(255),
     FOREIGN KEY (user_id) REFERENCES users (id)
         ON DELETE CASCADE
@@ -33,7 +33,7 @@ CREATE TABLE answers
     title       VARCHAR(255),
     content     LONGTEXT,
     created_at  DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at   DATETIME ON UPDATE CURRENT_TIMESTAMP,
+    updated_at  DATETIME ON UPDATE CURRENT_TIMESTAMP,
     question_id VARCHAR(255) NOT NULL,
     user_id     VARCHAR(255) NOT NULL,
     FOREIGN KEY (question_id) REFERENCES questions (id)
@@ -48,7 +48,7 @@ CREATE TABLE votes
 (
     id          INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     question_id VARCHAR(255),
-    answer_id   INT UNSIGNED,
+    answer_id   VARCHAR(255),
     user_id     VARCHAR(255) NOT NULL,
     FOREIGN KEY (question_id) REFERENCES questions (id)
         ON DELETE CASCADE
