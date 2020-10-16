@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-//@WebFilter(filterName = "AuthFilter", urlPatterns = "/*")
+@WebFilter(filterName = "AuthFilter", urlPatterns = "/*")
 public class AuthFilter implements Filter {
 
     @Override
@@ -43,6 +43,7 @@ public class AuthFilter implements Filter {
         // Seulement la page de login est accessible pour tout le monde.
         return uri.startsWith(prefix + "/login") ||
                 uri.startsWith(prefix + "/register.do") ||
+                uri.startsWith(prefix + "/ArquillianServletRunner") ||
                 uri.startsWith(prefix + "/assets");
     }
 
