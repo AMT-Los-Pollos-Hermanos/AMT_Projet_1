@@ -47,7 +47,7 @@ public class JdbcUserRepository implements IUserRepository {
                         .build();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // TODO handle SQL exception
         }
 
         if (user != null) {
@@ -101,7 +101,7 @@ public class JdbcUserRepository implements IUserRepository {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("SQL error");
         }
     }
 
@@ -115,7 +115,7 @@ public class JdbcUserRepository implements IUserRepository {
                 throw new RuntimeException("No user deleted, user with id '" + id.toString() + "' not found in database");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("SQL error");
         }
     }
 
@@ -139,7 +139,7 @@ public class JdbcUserRepository implements IUserRepository {
                         .build();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // TODO handle SQL exception
         }
 
         if (user != null) {
@@ -169,7 +169,7 @@ public class JdbcUserRepository implements IUserRepository {
                         .build());
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // TODO handle SQL exception
         }
 
         return users;

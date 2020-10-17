@@ -46,7 +46,7 @@ public class JdbcQuestionRepository implements IQuestionRepository {
                 questions.add(resultToQuestion(rs));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // TODO handle SQL exception
         }
         return questions;
     }
@@ -91,7 +91,7 @@ public class JdbcQuestionRepository implements IQuestionRepository {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("SQL error");
         }
     }
 
@@ -105,7 +105,7 @@ public class JdbcQuestionRepository implements IQuestionRepository {
                 throw new RuntimeException("No question deleted, question with id '" + id.toString() + "' not found in database");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("SQL error");
         }
     }
 
@@ -122,7 +122,7 @@ public class JdbcQuestionRepository implements IQuestionRepository {
                 question = resultToQuestion(rs);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // TODO handle SQL exception
         }
 
         if (question != null) {
@@ -156,7 +156,7 @@ public class JdbcQuestionRepository implements IQuestionRepository {
                     .updatedAt(updateAt)
                     .build();
         } catch (ParseException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // TODO handle SQL exception
         }
         return null;
     }
