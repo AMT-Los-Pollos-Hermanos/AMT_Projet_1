@@ -97,6 +97,7 @@ VALUES ('6a5d8d7a-c34d-49ed-8f6d-1843250b6e5e', 'gaetan',
         '$2a$10$jAgAK9NaXLQpODyqom3as.epUdaHrzL7ZMBHTktBbFkludXMYUEMa', 'gaetan.daubresse.beguin@heig-vd.ch', 'Gaëtan',
         'Daubresse');
 
+
 INSERT INTO overflow.contents (id, user_id, content)
     VALUES ('73dbc27f-d54f-417c-b576-07f1c3cfd301', 'd2acfbba-13f1-4519-8fe5-0d977b3fffa6', 'Contenu 1');
 INSERT INTO overflow.main_contents (content_id) VALUES ('73dbc27f-d54f-417c-b576-07f1c3cfd301');
@@ -116,3 +117,14 @@ INSERT INTO overflow.contents (id, user_id, content)
     VALUES ('18dbc27f-d54f-417c-b576-07f1c3cfd301', '6a5d8d7a-c34d-49ed-8f6d-1843250b6e5e', 'Contenu 4');
 INSERT INTO overflow.main_contents (content_id) VALUES ('18dbc27f-d54f-417c-b576-07f1c3cfd301');
 INSERT INTO overflow.questions (content_id, title) VALUES ('18dbc27f-d54f-417c-b576-07f1c3cfd301', 'Question 4');
+
+
+INSERT INTO overflow.contents (id, user_id, content)
+    VALUES ('35dbc27f-d54f-417c-b576-07f1c3cfd301', '6a5d8d7a-c34d-49ed-8f6d-1843250b6e5e', 'Answer 1');
+INSERT INTO overflow.main_contents (content_id) VALUES ('35dbc27f-d54f-417c-b576-07f1c3cfd301');
+INSERT INTO overflow.answers (content_id, question_id) VALUES ('35dbc27f-d54f-417c-b576-07f1c3cfd301', '73dbc27f-d54f-417c-b576-07f1c3cfd301');
+
+INSERT INTO overflow.contents (id, user_id, content)
+    VALUES ('11dbc27f-d54f-417c-b576-07f1c3cfd301', '54ce8647-8742-4500-8b2a-ca7eb345da0c', 'Answer 2');
+INSERT INTO overflow.main_contents (content_id) VALUES ('11dbc27f-d54f-417c-b576-07f1c3cfd301');
+INSERT INTO overflow.answers (content_id, question_id) VALUES ('11dbc27f-d54f-417c-b576-07f1c3cfd301', '73dbc27f-d54f-417c-b576-07f1c3cfd301');
