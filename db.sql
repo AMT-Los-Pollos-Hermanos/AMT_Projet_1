@@ -26,6 +26,14 @@ CREATE TABLE contents
         ON UPDATE CASCADE
 );
 
+CREATE TABLE main_contents
+(
+    content_id  VARCHAR(255) PRIMARY KEY,
+    FOREIGN KEY (content_id) REFERENCES contents (id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
 CREATE TABLE comments
 (
     content_id          VARCHAR(255) PRIMARY KEY,
@@ -34,14 +42,6 @@ CREATE TABLE comments
         ON DELETE CASCADE
         ON UPDATE CASCADE,
     FOREIGN KEY (main_content_id) REFERENCES main_contents (content_id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-);
-
-CREATE TABLE main_contents
-(
-    content_id  VARCHAR(255) PRIMARY KEY,
-    FOREIGN KEY (content_id) REFERENCES contents (id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
