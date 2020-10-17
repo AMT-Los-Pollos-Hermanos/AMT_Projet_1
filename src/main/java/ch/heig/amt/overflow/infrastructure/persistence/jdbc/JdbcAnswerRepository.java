@@ -94,15 +94,21 @@ public class JdbcAnswerRepository implements IAnswerRepository {
         List<Answer> answers = new ArrayList<>();
 
         try {
-            String sql = "SELECT * FROM answers INNER JOIN users ON answers.user_id = users.id WHERE answers.question_id = ?";
+            String sql = "SELECT * FROM answers " +
+                    "INNER JOIN main_contents on answers.content_id = main_contents.content_id " +
+                    "INNER JOIN contents on main_contents.content_id = contents.id " +
+                    "INNER JOIN users on contents.user_id = users.id " +
+                    "WHERE question_id = ?";
+
             PreparedStatement statement = dataSource.getConnection().prepareStatement(sql);
             statement.setString(1, questionId.toString());
             ResultSet rs = statement.executeQuery();
+
             while (rs.next()) {
                 answers.add(resulToAnswer(rs));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // TODO handle SQL exception
         }
         return answers;
     }
@@ -112,15 +118,21 @@ public class JdbcAnswerRepository implements IAnswerRepository {
         Answer answer = null;
 
         try {
-            String sql = "SELECT * FROM answers INNER JOIN users ON answers.user_id = users.id WHERE answers.id = ?";
+            String sql = "SELECT * FROM answers " +
+                    "INNER JOIN main_contents on answers.content_id = main_contents.content_id " +
+                    "INNER JOIN contents on main_contents.content_id = contents.id " +
+                    "INNER JOIN users on contents.user_id = users.id " +
+                    "WHERE answers.content_id = ?";
+
             PreparedStatement statement = dataSource.getConnection().prepareStatement(sql);
             statement.setString(1, id.toString());
             ResultSet rs = statement.executeQuery();
+
             while (rs.next()) {
                 answer = resulToAnswer(rs);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // TODO handle SQL exception
         }
 
         if (answer != null) {
@@ -135,14 +147,19 @@ public class JdbcAnswerRepository implements IAnswerRepository {
         List<Answer> answers = new ArrayList<>();
 
         try {
-            String sql = "SELECT * FROM answers INNER JOIN users ON answers.user_id = users.id";
+            String sql = "SELECT * FROM answers " +
+                    "INNER JOIN main_contents on answers.content_id = main_contents.content_id " +
+                    "INNER JOIN contents on main_contents.content_id = contents.id " +
+                    "INNER JOIN users on contents.user_id = users.id";
+
             PreparedStatement statement = dataSource.getConnection().prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
+
             while (rs.next()) {
                 answers.add(resulToAnswer(rs));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // TODO handle SQL exception
         }
         return answers;
     }
@@ -156,7 +173,7 @@ public class JdbcAnswerRepository implements IAnswerRepository {
                 updateAt = utcFormat.parse(rs.getString("updated_at"));
             }
             return Answer.builder()
-                    .id(new AnswerId(rs.getString("answers.id")))
+                    .id(new AnswerId(rs.getString("answers.content_id")))
                     .author(User.builder()
                             .id(new UserId(rs.getString("users.id")))
                             .username(rs.getString("username"))
@@ -170,7 +187,7 @@ public class JdbcAnswerRepository implements IAnswerRepository {
                     .updatedAt(updateAt)
                     .build();
         } catch (ParseException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // TODO handle SQL exception
         }
         return null;
     }
