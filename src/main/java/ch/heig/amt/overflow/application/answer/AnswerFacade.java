@@ -19,16 +19,15 @@ public class AnswerFacade {
     }
 
     public void addNewAnswer(NewAnswerCommand command) {
-        if (!command.getTitle().isEmpty() && !command.getContent().isEmpty()) {
+        if (!command.getContent().isEmpty()) {
             Answer submittedAnswer = Answer.builder()
-                    .title(command.getTitle())
                     .content(command.getContent())
                     .author(User.builder().id(command.getAuthorId()).build())
                     .questionId(command.getQuestionId())
                     .build();
             answerRepository.save(submittedAnswer);
         } else {
-            throw new IllegalArgumentException("Title and content are mandatory");
+            throw new IllegalArgumentException("Content are mandatory");
         }
     }
 
@@ -37,7 +36,6 @@ public class AnswerFacade {
 
         List<AnswersDTO.AnswerDTO> mapper = answers.stream().map(answer ->
                 AnswersDTO.AnswerDTO.builder()
-                        .title(answer.getTitle())
                         .content(answer.getContent())
                         .createdAt(answer.getCreatedAt())
                         .author(UserDTO.builder()

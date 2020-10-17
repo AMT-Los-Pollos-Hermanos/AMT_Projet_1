@@ -8,9 +8,6 @@ import lombok.Value;
 @Builder
 @Value
 public class NewAnswerCommand {
-    @Builder.Default
-    String title = "No title";
-
     UserId authorId;
 
     QuestionId questionId;

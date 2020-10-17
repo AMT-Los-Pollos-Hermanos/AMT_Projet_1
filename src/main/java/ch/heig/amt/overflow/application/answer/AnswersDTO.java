@@ -20,7 +20,6 @@ public class AnswersDTO {
     @Value
     public static class AnswerDTO {
         AnswerId answerId;
-        String title;
         String content;
         Date createdAt;
         UserDTO author;

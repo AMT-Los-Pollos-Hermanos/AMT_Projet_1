@@ -16,8 +16,6 @@ public class Answer implements IEntity<Answer, AnswerId> {
     @Builder.Default
     private AnswerId id = new AnswerId();
 
-    private String title;
-
     private String content;
 
     private User author;

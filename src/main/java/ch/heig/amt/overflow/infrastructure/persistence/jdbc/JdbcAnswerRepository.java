@@ -165,7 +165,6 @@ public class JdbcAnswerRepository implements IAnswerRepository {
                             .lastName(rs.getString("last_name"))
                             .firstName(rs.getString("first_name"))
                             .build())
-                    .title(rs.getString("title"))
                     .content(rs.getString("content"))
                     .createdAt(utcFormat.parse(rs.getString("created_at")))
                     .updatedAt(updateAt)
