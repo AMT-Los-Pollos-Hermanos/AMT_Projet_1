@@ -1,8 +1,8 @@
 package ch.heig.amt.overflow.infrastructure.persistence.jdbc;
 
-import ch.heig.amt.overflow.application.question.QuestionQuery;
-import ch.heig.amt.overflow.domain.question.IQuestionRepository;
-import ch.heig.amt.overflow.domain.question.Question;
+import ch.heig.amt.overflow.domain.answer.Answer;
+import ch.heig.amt.overflow.domain.answer.AnswerId;
+import ch.heig.amt.overflow.domain.answer.IAnswerRepository;
 import ch.heig.amt.overflow.domain.question.QuestionId;
 import ch.heig.amt.overflow.domain.user.User;
 import ch.heig.amt.overflow.domain.user.UserId;
@@ -20,89 +20,69 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @ApplicationScoped
-@Named("JdbcQuestionRepository")
-public class JdbcQuestionRepository implements IQuestionRepository {
+@Named("JdbcAnswerRepository")
+public class JdbcAnswerRepository implements IAnswerRepository {
 
     @Resource(lookup = "jdbc/OverflowDS")
     private DataSource dataSource;
 
     @Override
-    public Collection<Question> find(QuestionQuery query) {
-        List<Question> questions = new ArrayList<>();
-
+    public void save(Answer entity) {
         try {
-            String sql = "SELECT * FROM questions INNER JOIN users ON questions.user_id = users.id";
-            if (!query.getSearch().isEmpty()) {
-                sql += " WHERE LOWER(title) LIKE ? OR LOWER(first_name) LIKE ?";
-            }
-            sql += " ORDER BY created_at DESC";
-            PreparedStatement statement = dataSource.getConnection().prepareStatement(sql);
-            if (!query.getSearch().isEmpty()) {
-                statement.setString(1, "%" + query.getSearch() + "%");
-                statement.setString(2, "%" + query.getSearch() + "%");
-            }
-            ResultSet rs = statement.executeQuery();
-            while (rs.next()) {
-                questions.add(resultToQuestion(rs));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return questions;
-    }
-
-    @Override
-    public void save(Question entity) {
-        try {
-            PreparedStatement select = dataSource.getConnection().prepareStatement("SELECT COUNT(*) FROM questions WHERE id = ?");
+            // Check if the id is already in the DB
+            PreparedStatement select = dataSource.getConnection().prepareStatement("SELECT COUNT(*) FROM answers WHERE id = ?");
             select.setString(1, entity.getId().toString());
             ResultSet rs = select.executeQuery();
             int size = 0;
             if (rs.next()) {
                 size = rs.getInt(1);
             }
+
             if (size == 0) {
-                // Create question
+                // Create answer
                 PreparedStatement create = dataSource
                         .getConnection()
-                        .prepareStatement("INSERT INTO questions (id, title, content, user_id) VALUES (?, ?, ?, ?)");
+                        .prepareStatement("INSERT INTO answers (id, title, content, user_id, question_id) VALUES (?, ?, ?, ?)");
                 int i = 1;
                 create.setString(i++, entity.getId().toString());
                 create.setString(i++, entity.getTitle());
                 create.setString(i++, entity.getContent());
-                create.setString(i, entity.getAuthor().getId().toString());
+                create.setString(i++, entity.getAuthor().getId().toString());
+                create.setString(i, entity.getQuestionId().toString());
                 int rows = create.executeUpdate();
                 if (rows == 0) {
-                    throw new RuntimeException("Error while adding new question to the database");
+                    throw new RuntimeException("Error while adding new answer to the database");
                 }
             } else {
-                // Update question
+                // Update answer
                 PreparedStatement create = dataSource
                         .getConnection()
-                        .prepareStatement("UPDATE questions SET title = ?, content = ?, user_id = ? WHERE id = ?");
+                        .prepareStatement("UPDATE answers SET title = ?, content = ?, user_id = ?, question_id = ? WHERE id = ?");
                 int i = 1;
                 create.setString(i++, entity.getTitle());
                 create.setString(i++, entity.getContent());
                 create.setString(i++, entity.getAuthor().getId().toString());
-                create.setString(i, entity.getId().toString());
+                create.setString(i++, entity.getId().toString());
+                create.setString(i, entity.getQuestionId().toString());
                 int rows = create.executeUpdate();
                 if (rows == 0) {
-                    throw new RuntimeException("Error while updating question in the database");
+                    throw new RuntimeException("Error while updating answer in the database");
                 }
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void remove(QuestionId id) {
+    public void remove(AnswerId id) {
         try {
-            PreparedStatement select = dataSource.getConnection().prepareStatement("DELETE FROM questions WHERE id = ?");
+            PreparedStatement select = dataSource.getConnection().prepareStatement("DELETE FROM answers WHERE id = ?");
             select.setString(1, id.toString());
             int rows = select.executeUpdate();
             if (rows == 0) {
-                throw new RuntimeException("No question deleted, question with id '" + id.toString() + "' not found in database");
+                throw new RuntimeException("No answer deleted, answer with id '" + id.toString() + "' not found in database");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -110,29 +90,64 @@ public class JdbcQuestionRepository implements IQuestionRepository {
     }
 
     @Override
-    public Optional<Question> findById(QuestionId id) {
-        Question question = null;
+    public Collection<Answer> findByQuestionId(QuestionId questionId) {
+        List<Answer> answers = new ArrayList<>();
 
         try {
-            String sql = "SELECT * FROM questions INNER JOIN users ON questions.user_id = users.id WHERE questions.id = ?";
+            String sql = "SELECT * FROM answers INNER JOIN users ON answers.user_id = users.id WHERE answers.question_id = ?";
+            PreparedStatement statement = dataSource.getConnection().prepareStatement(sql);
+            statement.setString(1, questionId.toString());
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                answers.add(resulToAnswer(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return answers;
+    }
+
+    @Override
+    public Optional<Answer> findById(AnswerId id) {
+        Answer answer = null;
+
+        try {
+            String sql = "SELECT * FROM answers INNER JOIN users ON answers.user_id = users.id WHERE answers.id = ?";
             PreparedStatement statement = dataSource.getConnection().prepareStatement(sql);
             statement.setString(1, id.toString());
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                question = resultToQuestion(rs);
+                answer = resulToAnswer(rs);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        if (question != null) {
-            return Optional.of(question);
+        if (answer != null) {
+            return Optional.of(answer);
         } else {
             return Optional.empty();
         }
     }
 
-    private Question resultToQuestion(ResultSet rs) throws SQLException {
+    @Override
+    public Collection<Answer> findAll() {
+        List<Answer> answers = new ArrayList<>();
+
+        try {
+            String sql = "SELECT * FROM answers INNER JOIN users ON answers.user_id = users.id";
+            PreparedStatement statement = dataSource.getConnection().prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                answers.add(resulToAnswer(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return answers;
+    }
+
+    private Answer resulToAnswer(ResultSet rs) throws SQLException {
         Date updateAt = null;
         DateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -140,8 +155,8 @@ public class JdbcQuestionRepository implements IQuestionRepository {
             if (rs.getString("updated_at") != null) {
                 updateAt = utcFormat.parse(rs.getString("updated_at"));
             }
-            return Question.builder()
-                    .id(new QuestionId(rs.getString("questions.id")))
+            return Answer.builder()
+                    .id(new AnswerId(rs.getString("answers.id")))
                     .author(User.builder()
                             .id(new UserId(rs.getString("users.id")))
                             .username(rs.getString("username"))
@@ -160,10 +175,4 @@ public class JdbcQuestionRepository implements IQuestionRepository {
         }
         return null;
     }
-
-    @Override
-    public Collection<Question> findAll() {
-        return find(QuestionQuery.builder().build());
-    }
-
 }

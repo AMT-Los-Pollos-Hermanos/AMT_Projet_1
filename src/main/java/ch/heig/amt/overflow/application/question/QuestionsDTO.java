@@ -1,9 +1,9 @@
 package ch.heig.amt.overflow.application.question;
 
+import ch.heig.amt.overflow.application.answer.AnswersDTO;
 import ch.heig.amt.overflow.application.auth.UserDTO;
-import lombok.Builder;
-import lombok.Singular;
-import lombok.Value;
+import ch.heig.amt.overflow.domain.question.QuestionId;
+import lombok.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -16,12 +16,17 @@ import java.util.TimeZone;
 public class QuestionsDTO {
 
     @Builder
-    @Value
+    @Getter
+    @EqualsAndHashCode
     public static class QuestionDTO {
-        String title;
-        String content;
-        Date createdAt;
-        UserDTO author;
+        private final QuestionId questionId;
+        private final String title;
+        private final String content;
+        private final Date createdAt;
+        private final UserDTO author;
+
+        @Setter
+        private AnswersDTO answersDTO;
 
         public String formattedCreatedAt() {
             DateFormat format = new SimpleDateFormat("'Le 'dd.MM.yyyy' à 'HH:mm:ss");
