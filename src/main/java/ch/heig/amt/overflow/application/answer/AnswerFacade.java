@@ -36,6 +36,7 @@ public class AnswerFacade {
 
         List<AnswersDTO.AnswerDTO> mapper = answers.stream().map(answer ->
                 AnswersDTO.AnswerDTO.builder()
+                        .answerId(answer.getId())
                         .content(answer.getContent())
                         .createdAt(answer.getCreatedAt())
                         .author(UserDTO.builder()
