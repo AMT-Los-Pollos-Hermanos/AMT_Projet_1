@@ -78,14 +78,14 @@ public class JdbcAnswerRepository implements IAnswerRepository {
     @Override
     public void remove(AnswerId id) {
         try {
-            PreparedStatement select = dataSource.getConnection().prepareStatement("DELETE FROM answers WHERE id = ?");
+            PreparedStatement select = dataSource.getConnection().prepareStatement("DELETE FROM contents WHERE id = ?");
             select.setString(1, id.toString());
             int rows = select.executeUpdate();
             if (rows == 0) {
                 throw new RuntimeException("No answer deleted, answer with id '" + id.toString() + "' not found in database");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("SQL error");
         }
     }
 
