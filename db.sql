@@ -82,6 +82,7 @@ CREATE TABLE votes
 
 SET NAMES utf8;
 
+
 INSERT INTO overflow.users (id, username, password, email, first_name, last_name)
 VALUES ('d2acfbba-13f1-4519-8fe5-0d977b3fffa6', 'gil', '$2a$10$AZRCfWhRDyS05nP7MR98p.UtA6jXjDac/8gkUqusMrJSmIHbYnjSG',
         'gil.balsiger@heig-vd.ch', 'Gil', 'Balsiger');
@@ -96,20 +97,22 @@ VALUES ('6a5d8d7a-c34d-49ed-8f6d-1843250b6e5e', 'gaetan',
         '$2a$10$jAgAK9NaXLQpODyqom3as.epUdaHrzL7ZMBHTktBbFkludXMYUEMa', 'gaetan.daubresse.beguin@heig-vd.ch', 'Gaëtan',
         'Daubresse');
 
+INSERT INTO overflow.contents (id, user_id, content)
+    VALUES ('73dbc27f-d54f-417c-b576-07f1c3cfd301', 'd2acfbba-13f1-4519-8fe5-0d977b3fffa6', 'Contenu 1');
+INSERT INTO overflow.main_contents (content_id) VALUES ('73dbc27f-d54f-417c-b576-07f1c3cfd301');
+INSERT INTO overflow.questions (content_id, title) VALUES ('73dbc27f-d54f-417c-b576-07f1c3cfd301', 'Question 1');
 
-# INSERT INTO overflow.contents (id, user_id, content)
-#     VALUES ('73dbc27f-d54f-417c-b576-07f1c3cfd301', 'd2acfbba-13f1-4519-8fe5-0d977b3fffa6', 'Contenu 1');
-# INSERT INTO overflow.main_contents (content_id) VALUES ('73dbc27f-d54f-417c-b576-07f1c3cfd301');
-# INSERT INTO overflow.questions (content_id, title) VALUES ('73dbc27f-d54f-417c-b576-07f1c3cfd301', 'Question 1');
+INSERT INTO overflow.contents (id, user_id, content)
+    VALUES ('58dbc27f-d54f-417c-b576-07f1c3cfd301', '54ce8647-8742-4500-8b2a-ca7eb345da0c', 'Contenu 2');
+INSERT INTO overflow.main_contents (content_id) VALUES ('58dbc27f-d54f-417c-b576-07f1c3cfd301');
+INSERT INTO overflow.questions (content_id, title) VALUES ('58dbc27f-d54f-417c-b576-07f1c3cfd301', 'Question 2');
 
-# SELECT * FROM questions
-#     INNER JOIN main_contents mc on questions.content_id = mc.content_id
-#     INNER JOIN contents c on mc.content_id = c.id
-#     INNER JOIN users u on c.user_id = u.id
+INSERT INTO overflow.contents (id, user_id, content)
+    VALUES ('abdbc27f-d54f-417c-b576-07f1c3cfd301', '683d0d88-9ea2-4101-84a7-ccdb5fdad9db', 'Contenu 3');
+INSERT INTO overflow.main_contents (content_id) VALUES ('abdbc27f-d54f-417c-b576-07f1c3cfd301');
+INSERT INTO overflow.questions (content_id, title) VALUES ('abdbc27f-d54f-417c-b576-07f1c3cfd301', 'Question 3');
 
-# INSERT INTO questions (id, title, content, user_id)
-# VALUES ('73dbc27f-d54f-417c-b576-07f1c3cfd301', 'Question 1', 'Contenu 1', 'd2acfbba-13f1-4519-8fe5-0d977b3fffa6');
-# INSERT INTO questions (id, title, content, user_id)
-# VALUES ('b3b18112-624e-4109-b9f6-48d67afcf075', 'Question 2', 'Contenu 2', '54ce8647-8742-4500-8b2a-ca7eb345da0c');
-# INSERT INTO questions (id, title, content, user_id)
-# VALUES ('cda1921c-1001-487c-aa53-a6d3dcb07f35', 'Question 3', 'Contenu 3', '683d0d88-9ea2-4101-84a7-ccdb5fdad9db');
+INSERT INTO overflow.contents (id, user_id, content)
+    VALUES ('18dbc27f-d54f-417c-b576-07f1c3cfd301', '6a5d8d7a-c34d-49ed-8f6d-1843250b6e5e', 'Contenu 4');
+INSERT INTO overflow.main_contents (content_id) VALUES ('18dbc27f-d54f-417c-b576-07f1c3cfd301');
+INSERT INTO overflow.questions (content_id, title) VALUES ('18dbc27f-d54f-417c-b576-07f1c3cfd301', 'Question 4');
