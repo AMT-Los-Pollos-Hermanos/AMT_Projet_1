@@ -31,7 +31,10 @@ public class JdbcQuestionRepository implements IQuestionRepository {
         List<Question> questions = new ArrayList<>();
 
         try {
-            String sql = "SELECT * FROM questions INNER JOIN users ON questions.user_id = users.id";
+            String sql = "SELECT * FROM questions " +
+                    "INNER JOIN main_contents on questions.content_id = main_contents.content_id " +
+                    "INNER JOIN contents on main_contents.content_id = contents.id " +
+                    "INNER JOIN users on contents.user_id = users.id";
             if (!query.getSearch().isEmpty()) {
                 sql += " WHERE LOWER(title) LIKE ? OR LOWER(first_name) LIKE ?";
             }
@@ -114,7 +117,11 @@ public class JdbcQuestionRepository implements IQuestionRepository {
         Question question = null;
 
         try {
-            String sql = "SELECT * FROM questions INNER JOIN users ON questions.user_id = users.id WHERE questions.id = ?";
+            String sql = "SELECT * FROM questions " +
+                    "INNER JOIN main_contents on questions.content_id = main_contents.content_id " +
+                    "INNER JOIN contents on main_contents.content_id = contents.id " +
+                    "INNER JOIN users on contents.user_id = users.id " +
+                    "WHERE questions.content_id = ?";
             PreparedStatement statement = dataSource.getConnection().prepareStatement(sql);
             statement.setString(1, id.toString());
             ResultSet rs = statement.executeQuery();
@@ -141,7 +148,7 @@ public class JdbcQuestionRepository implements IQuestionRepository {
                 updateAt = utcFormat.parse(rs.getString("updated_at"));
             }
             return Question.builder()
-                    .id(new QuestionId(rs.getString("questions.id")))
+                    .id(new QuestionId(rs.getString("questions.content_id")))
                     .author(User.builder()
                             .id(new UserId(rs.getString("users.id")))
                             .username(rs.getString("username"))
