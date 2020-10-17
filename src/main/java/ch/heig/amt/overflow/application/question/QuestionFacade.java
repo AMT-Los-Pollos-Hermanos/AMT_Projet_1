@@ -57,6 +57,7 @@ public class QuestionFacade {
     private List<QuestionsDTO.QuestionDTO> mapQuestionDTO(Collection<Question> allQuestions) {
         return allQuestions.stream().map(question ->
                 QuestionsDTO.QuestionDTO.builder()
+                        .questionId(question.getId())
                         .title(question.getTitle())
                         .content(question.getContent())
                         .createdAt(question.getCreatedAt())

@@ -11,13 +11,12 @@ import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import javax.sql.DataSource;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Date;
 
 @ApplicationScoped
 @Named("JdbcQuestionRepository")
@@ -31,7 +30,10 @@ public class JdbcQuestionRepository implements IQuestionRepository {
         List<Question> questions = new ArrayList<>();
 
         try {
-            String sql = "SELECT * FROM questions INNER JOIN users ON questions.user_id = users.id";
+            String sql = "SELECT * FROM questions " +
+                    "INNER JOIN main_contents on questions.content_id = main_contents.content_id " +
+                    "INNER JOIN contents on main_contents.content_id = contents.id " +
+                    "INNER JOIN users on contents.user_id = users.id";
             if (!query.getSearch().isEmpty()) {
                 sql += " WHERE LOWER(title) LIKE ? OR LOWER(first_name) LIKE ?";
             }
@@ -46,7 +48,7 @@ public class JdbcQuestionRepository implements IQuestionRepository {
                 questions.add(resultToQuestion(rs));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // TODO handle SQL exception
         }
         return questions;
     }
@@ -54,58 +56,66 @@ public class JdbcQuestionRepository implements IQuestionRepository {
     @Override
     public void save(Question entity) {
         try {
-            PreparedStatement select = dataSource.getConnection().prepareStatement("SELECT COUNT(*) FROM questions WHERE id = ?");
-            select.setString(1, entity.getId().toString());
-            ResultSet rs = select.executeQuery();
+            Connection con = dataSource.getConnection();
+            PreparedStatement preparedStatement;
+
+            preparedStatement = con.prepareStatement("SELECT COUNT(*) FROM questions WHERE content_id = ?");
+            preparedStatement.setString(1, entity.getId().toString());
+            ResultSet rs = preparedStatement.executeQuery();
+
             int size = 0;
             if (rs.next()) {
                 size = rs.getInt(1);
             }
+
+            con.setAutoCommit(false);
             if (size == 0) {
                 // Create question
-                PreparedStatement create = dataSource
-                        .getConnection()
-                        .prepareStatement("INSERT INTO questions (id, title, content, user_id) VALUES (?, ?, ?, ?)");
-                int i = 1;
-                create.setString(i++, entity.getId().toString());
-                create.setString(i++, entity.getTitle());
-                create.setString(i++, entity.getContent());
-                create.setString(i, entity.getAuthor().getId().toString());
-                int rows = create.executeUpdate();
-                if (rows == 0) {
-                    throw new RuntimeException("Error while adding new question to the database");
-                }
+                preparedStatement = con.prepareStatement("INSERT INTO contents (id, user_id, content) VALUES (?, ?, ?);");
+                preparedStatement.setString(1, entity.getId().toString());
+                preparedStatement.setString(2, entity.getAuthor().getId().toString());
+                preparedStatement.setString(3, entity.getContent());
+                preparedStatement.executeUpdate();
+
+                preparedStatement = con.prepareStatement("INSERT INTO main_contents (content_id) VALUES (?);");
+                preparedStatement.setString(1, entity.getId().toString());
+                preparedStatement.executeUpdate();
+
+                preparedStatement = con.prepareStatement("INSERT INTO questions (content_id, title) VALUES (?, ?);");
+                preparedStatement.setString(1, entity.getId().toString());
+                preparedStatement.setString(2, entity.getTitle());
+                preparedStatement.executeUpdate();
             } else {
                 // Update question
-                PreparedStatement create = dataSource
-                        .getConnection()
-                        .prepareStatement("UPDATE questions SET title = ?, content = ?, user_id = ? WHERE id = ?");
-                int i = 1;
-                create.setString(i++, entity.getTitle());
-                create.setString(i++, entity.getContent());
-                create.setString(i++, entity.getAuthor().getId().toString());
-                create.setString(i, entity.getId().toString());
-                int rows = create.executeUpdate();
-                if (rows == 0) {
-                    throw new RuntimeException("Error while updating question in the database");
-                }
+                preparedStatement = con.prepareStatement("UPDATE contents SET content = ?, user_id = ? WHERE contents.id = ?;");
+                preparedStatement.setString(1, entity.getContent());
+                preparedStatement.setString(2, entity.getAuthor().getId().toString());
+                preparedStatement.setString(3, entity.getId().toString());
+                preparedStatement.executeUpdate();
+
+                preparedStatement = con.prepareStatement("UPDATE questions SET title = ? WHERE questions.content_id = ?;");
+                preparedStatement.setString(1, entity.getTitle());
+                preparedStatement.setString(2, entity.getId().toString());
+                preparedStatement.executeUpdate();
             }
+            con.commit();
+
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error while adding/updating question to the database");
         }
     }
 
     @Override
     public void remove(QuestionId id) {
         try {
-            PreparedStatement select = dataSource.getConnection().prepareStatement("DELETE FROM questions WHERE id = ?");
+            PreparedStatement select = dataSource.getConnection().prepareStatement("DELETE FROM contents WHERE id = ?");
             select.setString(1, id.toString());
             int rows = select.executeUpdate();
             if (rows == 0) {
                 throw new RuntimeException("No question deleted, question with id '" + id.toString() + "' not found in database");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("SQL error");
         }
     }
 
@@ -114,7 +124,11 @@ public class JdbcQuestionRepository implements IQuestionRepository {
         Question question = null;
 
         try {
-            String sql = "SELECT * FROM questions INNER JOIN users ON questions.user_id = users.id WHERE questions.id = ?";
+            String sql = "SELECT * FROM questions " +
+                    "INNER JOIN main_contents on questions.content_id = main_contents.content_id " +
+                    "INNER JOIN contents on main_contents.content_id = contents.id " +
+                    "INNER JOIN users on contents.user_id = users.id " +
+                    "WHERE questions.content_id = ?";
             PreparedStatement statement = dataSource.getConnection().prepareStatement(sql);
             statement.setString(1, id.toString());
             ResultSet rs = statement.executeQuery();
@@ -122,7 +136,7 @@ public class JdbcQuestionRepository implements IQuestionRepository {
                 question = resultToQuestion(rs);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // TODO handle SQL exception
         }
 
         if (question != null) {
@@ -141,7 +155,7 @@ public class JdbcQuestionRepository implements IQuestionRepository {
                 updateAt = utcFormat.parse(rs.getString("updated_at"));
             }
             return Question.builder()
-                    .id(new QuestionId(rs.getString("questions.id")))
+                    .id(new QuestionId(rs.getString("questions.content_id")))
                     .author(User.builder()
                             .id(new UserId(rs.getString("users.id")))
                             .username(rs.getString("username"))
@@ -156,7 +170,7 @@ public class JdbcQuestionRepository implements IQuestionRepository {
                     .updatedAt(updateAt)
                     .build();
         } catch (ParseException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // TODO handle SQL exception
         }
         return null;
     }
