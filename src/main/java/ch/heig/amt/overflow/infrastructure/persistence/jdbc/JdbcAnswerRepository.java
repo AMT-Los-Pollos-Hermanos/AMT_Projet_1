@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import javax.sql.DataSource;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,49 +30,52 @@ public class JdbcAnswerRepository implements IAnswerRepository {
     @Override
     public void save(Answer entity) {
         try {
-            // Check if the id is already in the DB
-            PreparedStatement select = dataSource.getConnection().prepareStatement("SELECT COUNT(*) FROM answers WHERE id = ?");
-            select.setString(1, entity.getId().toString());
-            ResultSet rs = select.executeQuery();
+            Connection con = dataSource.getConnection();
+            PreparedStatement preparedStatement;
+
+            preparedStatement = con.prepareStatement("SELECT COUNT(*) FROM answers WHERE content_id = ?");
+            preparedStatement.setString(1, entity.getId().toString());
+            ResultSet rs = preparedStatement.executeQuery();
+
             int size = 0;
             if (rs.next()) {
                 size = rs.getInt(1);
             }
 
+            con.setAutoCommit(false);
             if (size == 0) {
                 // Create answer
-                PreparedStatement create = dataSource
-                        .getConnection()
-                        .prepareStatement("INSERT INTO answers (id, title, content, user_id, question_id) VALUES (?, ?, ?, ?)");
-                int i = 1;
-                create.setString(i++, entity.getId().toString());
-                create.setString(i++, entity.getTitle());
-                create.setString(i++, entity.getContent());
-                create.setString(i++, entity.getAuthor().getId().toString());
-                create.setString(i, entity.getQuestionId().toString());
-                int rows = create.executeUpdate();
-                if (rows == 0) {
-                    throw new RuntimeException("Error while adding new answer to the database");
-                }
+                preparedStatement = con.prepareStatement("INSERT INTO contents (id, user_id, content) VALUES (?, ?, ?);");
+                preparedStatement.setString(1, entity.getId().toString());
+                preparedStatement.setString(2, entity.getAuthor().getId().toString());
+                preparedStatement.setString(3, entity.getContent());
+                preparedStatement.executeUpdate();
+
+                preparedStatement = con.prepareStatement("INSERT INTO main_contents (content_id) VALUES (?);");
+                preparedStatement.setString(1, entity.getId().toString());
+                preparedStatement.executeUpdate();
+
+                preparedStatement = con.prepareStatement("INSERT INTO answers (content_id, question_id) VALUES (?, ?);");
+                preparedStatement.setString(1, entity.getId().toString());
+                preparedStatement.setString(2, entity.getQuestionId().toString());
+                preparedStatement.executeUpdate();
             } else {
                 // Update answer
-                PreparedStatement create = dataSource
-                        .getConnection()
-                        .prepareStatement("UPDATE answers SET title = ?, content = ?, user_id = ?, question_id = ? WHERE id = ?");
-                int i = 1;
-                create.setString(i++, entity.getTitle());
-                create.setString(i++, entity.getContent());
-                create.setString(i++, entity.getAuthor().getId().toString());
-                create.setString(i++, entity.getId().toString());
-                create.setString(i, entity.getQuestionId().toString());
-                int rows = create.executeUpdate();
-                if (rows == 0) {
-                    throw new RuntimeException("Error while updating answer in the database");
-                }
+                preparedStatement = con.prepareStatement("UPDATE contents SET content = ?, user_id = ? WHERE contents.id = ?;");
+                preparedStatement.setString(1, entity.getContent());
+                preparedStatement.setString(2, entity.getAuthor().getId().toString());
+                preparedStatement.setString(3, entity.getId().toString());
+                preparedStatement.executeUpdate();
+
+                preparedStatement = con.prepareStatement("UPDATE answers SET question_id = ? WHERE answers.content_id = ?;");
+                preparedStatement.setString(1, entity.getQuestionId().toString());
+                preparedStatement.setString(2, entity.getId().toString());
+                preparedStatement.executeUpdate();
             }
+            con.commit();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error while adding/updating answer to the database");
         }
     }
 
