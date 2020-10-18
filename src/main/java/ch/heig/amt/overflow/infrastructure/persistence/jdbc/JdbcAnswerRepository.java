@@ -1,8 +1,8 @@
 package ch.heig.amt.overflow.infrastructure.persistence.jdbc;
 
-import ch.heig.amt.overflow.application.question.QuestionQuery;
-import ch.heig.amt.overflow.domain.question.IQuestionRepository;
-import ch.heig.amt.overflow.domain.question.Question;
+import ch.heig.amt.overflow.domain.answer.Answer;
+import ch.heig.amt.overflow.domain.answer.AnswerId;
+import ch.heig.amt.overflow.domain.answer.IAnswerRepository;
 import ch.heig.amt.overflow.domain.question.QuestionId;
 import ch.heig.amt.overflow.domain.user.User;
 import ch.heig.amt.overflow.domain.user.UserId;
@@ -11,55 +11,29 @@ import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import javax.sql.DataSource;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.Date;
 
 @ApplicationScoped
-@Named("JdbcQuestionRepository")
-public class JdbcQuestionRepository implements IQuestionRepository {
+@Named("JdbcAnswerRepository")
+public class JdbcAnswerRepository implements IAnswerRepository {
 
     @Resource(lookup = "jdbc/OverflowDS")
     private DataSource dataSource;
 
     @Override
-    public Collection<Question> find(QuestionQuery query) {
-        List<Question> questions = new ArrayList<>();
-
-        try {
-            String sql = "SELECT * FROM questions " +
-                    "INNER JOIN main_contents on questions.content_id = main_contents.content_id " +
-                    "INNER JOIN contents on main_contents.content_id = contents.id " +
-                    "INNER JOIN users on contents.user_id = users.id";
-            if (!query.getSearch().isEmpty()) {
-                sql += " WHERE LOWER(title) LIKE ? OR LOWER(first_name) LIKE ?";
-            }
-            sql += " ORDER BY created_at DESC";
-            PreparedStatement statement = dataSource.getConnection().prepareStatement(sql);
-            if (!query.getSearch().isEmpty()) {
-                statement.setString(1, "%" + query.getSearch() + "%");
-                statement.setString(2, "%" + query.getSearch() + "%");
-            }
-            ResultSet rs = statement.executeQuery();
-            while (rs.next()) {
-                questions.add(resultToQuestion(rs));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace(); // TODO handle SQL exception
-        }
-        return questions;
-    }
-
-    @Override
-    public void save(Question entity) {
+    public void save(Answer entity) {
         try {
             Connection con = dataSource.getConnection();
             PreparedStatement preparedStatement;
 
-            preparedStatement = con.prepareStatement("SELECT COUNT(*) FROM questions WHERE content_id = ?");
+            preparedStatement = con.prepareStatement("SELECT COUNT(*) FROM answers WHERE content_id = ?");
             preparedStatement.setString(1, entity.getId().toString());
             ResultSet rs = preparedStatement.executeQuery();
 
@@ -70,7 +44,7 @@ public class JdbcQuestionRepository implements IQuestionRepository {
 
             con.setAutoCommit(false);
             if (size == 0) {
-                // Create question
+                // Create answer
                 preparedStatement = con.prepareStatement("INSERT INTO contents (id, user_id, content) VALUES (?, ?, ?);");
                 preparedStatement.setString(1, entity.getId().toString());
                 preparedStatement.setString(2, entity.getAuthor().getId().toString());
@@ -81,38 +55,38 @@ public class JdbcQuestionRepository implements IQuestionRepository {
                 preparedStatement.setString(1, entity.getId().toString());
                 preparedStatement.executeUpdate();
 
-                preparedStatement = con.prepareStatement("INSERT INTO questions (content_id, title) VALUES (?, ?);");
+                preparedStatement = con.prepareStatement("INSERT INTO answers (content_id, question_id) VALUES (?, ?);");
                 preparedStatement.setString(1, entity.getId().toString());
-                preparedStatement.setString(2, entity.getTitle());
+                preparedStatement.setString(2, entity.getQuestionId().toString());
                 preparedStatement.executeUpdate();
             } else {
-                // Update question
+                // Update answer
                 preparedStatement = con.prepareStatement("UPDATE contents SET content = ?, user_id = ? WHERE contents.id = ?;");
                 preparedStatement.setString(1, entity.getContent());
                 preparedStatement.setString(2, entity.getAuthor().getId().toString());
                 preparedStatement.setString(3, entity.getId().toString());
                 preparedStatement.executeUpdate();
 
-                preparedStatement = con.prepareStatement("UPDATE questions SET title = ? WHERE questions.content_id = ?;");
-                preparedStatement.setString(1, entity.getTitle());
+                preparedStatement = con.prepareStatement("UPDATE answers SET question_id = ? WHERE answers.content_id = ?;");
+                preparedStatement.setString(1, entity.getQuestionId().toString());
                 preparedStatement.setString(2, entity.getId().toString());
                 preparedStatement.executeUpdate();
             }
             con.commit();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error while adding/updating question to the database");
+            throw new RuntimeException("Error while adding/updating answer to the database");
         }
     }
 
     @Override
-    public void remove(QuestionId id) {
+    public void remove(AnswerId id) {
         try {
             PreparedStatement select = dataSource.getConnection().prepareStatement("DELETE FROM contents WHERE id = ?");
             select.setString(1, id.toString());
             int rows = select.executeUpdate();
             if (rows == 0) {
-                throw new RuntimeException("No question deleted, question with id '" + id.toString() + "' not found in database");
+                throw new RuntimeException("No answer deleted, answer with id '" + id.toString() + "' not found in database");
             }
         } catch (SQLException e) {
             throw new RuntimeException("SQL error");
@@ -120,33 +94,81 @@ public class JdbcQuestionRepository implements IQuestionRepository {
     }
 
     @Override
-    public Optional<Question> findById(QuestionId id) {
-        Question question = null;
+    public Collection<Answer> findByQuestionId(QuestionId questionId) {
+        List<Answer> answers = new ArrayList<>();
 
         try {
-            String sql = "SELECT * FROM questions " +
-                    "INNER JOIN main_contents on questions.content_id = main_contents.content_id " +
+            String sql = "SELECT * FROM answers " +
+                    "INNER JOIN main_contents on answers.content_id = main_contents.content_id " +
                     "INNER JOIN contents on main_contents.content_id = contents.id " +
                     "INNER JOIN users on contents.user_id = users.id " +
-                    "WHERE questions.content_id = ?";
+                    "WHERE question_id = ?";
+
+            PreparedStatement statement = dataSource.getConnection().prepareStatement(sql);
+            statement.setString(1, questionId.toString());
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                answers.add(resulToAnswer(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // TODO handle SQL exception
+        }
+        return answers;
+    }
+
+    @Override
+    public Optional<Answer> findById(AnswerId id) {
+        Answer answer = null;
+
+        try {
+            String sql = "SELECT * FROM answers " +
+                    "INNER JOIN main_contents on answers.content_id = main_contents.content_id " +
+                    "INNER JOIN contents on main_contents.content_id = contents.id " +
+                    "INNER JOIN users on contents.user_id = users.id " +
+                    "WHERE answers.content_id = ?";
+
             PreparedStatement statement = dataSource.getConnection().prepareStatement(sql);
             statement.setString(1, id.toString());
             ResultSet rs = statement.executeQuery();
+
             while (rs.next()) {
-                question = resultToQuestion(rs);
+                answer = resulToAnswer(rs);
             }
         } catch (SQLException e) {
             e.printStackTrace(); // TODO handle SQL exception
         }
 
-        if (question != null) {
-            return Optional.of(question);
+        if (answer != null) {
+            return Optional.of(answer);
         } else {
             return Optional.empty();
         }
     }
 
-    private Question resultToQuestion(ResultSet rs) throws SQLException {
+    @Override
+    public Collection<Answer> findAll() {
+        List<Answer> answers = new ArrayList<>();
+
+        try {
+            String sql = "SELECT * FROM answers " +
+                    "INNER JOIN main_contents on answers.content_id = main_contents.content_id " +
+                    "INNER JOIN contents on main_contents.content_id = contents.id " +
+                    "INNER JOIN users on contents.user_id = users.id";
+
+            PreparedStatement statement = dataSource.getConnection().prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                answers.add(resulToAnswer(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // TODO handle SQL exception
+        }
+        return answers;
+    }
+
+    private Answer resulToAnswer(ResultSet rs) throws SQLException {
         Date updateAt = null;
         DateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -154,8 +176,8 @@ public class JdbcQuestionRepository implements IQuestionRepository {
             if (rs.getString("updated_at") != null) {
                 updateAt = utcFormat.parse(rs.getString("updated_at"));
             }
-            return Question.builder()
-                    .id(new QuestionId(rs.getString("questions.content_id")))
+            return Answer.builder()
+                    .id(new AnswerId(rs.getString("answers.content_id")))
                     .author(User.builder()
                             .id(new UserId(rs.getString("users.id")))
                             .username(rs.getString("username"))
@@ -164,7 +186,6 @@ public class JdbcQuestionRepository implements IQuestionRepository {
                             .lastName(rs.getString("last_name"))
                             .firstName(rs.getString("first_name"))
                             .build())
-                    .title(rs.getString("title"))
                     .content(rs.getString("content"))
                     .createdAt(utcFormat.parse(rs.getString("created_at")))
                     .updatedAt(updateAt)
@@ -174,10 +195,4 @@ public class JdbcQuestionRepository implements IQuestionRepository {
         }
         return null;
     }
-
-    @Override
-    public Collection<Question> findAll() {
-        return find(QuestionQuery.builder().build());
-    }
-
 }
