@@ -131,6 +131,7 @@ public class JdbcUserRepository implements IUserRepository {
 
             while (rs.next()) {
                 user = User.builder()
+                        .id(new UserId(rs.getString("id")))
                         .firstName(rs.getString("first_name"))
                         .lastName(rs.getString("last_name"))
                         .email(rs.getString("email"))

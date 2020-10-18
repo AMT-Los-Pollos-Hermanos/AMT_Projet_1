@@ -13,8 +13,7 @@
                   httpPort="${default.http.port}"
                   httpsPort="${default.https.port}"/>
 
-<!--    <applicationMonitor updateTrigger="mbean"/>-->
-    <webApplication location="overflow.war" context-root="/"/>
+    <applicationManager autoExpand="true" />
 
     <library id="MySqlLib">
         <file name="${server.config.dir}/mysql-connector-java-8.0.21.jar"/>
