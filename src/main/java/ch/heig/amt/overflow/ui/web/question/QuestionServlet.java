@@ -2,6 +2,8 @@ package ch.heig.amt.overflow.ui.web.question;
 
 import ch.heig.amt.overflow.application.ServiceRegistry;
 import ch.heig.amt.overflow.application.answer.AnswerFacade;
+import ch.heig.amt.overflow.application.answer.AnswersDTO;
+import ch.heig.amt.overflow.application.comment.CommentFacade;
 import ch.heig.amt.overflow.application.question.QuestionFacade;
 import ch.heig.amt.overflow.application.question.QuestionNotFoundException;
 import ch.heig.amt.overflow.application.question.QuestionsDTO;
@@ -23,12 +25,14 @@ public class QuestionServlet extends HttpServlet {
     private ServiceRegistry serviceRegistry;
     private QuestionFacade questionFacade;
     private AnswerFacade answerFacade;
+    private CommentFacade commentFacade;
 
     @Override
     public void init() throws ServletException {
         super.init();
         questionFacade = serviceRegistry.getQuestionFacade();
         answerFacade = serviceRegistry.getAnswerFacade();
+        commentFacade = serviceRegistry.getCommentFacade();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -36,8 +40,20 @@ public class QuestionServlet extends HttpServlet {
         QuestionsDTO.QuestionDTO questionDTO;
 
         try {
+            // Get question
             questionDTO = questionFacade.getQuestion(questionId);
+
+            // Get question's comments
+            questionDTO.setCommentsDTO(commentFacade.getCommentFromMainContentId(questionId));
+
+            // Get question's answers
             questionDTO.setAnswersDTO(answerFacade.getAnswerFromQuestionId(questionId));
+
+            // Get answers' comments
+            for (AnswersDTO.AnswerDTO answer : questionDTO.getAnswersDTO().getAnswers()) {
+                answer.setCommentsDTO(commentFacade.getCommentFromMainContentId(answer.getAnswerId()));
+            }
+
         } catch (QuestionNotFoundException e) {
             e.printStackTrace();
             request.getSession().setAttribute("flash", FlashMessage.builder()
