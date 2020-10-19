@@ -1,10 +1,10 @@
 package ch.heig.amt.overflow.domain.answer;
 
-import ch.heig.amt.overflow.domain.Id;
+import ch.heig.amt.overflow.domain.MainContentId;
 
 import java.util.UUID;
 
-public class AnswerId extends Id {
+public class AnswerId extends MainContentId {
     public AnswerId() {
         super();
     }
