@@ -77,8 +77,16 @@ public class JdbcCommentRepository implements ICommentRepository {
 
     @Override
     public void remove(CommentId id) {
-        // TODO implement
-
+        try {
+            PreparedStatement select = dataSource.getConnection().prepareStatement("DELETE FROM contents WHERE id = ?");
+            select.setString(1, id.toString());
+            int rows = select.executeUpdate();
+            if (rows == 0) {
+                throw new RuntimeException("No comments deleted, answer with id '" + id.toString() + "' not found in database");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("SQL error");
+        }
     }
 
     @Override
