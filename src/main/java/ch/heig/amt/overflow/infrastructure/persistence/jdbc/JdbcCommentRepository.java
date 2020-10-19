@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import javax.sql.DataSource;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,8 +29,50 @@ public class JdbcCommentRepository implements ICommentRepository {
 
     @Override
     public void save(Comment entity) {
-        // TODO implement
+        try {
+            Connection con = dataSource.getConnection();
+            PreparedStatement preparedStatement;
 
+            preparedStatement = con.prepareStatement("SELECT COUNT(*) FROM comments WHERE content_id = ?");
+            preparedStatement.setString(1, entity.getId().toString());
+            ResultSet rs = preparedStatement.executeQuery();
+
+            int size = 0;
+            if (rs.next()) {
+                size = rs.getInt(1);
+            }
+
+            con.setAutoCommit(false);
+            if (size == 0) {
+                // Create comment
+                preparedStatement = con.prepareStatement("INSERT INTO contents (id, user_id, content) VALUES (?, ?, ?);");
+                preparedStatement.setString(1, entity.getId().toString());
+                preparedStatement.setString(2, entity.getAuthor().getId().toString());
+                preparedStatement.setString(3, entity.getContent());
+                preparedStatement.executeUpdate();
+
+                preparedStatement = con.prepareStatement("INSERT INTO comments (content_id, main_content_id) VALUES (?, ?);");
+                preparedStatement.setString(1, entity.getId().toString());
+                preparedStatement.setString(2, entity.getMainContentId().toString());
+                preparedStatement.executeUpdate();
+            } else {
+                // Update comment
+                preparedStatement = con.prepareStatement("UPDATE contents SET content = ?, user_id = ? WHERE contents.id = ?;");
+                preparedStatement.setString(1, entity.getContent());
+                preparedStatement.setString(2, entity.getAuthor().getId().toString());
+                preparedStatement.setString(3, entity.getId().toString());
+                preparedStatement.executeUpdate();
+
+                preparedStatement = con.prepareStatement("UPDATE comments SET main_content_id = ? WHERE comments.content_id = ?;");
+                preparedStatement.setString(1, entity.getMainContentId().toString());
+                preparedStatement.setString(2, entity.getId().toString());
+                preparedStatement.executeUpdate();
+            }
+            con.commit();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while adding/updating comment to the database");
+        }
     }
 
     @Override
