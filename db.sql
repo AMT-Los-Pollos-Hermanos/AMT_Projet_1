@@ -72,7 +72,7 @@ CREATE TABLE votes
     id          VARCHAR(255) PRIMARY KEY,
     content_id  VARCHAR(255) NOT NULL,
     user_id     VARCHAR(255) NOT NULL,
-    status      VARCHAR(255) NOT NULL,
+    state       VARCHAR(255) NOT NULL,
     FOREIGN KEY (content_id) REFERENCES contents (id)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
