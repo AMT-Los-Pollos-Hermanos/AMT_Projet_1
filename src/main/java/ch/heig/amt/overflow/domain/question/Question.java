@@ -25,6 +25,9 @@ public class Question implements IEntity<Question, QuestionId> {
 
     private Date updatedAt;
 
+    @Builder.Default
+    private int nbVotes = 0;
+
     @Override
     public Question deepClone() {
         return this.toBuilder().id(new QuestionId(id.toString())).build();

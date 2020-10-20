@@ -26,6 +26,9 @@ public class Comment implements IEntity<Comment, CommentId> {
 
     private Date updatedAt;
 
+    @Builder.Default
+    private int nbVotes = 0;
+
     @Override
     public Comment deepClone() {
         return this.toBuilder().id(new CommentId(id.toString())).build();

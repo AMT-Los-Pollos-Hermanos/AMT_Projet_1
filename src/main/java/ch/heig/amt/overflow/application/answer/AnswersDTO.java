@@ -23,6 +23,7 @@ public class AnswersDTO {
         private final String content;
         private final Date createdAt;
         private final UserDTO author;
+        private final int nbVotes;
 
         @Setter
         private CommentsDTO commentsDTO;

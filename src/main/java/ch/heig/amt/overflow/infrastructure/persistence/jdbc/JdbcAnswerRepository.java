@@ -189,6 +189,7 @@ public class JdbcAnswerRepository implements IAnswerRepository {
                     .content(rs.getString("content"))
                     .createdAt(utcFormat.parse(rs.getString("created_at")))
                     .updatedAt(updateAt)
+                    .nbVotes(rs.getInt("nb_votes"))
                     .build();
         } catch (ParseException e) {
             e.printStackTrace(); // TODO handle SQL exception

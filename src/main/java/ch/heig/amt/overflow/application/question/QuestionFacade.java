@@ -61,6 +61,7 @@ public class QuestionFacade {
                         .title(question.getTitle())
                         .content(question.getContent())
                         .createdAt(question.getCreatedAt())
+                        .nbVotes(question.getNbVotes())
                         .author(UserDTO.builder()
                                 .id(question.getAuthor().getId())
                                 .username(question.getAuthor().getUsername())

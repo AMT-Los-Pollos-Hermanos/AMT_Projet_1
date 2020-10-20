@@ -23,6 +23,7 @@ public class CommentsDTO {
         String content;
         Date createdAt;
         UserDTO author;
+        int nbVotes;
 
         public String formattedCreatedAt() {
             DateFormat format = new SimpleDateFormat("'Le 'dd.MM.yyyy' à 'HH:mm:ss");

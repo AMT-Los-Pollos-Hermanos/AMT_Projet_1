@@ -182,6 +182,7 @@ public class JdbcCommentRepository implements ICommentRepository {
                     .content(rs.getString("content"))
                     .createdAt(utcFormat.parse(rs.getString("created_at")))
                     .updatedAt(updateAt)
+                    .nbVotes(rs.getInt("nb_votes"))
                     .build();
         } catch (ParseException e) {
             e.printStackTrace(); // TODO handle SQL exception
