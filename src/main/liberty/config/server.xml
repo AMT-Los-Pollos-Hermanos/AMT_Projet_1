@@ -10,8 +10,8 @@
     </featureManager>
 
     <httpEndpoint id="defaultHttpEndpoint"
-                  httpPort="${default.http.port}"
-                  httpsPort="${default.https.port}"/>
+                  httpPort="9080"
+                  httpsPort="9443"/>
 
     <applicationManager autoExpand="true" />
 
