@@ -128,3 +128,17 @@ INSERT INTO overflow.contents (id, user_id, content)
     VALUES ('11dbc27f-d54f-417c-b576-07f1c3cfd301', '54ce8647-8742-4500-8b2a-ca7eb345da0c', 'Answer 2');
 INSERT INTO overflow.main_contents (content_id) VALUES ('11dbc27f-d54f-417c-b576-07f1c3cfd301');
 INSERT INTO overflow.answers (content_id, question_id) VALUES ('11dbc27f-d54f-417c-b576-07f1c3cfd301', '73dbc27f-d54f-417c-b576-07f1c3cfd301');
+
+
+/* Comments */
+INSERT INTO overflow.contents (id, user_id, content)
+    VALUES('19bac27f-d54f-417c-b576-07f1c3cfd301', '54ce8647-8742-4500-8b2a-ca7eb345da0c','Comment 1');
+INSERT INTO overflow.comments (content_id, main_content_id) VALUES ('19bac27f-d54f-417c-b576-07f1c3cfd301', '73dbc27f-d54f-417c-b576-07f1c3cfd301');
+
+INSERT INTO overflow.contents (id, user_id, content)
+    VALUES('18abc27f-d54f-417c-b576-07f1c3cfd301', '54ce8647-8742-4500-8b2a-ca7eb345da0c','Comment 2');
+INSERT INTO overflow.comments (content_id, main_content_id) VALUES ('18abc27f-d54f-417c-b576-07f1c3cfd301', '73dbc27f-d54f-417c-b576-07f1c3cfd301');
+
+INSERT INTO overflow.contents (id, user_id, content)
+    VALUES('fd12327f-d54f-417c-b576-07f1c3cfd301', '683d0d88-9ea2-4101-84a7-ccdb5fdad9db','Comment 3');
+INSERT INTO overflow.comments (content_id, main_content_id) VALUES ('fd12327f-d54f-417c-b576-07f1c3cfd301', '35dbc27f-d54f-417c-b576-07f1c3cfd301');
