@@ -9,6 +9,7 @@ import ch.heig.amt.overflow.domain.vote.VoteId;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class VoteFacade {
@@ -36,6 +37,15 @@ public class VoteFacade {
         voteRepository.remove(voteId);
     }
 
+    public void deleteVote(UserId userId, ContentId contentId) {
+        Optional<Vote> vote = voteRepository.findByUserIdAndContentId(userId, contentId);
+        if (vote.isPresent()) {
+            voteRepository.remove(vote.get().getId());
+        } else {
+            throw new RuntimeException("Vote unfound");
+        }
+    }
+
     public VotesDTO getUserVotesInQuestionList(UserId userId) {
         return mapVoteDTO(voteRepository.findByUserId(userId));
     }
@@ -45,7 +55,7 @@ public class VoteFacade {
     }
 
     public boolean hasVoted(UserId userId, ContentId contentId) {
-        return mapVoteDTO(voteRepository.findByUserIdAndContentId(userId, contentId)).getVotes().size() > 0;
+        return voteRepository.findByUserIdAndContentId(userId, contentId).isPresent();
     }
 
     private VotesDTO mapVoteDTO(Collection<Vote> votes) {

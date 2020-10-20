@@ -84,9 +84,9 @@ public class JdbcVoteRepository implements IVoteRepository {
     }
 
     @Override
-    public Collection<Vote> findByUserIdAndContentId(UserId userId, ContentId contentId) {
-        String sql = "SELECT * FROM votes WHERE user_id = ? AND content = ?";
+    public Optional<Vote> findByUserIdAndContentId(UserId userId, ContentId contentId) {
+        String sql = "SELECT id, content_id, user_id, state FROM votes WHERE user_id = ? AND content = ?";
         // TODO implement
-        return new ArrayList<>();
+        return Optional.empty();
     }
 }

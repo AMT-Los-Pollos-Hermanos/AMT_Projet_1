@@ -6,9 +6,10 @@ import ch.heig.amt.overflow.domain.question.QuestionId;
 import ch.heig.amt.overflow.domain.user.UserId;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public interface IVoteRepository extends IRepository<Vote, VoteId> {
     Collection<Vote> findByUserId(UserId userId);
     Collection<Vote> findByUserIdAndQuestionId(UserId userId, QuestionId questionId);
-    Collection<Vote> findByUserIdAndContentId(UserId userId, ContentId contentId);
+    Optional<Vote> findByUserIdAndContentId(UserId userId, ContentId contentId);
 }
