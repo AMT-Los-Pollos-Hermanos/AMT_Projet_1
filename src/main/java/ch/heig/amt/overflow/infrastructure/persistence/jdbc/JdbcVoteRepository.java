@@ -1,10 +1,7 @@
 package ch.heig.amt.overflow.infrastructure.persistence.jdbc;
 
 import ch.heig.amt.overflow.domain.ContentId;
-import ch.heig.amt.overflow.domain.answer.Answer;
-import ch.heig.amt.overflow.domain.answer.AnswerId;
 import ch.heig.amt.overflow.domain.question.QuestionId;
-import ch.heig.amt.overflow.domain.user.User;
 import ch.heig.amt.overflow.domain.user.UserId;
 import ch.heig.amt.overflow.domain.vote.IVoteRepository;
 import ch.heig.amt.overflow.domain.vote.Vote;
@@ -16,13 +13,9 @@ import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import javax.sql.DataSource;
-import javax.swing.text.html.Option;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @ApplicationScoped
@@ -41,9 +34,16 @@ public class JdbcVoteRepository implements IVoteRepository {
 
     @Override
     public void remove(VoteId id) {
-        String sql = "DELETE FROM votes WHERE content_id = ? AND user_id = ?";
-        // TODO implement
-
+        try {
+            PreparedStatement select = dataSource.getConnection().prepareStatement("DELETE FROM votes WHERE id = ?");
+            select.setString(1, id.toString());
+            int rows = select.executeUpdate();
+            if (rows == 0) {
+                throw new RuntimeException("No answer deleted, answer with id '" + id.toString() + "' not found in database");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("SQL error");
+        }
     }
 
     @Override
