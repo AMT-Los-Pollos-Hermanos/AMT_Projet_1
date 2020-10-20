@@ -50,7 +50,7 @@ public class JdbcVoteRepository implements IVoteRepository {
     public Optional<Vote> findById(VoteId id) {
         String sql = "SELECT id, content_id, user_id, state FROM votes WHERE id = ?";
 
-        Collection<Vote> votes = resultToVotes(sql);
+        Collection<Vote> votes = resultToVotes(sql, Collections.singletonList(id.toString()));
         if (votes.isEmpty()) {
             return Optional.empty();
         } else {
@@ -61,13 +61,13 @@ public class JdbcVoteRepository implements IVoteRepository {
     @Override
     public Collection<Vote> findAll() {
         String sql = "SELECT id, content_id, user_id, state FROM votes";
-        return resultToVotes(sql);
+        return resultToVotes(sql, Collections.emptyList());
     }
 
     @Override
     public Collection<Vote> findByUserId(UserId userId) {
         String sql = "SELECT id, content_id, user_id, state FROM votes WHERE user_id = ?";
-        return resultToVotes(sql);
+        return resultToVotes(sql, Collections.singletonList(userId.toString()));
     }
 
     @Override
@@ -75,34 +75,43 @@ public class JdbcVoteRepository implements IVoteRepository {
         String sql = "SELECT votes.id, votes.content_id, votes.user_id, votes.state FROM comments " +
                 "INNER JOIN main_contents on comments.main_content_id = main_contents.content_id " +
                 "INNER JOIN votes ON votes.content_id = comments.content_id " +
-                "WHERE main_content_id = '73dbc27f-d54f-417c-b576-07f1c3cfd301' " +
-                "AND votes.user_id = '54ce8647-8742-4500-8b2a-ca7eb345da0c' " +
+                "WHERE main_content_id = ? " +
+                "AND votes.user_id = ? " +
                 "UNION " +
                 "SELECT votes.id, votes.content_id, votes.user_id, votes.state FROM answers " +
                 "INNER JOIN votes ON votes.content_id = answers.content_id " +
-                "WHERE answers.question_id = '73dbc27f-d54f-417c-b576-07f1c3cfd301' " +
-                "AND votes.user_id = '54ce8647-8742-4500-8b2a-ca7eb345da0c' " +
+                "WHERE answers.question_id = ? " +
+                "AND votes.user_id = ? " +
                 "UNION " +
                 "SELECT votes.id, votes.content_id, votes.user_id, votes.state FROM questions " +
                 "INNER JOIN votes ON votes.content_id = questions.content_id " +
-                "WHERE questions.content_id = '73dbc27f-d54f-417c-b576-07f1c3cfd301' " +
-                "AND votes.user_id = '54ce8647-8742-4500-8b2a-ca7eb345da0c' " +
+                "WHERE questions.content_id = ? " +
+                "AND votes.user_id = ? " +
                 "UNION " +
                 "SELECT votes.id, votes.content_id, votes.user_id, votes.state FROM comments " +
                 "INNER JOIN main_contents on comments.main_content_id = main_contents.content_id " +
                 "INNER JOIN votes ON votes.content_id = comments.content_id " +
                 "WHERE main_content_id IN (SELECT answers.content_id FROM answers " +
-                "                          WHERE answers.question_id = '73dbc27f-d54f-417c-b576-07f1c3cfd301') " +
-                "AND votes.user_id = '54ce8647-8742-4500-8b2a-ca7eb345da0c'";
+                "                          WHERE answers.question_id = ?) " +
+                "AND votes.user_id = ?";
 
-        return resultToVotes(sql);
+        return resultToVotes(sql, Arrays.asList(
+                questionId.toString(),
+                userId.toString(),
+                questionId.toString(),
+                userId.toString(),
+                questionId.toString(),
+                userId.toString(),
+                questionId.toString(),
+                userId.toString()
+        ));
     }
 
     @Override
     public Optional<Vote> findByUserIdAndContentId(UserId userId, ContentId contentId) {
         String sql = "SELECT id, content_id, user_id, state FROM votes WHERE user_id = ? AND content = ?";
 
-        Collection<Vote> votes = resultToVotes(sql);
+        Collection<Vote> votes = resultToVotes(sql, Arrays.asList(userId.toString(), contentId.toString()));
         if (votes.isEmpty()) {
             return Optional.empty();
         } else {
@@ -110,11 +119,14 @@ public class JdbcVoteRepository implements IVoteRepository {
         }
     }
 
-    private Collection<Vote> resultToVotes(String query) {
+    private Collection<Vote> resultToVotes(String query, List<String> parameters) {
         List<Vote> votes = new ArrayList<>();
 
         try {
             PreparedStatement statement = dataSource.getConnection().prepareStatement(query);
+            for (int i = 0; i < parameters.size(); i++) {
+                statement.setString(i + 1, parameters.get(i));
+            }
             ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {
