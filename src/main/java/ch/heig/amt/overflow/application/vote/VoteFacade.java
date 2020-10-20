@@ -20,7 +20,7 @@ public class VoteFacade {
     }
 
     public void addNewVote(NewVoteCommand command) {
-        if (!command.getStatus().isEmpty()) {
+        if (command.getStatus() != null) {
             Vote submittedVote = Vote.builder()
                     .status(command.getStatus())
                     .userId(command.getUserId())

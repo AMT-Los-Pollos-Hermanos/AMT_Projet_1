@@ -3,6 +3,7 @@ package ch.heig.amt.overflow.domain.vote;
 import ch.heig.amt.overflow.domain.ContentId;
 import ch.heig.amt.overflow.domain.IEntity;
 import ch.heig.amt.overflow.domain.user.UserId;
+import ch.heig.amt.overflow.domain.vote.status.VoteStatus;
 import lombok.Builder;
 import lombok.Data;
 
@@ -13,7 +14,7 @@ public class Vote implements IEntity<Vote, VoteId> {
     @Builder.Default
     private VoteId id = new VoteId();
 
-    private String status;
+    private VoteStatus status;
 
     private UserId userId;
 
