@@ -2,3 +2,6 @@
 target
 *.iml
 *.war
+*.log
+*.hprof
+yarn.lock

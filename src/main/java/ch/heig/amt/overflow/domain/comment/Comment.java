@@ -1,7 +1,7 @@
-package ch.heig.amt.overflow.domain.answer;
+package ch.heig.amt.overflow.domain.comment;
 
 import ch.heig.amt.overflow.domain.IEntity;
-import ch.heig.amt.overflow.domain.question.QuestionId;
+import ch.heig.amt.overflow.domain.MainContentId;
 import ch.heig.amt.overflow.domain.user.User;
 import lombok.Builder;
 import lombok.Data;
@@ -11,23 +11,23 @@ import java.util.Date;
 
 @Data
 @Builder(toBuilder = true)
-public class Answer implements IEntity<Answer, AnswerId> {
+public class Comment implements IEntity<Comment, CommentId> {
 
     @Builder.Default
-    private AnswerId id = new AnswerId();
+    private CommentId id = new CommentId();
 
     private String content;
 
     private User author;
 
-    private QuestionId questionId;
+    private MainContentId mainContentId;
 
     private Date createdAt;
 
     private Date updatedAt;
 
     @Override
-    public Answer deepClone() {
-        return this.toBuilder().id(new AnswerId(id.toString())).build();
+    public Comment deepClone() {
+        return this.toBuilder().id(new CommentId(id.toString())).build();
     }
 }

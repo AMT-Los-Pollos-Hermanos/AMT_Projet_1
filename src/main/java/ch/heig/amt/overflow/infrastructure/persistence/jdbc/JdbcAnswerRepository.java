@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import javax.sql.DataSource;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,63 +30,66 @@ public class JdbcAnswerRepository implements IAnswerRepository {
     @Override
     public void save(Answer entity) {
         try {
-            // Check if the id is already in the DB
-            PreparedStatement select = dataSource.getConnection().prepareStatement("SELECT COUNT(*) FROM answers WHERE id = ?");
-            select.setString(1, entity.getId().toString());
-            ResultSet rs = select.executeQuery();
+            Connection con = dataSource.getConnection();
+            PreparedStatement preparedStatement;
+
+            preparedStatement = con.prepareStatement("SELECT COUNT(*) FROM answers WHERE content_id = ?");
+            preparedStatement.setString(1, entity.getId().toString());
+            ResultSet rs = preparedStatement.executeQuery();
+
             int size = 0;
             if (rs.next()) {
                 size = rs.getInt(1);
             }
 
+            con.setAutoCommit(false);
             if (size == 0) {
                 // Create answer
-                PreparedStatement create = dataSource
-                        .getConnection()
-                        .prepareStatement("INSERT INTO answers (id, title, content, user_id, question_id) VALUES (?, ?, ?, ?)");
-                int i = 1;
-                create.setString(i++, entity.getId().toString());
-                create.setString(i++, entity.getTitle());
-                create.setString(i++, entity.getContent());
-                create.setString(i++, entity.getAuthor().getId().toString());
-                create.setString(i, entity.getQuestionId().toString());
-                int rows = create.executeUpdate();
-                if (rows == 0) {
-                    throw new RuntimeException("Error while adding new answer to the database");
-                }
+                preparedStatement = con.prepareStatement("INSERT INTO contents (id, user_id, content) VALUES (?, ?, ?);");
+                preparedStatement.setString(1, entity.getId().toString());
+                preparedStatement.setString(2, entity.getAuthor().getId().toString());
+                preparedStatement.setString(3, entity.getContent());
+                preparedStatement.executeUpdate();
+
+                preparedStatement = con.prepareStatement("INSERT INTO main_contents (content_id) VALUES (?);");
+                preparedStatement.setString(1, entity.getId().toString());
+                preparedStatement.executeUpdate();
+
+                preparedStatement = con.prepareStatement("INSERT INTO answers (content_id, question_id) VALUES (?, ?);");
+                preparedStatement.setString(1, entity.getId().toString());
+                preparedStatement.setString(2, entity.getQuestionId().toString());
+                preparedStatement.executeUpdate();
             } else {
                 // Update answer
-                PreparedStatement create = dataSource
-                        .getConnection()
-                        .prepareStatement("UPDATE answers SET title = ?, content = ?, user_id = ?, question_id = ? WHERE id = ?");
-                int i = 1;
-                create.setString(i++, entity.getTitle());
-                create.setString(i++, entity.getContent());
-                create.setString(i++, entity.getAuthor().getId().toString());
-                create.setString(i++, entity.getId().toString());
-                create.setString(i, entity.getQuestionId().toString());
-                int rows = create.executeUpdate();
-                if (rows == 0) {
-                    throw new RuntimeException("Error while updating answer in the database");
-                }
+                preparedStatement = con.prepareStatement("UPDATE contents SET content = ?, user_id = ? WHERE contents.id = ?;");
+                preparedStatement.setString(1, entity.getContent());
+                preparedStatement.setString(2, entity.getAuthor().getId().toString());
+                preparedStatement.setString(3, entity.getId().toString());
+                preparedStatement.executeUpdate();
+
+                preparedStatement = con.prepareStatement("UPDATE answers SET question_id = ? WHERE answers.content_id = ?;");
+                preparedStatement.setString(1, entity.getQuestionId().toString());
+                preparedStatement.setString(2, entity.getId().toString());
+                preparedStatement.executeUpdate();
             }
+            con.commit();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error while adding/updating answer to the database");
         }
     }
 
     @Override
     public void remove(AnswerId id) {
         try {
-            PreparedStatement select = dataSource.getConnection().prepareStatement("DELETE FROM answers WHERE id = ?");
+            PreparedStatement select = dataSource.getConnection().prepareStatement("DELETE FROM contents WHERE id = ?");
             select.setString(1, id.toString());
             int rows = select.executeUpdate();
             if (rows == 0) {
                 throw new RuntimeException("No answer deleted, answer with id '" + id.toString() + "' not found in database");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("SQL error");
         }
     }
 
@@ -94,15 +98,21 @@ public class JdbcAnswerRepository implements IAnswerRepository {
         List<Answer> answers = new ArrayList<>();
 
         try {
-            String sql = "SELECT * FROM answers INNER JOIN users ON answers.user_id = users.id WHERE answers.question_id = ?";
+            String sql = "SELECT * FROM answers " +
+                    "INNER JOIN main_contents on answers.content_id = main_contents.content_id " +
+                    "INNER JOIN contents on main_contents.content_id = contents.id " +
+                    "INNER JOIN users on contents.user_id = users.id " +
+                    "WHERE question_id = ?";
+
             PreparedStatement statement = dataSource.getConnection().prepareStatement(sql);
             statement.setString(1, questionId.toString());
             ResultSet rs = statement.executeQuery();
+
             while (rs.next()) {
                 answers.add(resulToAnswer(rs));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // TODO handle SQL exception
         }
         return answers;
     }
@@ -112,15 +122,21 @@ public class JdbcAnswerRepository implements IAnswerRepository {
         Answer answer = null;
 
         try {
-            String sql = "SELECT * FROM answers INNER JOIN users ON answers.user_id = users.id WHERE answers.id = ?";
+            String sql = "SELECT * FROM answers " +
+                    "INNER JOIN main_contents on answers.content_id = main_contents.content_id " +
+                    "INNER JOIN contents on main_contents.content_id = contents.id " +
+                    "INNER JOIN users on contents.user_id = users.id " +
+                    "WHERE answers.content_id = ?";
+
             PreparedStatement statement = dataSource.getConnection().prepareStatement(sql);
             statement.setString(1, id.toString());
             ResultSet rs = statement.executeQuery();
+
             while (rs.next()) {
                 answer = resulToAnswer(rs);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // TODO handle SQL exception
         }
 
         if (answer != null) {
@@ -135,14 +151,19 @@ public class JdbcAnswerRepository implements IAnswerRepository {
         List<Answer> answers = new ArrayList<>();
 
         try {
-            String sql = "SELECT * FROM answers INNER JOIN users ON answers.user_id = users.id";
+            String sql = "SELECT * FROM answers " +
+                    "INNER JOIN main_contents on answers.content_id = main_contents.content_id " +
+                    "INNER JOIN contents on main_contents.content_id = contents.id " +
+                    "INNER JOIN users on contents.user_id = users.id";
+
             PreparedStatement statement = dataSource.getConnection().prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
+
             while (rs.next()) {
                 answers.add(resulToAnswer(rs));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // TODO handle SQL exception
         }
         return answers;
     }
@@ -156,7 +177,7 @@ public class JdbcAnswerRepository implements IAnswerRepository {
                 updateAt = utcFormat.parse(rs.getString("updated_at"));
             }
             return Answer.builder()
-                    .id(new AnswerId(rs.getString("answers.id")))
+                    .id(new AnswerId(rs.getString("answers.content_id")))
                     .author(User.builder()
                             .id(new UserId(rs.getString("users.id")))
                             .username(rs.getString("username"))
@@ -165,13 +186,12 @@ public class JdbcAnswerRepository implements IAnswerRepository {
                             .lastName(rs.getString("last_name"))
                             .firstName(rs.getString("first_name"))
                             .build())
-                    .title(rs.getString("title"))
                     .content(rs.getString("content"))
                     .createdAt(utcFormat.parse(rs.getString("created_at")))
                     .updatedAt(updateAt)
                     .build();
         } catch (ParseException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // TODO handle SQL exception
         }
         return null;
     }

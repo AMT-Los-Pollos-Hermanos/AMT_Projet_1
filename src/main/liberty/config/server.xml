@@ -2,25 +2,30 @@
     <featureManager>
         <feature>jsp-2.3</feature>
         <feature>cdi-2.0</feature>
-        <feature>servlet-4.0</feature>
         <feature>jdbc-4.2</feature>
+
+        <!--Enable the following features to run tests with Arquillian managed container-->
+        <feature>localConnector-1.0</feature>
+        <feature>servlet-4.0</feature>
     </featureManager>
+
     <httpEndpoint id="defaultHttpEndpoint"
-                  httpPort="9080"
-                  httpsPort="9443" />
+                  httpPort="${default.http.port}"
+                  httpsPort="${default.https.port}"/>
+
     <applicationManager autoExpand="true" />
 
     <library id="MySqlLib">
-        <file name="${server.config.dir}/mysql-connector-java-8.0.21.jar" />
+        <file name="${server.config.dir}/mysql-connector-java-8.0.21.jar"/>
     </library>
 
     <dataSource jndiName="jdbc/OverflowDS">
-        <jdbcDriver libraryRef="MySqlLib" />
+        <jdbcDriver libraryRef="MySqlLib"/>
         <properties databaseName="${db.name}"
                     serverName="${db.host}"
                     portNumber="${db.port}"
                     user="${db.user}"
-                    password="${db.pass}" />
+                    password="${db.pass}"/>
     </dataSource>
 
 </server>
