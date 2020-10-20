@@ -75,9 +75,9 @@ public class JdbcVoteRepository implements IVoteRepository {
     @Override
     public void remove(VoteId id) {
         try {
-            PreparedStatement select = dataSource.getConnection().prepareStatement("DELETE FROM votes WHERE id = ?");
-            select.setString(1, id.toString());
-            int rows = select.executeUpdate();
+            PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement("DELETE FROM votes WHERE id = ?");
+            preparedStatement.setString(1, id.toString());
+            int rows = preparedStatement.executeUpdate();
             if (rows == 0) {
                 throw new RuntimeException("No answer deleted, answer with id '" + id.toString() + "' not found in database");
             }

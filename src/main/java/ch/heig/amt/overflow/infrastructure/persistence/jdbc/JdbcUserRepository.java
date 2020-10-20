@@ -108,9 +108,9 @@ public class JdbcUserRepository implements IUserRepository {
     @Override
     public void remove(UserId id) {
         try {
-            PreparedStatement select = dataSource.getConnection().prepareStatement("DELETE FROM users WHERE id = ?");
-            select.setString(1, id.toString());
-            int rows = select.executeUpdate();
+            PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement("DELETE FROM users WHERE id = ?");
+            preparedStatement.setString(1, id.toString());
+            int rows = preparedStatement.executeUpdate();
             if (rows == 0) {
                 throw new RuntimeException("No user deleted, user with id '" + id.toString() + "' not found in database");
             }

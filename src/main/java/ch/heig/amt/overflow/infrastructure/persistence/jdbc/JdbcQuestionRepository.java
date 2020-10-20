@@ -108,9 +108,9 @@ public class JdbcQuestionRepository implements IQuestionRepository {
     @Override
     public void remove(QuestionId id) {
         try {
-            PreparedStatement select = dataSource.getConnection().prepareStatement("DELETE FROM contents WHERE id = ?");
-            select.setString(1, id.toString());
-            int rows = select.executeUpdate();
+            PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement("DELETE FROM contents WHERE id = ?");
+            preparedStatement.setString(1, id.toString());
+            int rows = preparedStatement.executeUpdate();
             if (rows == 0) {
                 throw new RuntimeException("No question deleted, question with id '" + id.toString() + "' not found in database");
             }
