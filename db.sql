@@ -130,7 +130,20 @@ INSERT INTO overflow.contents (id, user_id, content)
 INSERT INTO overflow.main_contents (content_id) VALUES ('11dbc27f-d54f-417c-b576-07f1c3cfd301');
 INSERT INTO overflow.answers (content_id, question_id) VALUES ('11dbc27f-d54f-417c-b576-07f1c3cfd301', '73dbc27f-d54f-417c-b576-07f1c3cfd301');
 
+
+INSERT INTO overflow.contents (id, user_id, content)
+VALUES ('778bc27f-d54f-417c-b576-07f1c3cfd301', '6a5d8d7a-c34d-49ed-8f6d-1843250b6e5e', 'Comment 1');
+INSERT INTO overflow.comments (content_id, main_content_id) VALUES ('778bc27f-d54f-417c-b576-07f1c3cfd301', '73dbc27f-d54f-417c-b576-07f1c3cfd301');
+
+INSERT INTO overflow.contents (id, user_id, content)
+VALUES ('965bc27f-d54f-417c-b576-07f1c3cfd301', '6a5d8d7a-c34d-49ed-8f6d-1843250b6e5e', 'Comment 2');
+INSERT INTO overflow.comments (content_id, main_content_id) VALUES ('965bc27f-d54f-417c-b576-07f1c3cfd301', '35dbc27f-d54f-417c-b576-07f1c3cfd301');
+
+INSERT INTO overflow.contents (id, user_id, content)
+VALUES ('555bc27f-d54f-417c-b576-07f1c3cfd301', '6a5d8d7a-c34d-49ed-8f6d-1843250b6e5e', 'Comment 3');
+INSERT INTO overflow.comments (content_id, main_content_id) VALUES ('555bc27f-d54f-417c-b576-07f1c3cfd301', '58dbc27f-d54f-417c-b576-07f1c3cfd301');
+
 INSERT INTO votes (id, content_id, user_id, state) VALUES ('111bc27f-d54f-417c-b576-07f1c3cfd301', '73dbc27f-d54f-417c-b576-07f1c3cfd301', '54ce8647-8742-4500-8b2a-ca7eb345da0c', 'UP');
-INSERT INTO votes (id, content_id, user_id, state) VALUES ('112bc27f-d54f-417c-b576-07f1c3cfd301', '73dbc27f-d54f-417c-b576-07f1c3cfd301', '54ce8647-8742-4500-8b2a-ca7eb345da0c', 'UP');
-INSERT INTO votes (id, content_id, user_id, state) VALUES ('113bc27f-d54f-417c-b576-07f1c3cfd301', '73dbc27f-d54f-417c-b576-07f1c3cfd301', '54ce8647-8742-4500-8b2a-ca7eb345da0c', 'UP');
-INSERT INTO votes (id, content_id, user_id, state) VALUES ('114bc27f-d54f-417c-b576-07f1c3cfd301', '73dbc27f-d54f-417c-b576-07f1c3cfd301', '54ce8647-8742-4500-8b2a-ca7eb345da0c', 'DOWN');
+INSERT INTO votes (id, content_id, user_id, state) VALUES ('112bc27f-d54f-417c-b576-07f1c3cfd301', '35dbc27f-d54f-417c-b576-07f1c3cfd301', '54ce8647-8742-4500-8b2a-ca7eb345da0c', 'UP');
+INSERT INTO votes (id, content_id, user_id, state) VALUES ('113bc27f-d54f-417c-b576-07f1c3cfd301', '11dbc27f-d54f-417c-b576-07f1c3cfd301', '54ce8647-8742-4500-8b2a-ca7eb345da0c', 'DOWN');
+INSERT INTO votes (id, content_id, user_id, state) VALUES ('114bc27f-d54f-417c-b576-07f1c3cfd301', '73dbc27f-d54f-417c-b576-07f1c3cfd301', 'd2acfbba-13f1-4519-8fe5-0d977b3fffa6', 'DOWN');
