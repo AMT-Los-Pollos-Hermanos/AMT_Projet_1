@@ -13,6 +13,7 @@ import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import javax.sql.DataSource;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,9 +28,48 @@ public class JdbcVoteRepository implements IVoteRepository {
 
     @Override
     public void save(Vote entity) {
-        String sql = "INSERT INTO votes (id, content_id, user_id, state) VALUES (?, ?, ?, ?)";
-        // TODO implement
+        try {
+            Connection con = dataSource.getConnection();
+            PreparedStatement preparedStatement;
 
+            preparedStatement = con.prepareStatement("SELECT COUNT(*) FROM votes WHERE id = ?");
+            preparedStatement.setString(1, entity.getId().toString());
+            ResultSet rs = preparedStatement.executeQuery();
+
+            int size = 0;
+            if (rs.next()) {
+                size = rs.getInt(1);
+            }
+
+            if (size == 0) {
+                // Create comment
+                preparedStatement = con.prepareStatement("INSERT INTO votes (id, content_id, user_id, state) VALUES (?, ?, ?, ?)");
+                preparedStatement.setString(1, entity.getId().toString());
+                preparedStatement.setString(2, entity.getContentId().toString());
+                preparedStatement.setString(3, entity.getUserId().toString());
+                preparedStatement.setString(3, entity.getStatus().getVote());
+
+                int rows = preparedStatement.executeUpdate();
+                if (rows == 0) {
+                    throw new RuntimeException("Error while adding new vote to the database");
+                }
+            } else {
+                // Update comment
+                preparedStatement = con.prepareStatement("UPDATE votes SET content_id = ?, user_id = ?, state = ? WHERE id = ?;");
+                preparedStatement.setString(1, entity.getContentId().toString());
+                preparedStatement.setString(2, entity.getUserId().toString());
+                preparedStatement.setString(3, entity.getStatus().getVote());
+                preparedStatement.setString(4, entity.getId().toString());
+
+                int rows = preparedStatement.executeUpdate();
+                if (rows == 0) {
+                    throw new RuntimeException("Error while updating new vote to the database");
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while adding/updating vote to the database");
+        }
     }
 
     @Override
@@ -135,7 +175,7 @@ public class JdbcVoteRepository implements IVoteRepository {
                         .id(new VoteId(rs.getString("id")))
                         .contentId(new ContentId(rs.getString("content_id")))
                         .userId(new UserId(rs.getString("user_id")))
-                        .status(rs.getString("state").equals("UP") ? new VoteUp() : new VoteDown())
+                        .status(rs.getString("state").equals(new VoteUp().getVote()) ? new VoteUp() : new VoteDown())
                         .build()
                 );
             }
