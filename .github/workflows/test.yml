@@ -69,7 +69,6 @@ jobs:
         run: npm install && npm run test
         working-directory: e2e
         env:
-          ENDPOINT: 'http://localhost:9080/overflow-1.0-SNAPSHOT'
           HEADLESS: true
 
       - name: Upload screenshots if failure
