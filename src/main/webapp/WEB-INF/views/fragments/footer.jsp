@@ -17,7 +17,6 @@
                     'indent',
                     'outdent',
                     '|',
-                    'imageUpload',
                     'blockQuote',
                     'insertTable',
                     'mediaEmbed',

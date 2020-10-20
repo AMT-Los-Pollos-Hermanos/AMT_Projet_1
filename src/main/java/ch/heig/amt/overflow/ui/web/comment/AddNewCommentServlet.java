@@ -1,8 +1,9 @@
-package ch.heig.amt.overflow.ui.web.question;
+package ch.heig.amt.overflow.ui.web.comment;
 
 import ch.heig.amt.overflow.application.ServiceRegistry;
 import ch.heig.amt.overflow.application.auth.UserDTO;
-import ch.heig.amt.overflow.application.question.NewQuestionCommand;
+import ch.heig.amt.overflow.application.comment.NewCommentCommand;
+import ch.heig.amt.overflow.domain.MainContentId;
 import ch.heig.amt.overflow.domain.message.FlashMessage;
 
 import javax.inject.Inject;
@@ -13,32 +14,29 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "NewQuestionServlet", urlPatterns = "/submitQuestion.do")
-public class NewQuestionServlet extends HttpServlet {
+@WebServlet(name = "AddNewCommentServlet", urlPatterns = "/comment.do")
+public class AddNewCommentServlet extends HttpServlet {
 
     @Inject
-    ServiceRegistry serviceRegistry;
+    ServiceRegistry registry;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserDTO currentUser = (UserDTO) request.getSession().getAttribute("currentUser");
-        NewQuestionCommand command = NewQuestionCommand.builder()
+        String id = request.getParameter("content_id");
+        NewCommentCommand cmd = NewCommentCommand.builder()
                 .authorId(currentUser.getId())
-                .title(request.getParameter("title"))
-                .content(request.getParameter("content"))
+                .content(request.getParameter("comment"))
+                .mainContentId(new MainContentId(id))
                 .build();
-
         try {
-            serviceRegistry.getQuestionFacade().addNewQuestion(command);
-            request.getSession().setAttribute("flash", FlashMessage.builder()
-                    .message("Question publiée avec succès")
-                    .build());
+            registry.getCommentFacade().addNewComment(cmd);
         } catch (Exception e) {
             request.getSession().setAttribute("flash", FlashMessage.builder()
-                    .message("Une erreur s'est produite lors de l'ajout de votre question: " + e.getMessage())
+                    .message("Une erreur s'est produite lors de l'ajout de votre commentaire: " + e.getMessage())
                     .type("danger")
                     .build());
         }
-        response.sendRedirect(request.getContextPath() + "/questions");
+        response.sendRedirect(request.getContextPath() + "/question/" + id);
     }
 
 }
