@@ -51,6 +51,6 @@ public class VoteServlet extends HttpServlet {
                     .build());
         }
 
-        response.sendRedirect(request.getContextPath() + "/questions");
+        response.sendRedirect(request.getContextPath() + "/question/" + contentId);
     }
 }
