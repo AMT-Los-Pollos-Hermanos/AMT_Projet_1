@@ -39,6 +39,7 @@ public class CommentFacade {
                         .mainContentId(comment.getMainContentId())
                         .content(comment.getContent())
                         .createdAt(comment.getCreatedAt())
+                        .nbVotes(comment.getNbVotes())
                         .author(UserDTO.builder()
                                 .id(comment.getAuthor().getId())
                                 .username(comment.getAuthor().getUsername())

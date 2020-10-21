@@ -78,9 +78,9 @@ public class JdbcCommentRepository implements ICommentRepository {
     @Override
     public void remove(CommentId id) {
         try {
-            PreparedStatement select = dataSource.getConnection().prepareStatement("DELETE FROM contents WHERE id = ?");
-            select.setString(1, id.toString());
-            int rows = select.executeUpdate();
+            PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement("DELETE FROM contents WHERE id = ?");
+            preparedStatement.setString(1, id.toString());
+            int rows = preparedStatement.executeUpdate();
             if (rows == 0) {
                 throw new RuntimeException("No comments deleted, answer with id '" + id.toString() + "' not found in database");
             }
@@ -94,10 +94,7 @@ public class JdbcCommentRepository implements ICommentRepository {
         List<Comment> comments = new ArrayList<>();
 
         try {
-            String sql = "SELECT * FROM comments " +
-                    "INNER JOIN contents on comments.content_id = contents.id " +
-                    "INNER JOIN users on contents.user_id = users.id " +
-                    "WHERE comments.main_content_id = ?";
+            String sql = getQuery("WHERE comments.main_content_id = ?");
 
             PreparedStatement statement = dataSource.getConnection().prepareStatement(sql);
             statement.setString(1, mainContentId.toString());
@@ -117,10 +114,7 @@ public class JdbcCommentRepository implements ICommentRepository {
         Comment comment = null;
 
         try {
-            String sql = "SELECT * FROM comments " +
-                    "INNER JOIN contents on comments.content_id = contents.id " +
-                    "INNER JOIN users on contents.user_id = users.id " +
-                    "WHERE comments.content_id = ?";
+            String sql = getQuery("WHERE comments.content_id = ?");
 
             PreparedStatement statement = dataSource.getConnection().prepareStatement(sql);
             statement.setString(1, id.toString());
@@ -145,9 +139,7 @@ public class JdbcCommentRepository implements ICommentRepository {
         List<Comment> comments = new ArrayList<>();
 
         try {
-            String sql = "SELECT * FROM comments " +
-                    "INNER JOIN contents on comments.content_id = contents.id " +
-                    "INNER JOIN users on contents.user_id = users.id";
+            String sql = getQuery("");
 
             PreparedStatement statement = dataSource.getConnection().prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
@@ -182,10 +174,23 @@ public class JdbcCommentRepository implements ICommentRepository {
                     .content(rs.getString("content"))
                     .createdAt(utcFormat.parse(rs.getString("created_at")))
                     .updatedAt(updateAt)
+                    .nbVotes(rs.getInt("nb_votes"))
                     .build();
         } catch (ParseException e) {
             e.printStackTrace(); // TODO handle SQL exception
         }
         return null;
+    }
+
+    private String getQuery(String condition) {
+        return "SELECT comments.content_id, content, created_at, updated_at, " +
+                "users.id, username, email, password, last_name, first_name, " +
+                "(COUNT(IF(state = 'UP', 1, NULL)) - COUNT(IF(state = 'DOWN', 1, NULL))) AS nb_votes " +
+                "FROM comments " +
+                "INNER JOIN contents on comments.content_id = contents.id " +
+                "INNER JOIN users on contents.user_id = users.id " +
+                "LEFT JOIN votes ON contents.id = votes.content_id " +
+                condition + " " +
+                "GROUP BY comments.content_id";
     }
 }
