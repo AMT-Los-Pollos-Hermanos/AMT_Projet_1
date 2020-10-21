@@ -45,6 +45,6 @@ public class NewAnswerServlet extends HttpServlet {
                     .type("danger")
                     .build());
         }
-        response.sendRedirect(request.getContextPath() + "/questions");
+        response.sendRedirect(request.getContextPath() + "/question/" + questionId);
     }
 }

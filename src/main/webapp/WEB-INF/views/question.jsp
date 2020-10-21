@@ -19,6 +19,7 @@
             <div class="col-sm-1">
                 <p><button type="button" class="btn btn-primary"> + </button></p>
                 <p> Score </p>
+                <p><button type="button" class="btn btn-primary"> - </button></p>
             </div>
 
             <div class="col-sm-4">
@@ -35,12 +36,8 @@
             <c:out value="${comment.content} - ${comment.author.firstName} ${comment.author.lastName}"/>
             <span class="text-muted"> <c:out value="${comment.formattedCreatedAt()}"/> </span>
             <hr>
-
-            <!-- TODO demander comment rendre ça moins moche -->
-            <c:if test="${comment.equals(question.commentsDTO.comments.get(question.commentsDTO.comments.size() - 1))}">
-                <a class="text-muted" href="#"> Add new comment </a>
-            </c:if>
         </c:forEach>
+        <a class="text-muted" href="${pageContext.request.contextPath}/comment/${question.questionId}"> Add new comment </a>
     </div>
 
 
@@ -57,6 +54,7 @@
             <div class="col-sm-1">
                 <p><button type="button" class="btn btn-primary"> + </button></p>
                 <p> Score </p>
+                <p><button type="button" class="btn btn-primary"> - </button></p>
             </div>
 
             <div class="col-sm-4">
@@ -70,12 +68,8 @@
             <c:out value="${comment.content} - ${comment.author.firstName} ${comment.author.lastName}"/>
             <span class="text-muted"> <c:out value="${comment.formattedCreatedAt()}"/> </span>
             <hr>
-
-            <!-- TODO demander comment rendre ça moins moche -->
-            <c:if test="${comment.equals(answer.commentsDTO.comments.get(answer.commentsDTO.comments.size() - 1))}">
-                <a class="text-muted" href="#"> Add new comment </a>
-            </c:if>
         </c:forEach>
+        <a class="text-muted" href="${pageContext.request.contextPath}/comment/${answer.answerId}"> Add new comment </a>
     </div>
     </c:forEach>
 
