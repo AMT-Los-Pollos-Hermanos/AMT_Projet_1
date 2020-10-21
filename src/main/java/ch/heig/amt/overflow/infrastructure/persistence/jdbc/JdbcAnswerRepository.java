@@ -98,11 +98,7 @@ public class JdbcAnswerRepository implements IAnswerRepository {
         List<Answer> answers = new ArrayList<>();
 
         try {
-            String sql = "SELECT * FROM answers " +
-                    "INNER JOIN main_contents on answers.content_id = main_contents.content_id " +
-                    "INNER JOIN contents on main_contents.content_id = contents.id " +
-                    "INNER JOIN users on contents.user_id = users.id " +
-                    "WHERE question_id = ?";
+            String sql = getQuery("WHERE question_id = ?");
 
             PreparedStatement statement = dataSource.getConnection().prepareStatement(sql);
             statement.setString(1, questionId.toString());
@@ -122,11 +118,7 @@ public class JdbcAnswerRepository implements IAnswerRepository {
         Answer answer = null;
 
         try {
-            String sql = "SELECT * FROM answers " +
-                    "INNER JOIN main_contents on answers.content_id = main_contents.content_id " +
-                    "INNER JOIN contents on main_contents.content_id = contents.id " +
-                    "INNER JOIN users on contents.user_id = users.id " +
-                    "WHERE answers.content_id = ?";
+            String sql = getQuery("WHERE answers.content_id = ?");
 
             PreparedStatement statement = dataSource.getConnection().prepareStatement(sql);
             statement.setString(1, id.toString());
@@ -151,10 +143,7 @@ public class JdbcAnswerRepository implements IAnswerRepository {
         List<Answer> answers = new ArrayList<>();
 
         try {
-            String sql = "SELECT * FROM answers " +
-                    "INNER JOIN main_contents on answers.content_id = main_contents.content_id " +
-                    "INNER JOIN contents on main_contents.content_id = contents.id " +
-                    "INNER JOIN users on contents.user_id = users.id";
+            String sql = getQuery("");
 
             PreparedStatement statement = dataSource.getConnection().prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
@@ -195,5 +184,18 @@ public class JdbcAnswerRepository implements IAnswerRepository {
             e.printStackTrace(); // TODO handle SQL exception
         }
         return null;
+    }
+
+    private String getQuery(String condition) {
+        return "SELECT answers.content_id, content, created_at, updated_at, " +
+                "users.id, username, email, password, last_name, first_name, " +
+                "(COUNT(IF(state = 'UP', 1, NULL)) - COUNT(IF(state = 'DOWN', 1, NULL))) AS nb_votes " +
+                "FROM answers " +
+                "INNER JOIN main_contents on answers.content_id = main_contents.content_id " +
+                "INNER JOIN contents on main_contents.content_id = contents.id " +
+                "INNER JOIN users on contents.user_id = users.id " +
+                "LEFT JOIN votes ON contents.id = votes.content_id " +
+                condition + " " +
+                "GROUP BY answers.content_id";
     }
 }
