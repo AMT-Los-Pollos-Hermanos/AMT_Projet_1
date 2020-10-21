@@ -30,13 +30,18 @@ public class JdbcQuestionRepository implements IQuestionRepository {
         List<Question> questions = new ArrayList<>();
 
         try {
-            String sql = "SELECT * FROM questions " +
+            String sql = "SELECT questions.content_id, title, content, created_at, updated_at, " +
+                    "users.id, username, email, password, last_name, first_name, " +
+                    "(COUNT(IF(state = 'UP', 1, NULL)) - COUNT(IF(state = 'DOWN', 1, NULL))) AS nb_votes " +
+                    "FROM questions " +
                     "INNER JOIN main_contents on questions.content_id = main_contents.content_id " +
                     "INNER JOIN contents on main_contents.content_id = contents.id " +
-                    "INNER JOIN users on contents.user_id = users.id";
+                    "INNER JOIN users on contents.user_id = users.id " +
+                    "LEFT JOIN votes ON contents.id = votes.content_id";
             if (!query.getSearch().isEmpty()) {
                 sql += " WHERE LOWER(title) LIKE ? OR LOWER(first_name) LIKE ?";
             }
+            sql += " GROUP BY questions.content_id";
             sql += " ORDER BY created_at DESC";
             PreparedStatement statement = dataSource.getConnection().prepareStatement(sql);
             if (!query.getSearch().isEmpty()) {
@@ -108,9 +113,9 @@ public class JdbcQuestionRepository implements IQuestionRepository {
     @Override
     public void remove(QuestionId id) {
         try {
-            PreparedStatement select = dataSource.getConnection().prepareStatement("DELETE FROM contents WHERE id = ?");
-            select.setString(1, id.toString());
-            int rows = select.executeUpdate();
+            PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement("DELETE FROM contents WHERE id = ?");
+            preparedStatement.setString(1, id.toString());
+            int rows = preparedStatement.executeUpdate();
             if (rows == 0) {
                 throw new RuntimeException("No question deleted, question with id '" + id.toString() + "' not found in database");
             }
@@ -124,11 +129,16 @@ public class JdbcQuestionRepository implements IQuestionRepository {
         Question question = null;
 
         try {
-            String sql = "SELECT * FROM questions " +
+            String sql = "SELECT questions.content_id, title, content, created_at, updated_at, " +
+                    "users.id, username, email, password, last_name, first_name, " +
+                    "(COUNT(IF(state = 'UP', 1, NULL)) - COUNT(IF(state = 'DOWN', 1, NULL))) AS nb_votes " +
+                    "FROM questions " +
                     "INNER JOIN main_contents on questions.content_id = main_contents.content_id " +
                     "INNER JOIN contents on main_contents.content_id = contents.id " +
                     "INNER JOIN users on contents.user_id = users.id " +
-                    "WHERE questions.content_id = ?";
+                    "LEFT JOIN votes ON contents.id = votes.content_id " +
+                    "WHERE questions.content_id = ? " +
+                    "GROUP BY questions.content_id";
             PreparedStatement statement = dataSource.getConnection().prepareStatement(sql);
             statement.setString(1, id.toString());
             ResultSet rs = statement.executeQuery();
@@ -168,6 +178,7 @@ public class JdbcQuestionRepository implements IQuestionRepository {
                     .content(rs.getString("content"))
                     .createdAt(utcFormat.parse(rs.getString("created_at")))
                     .updatedAt(updateAt)
+                    .nbVotes(rs.getInt("nb_votes"))
                     .build();
         } catch (ParseException e) {
             e.printStackTrace(); // TODO handle SQL exception

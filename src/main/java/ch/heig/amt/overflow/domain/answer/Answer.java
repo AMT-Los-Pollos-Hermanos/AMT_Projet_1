@@ -26,6 +26,9 @@ public class Answer implements IEntity<Answer, AnswerId> {
 
     private Date updatedAt;
 
+    @Builder.Default
+    private int nbVotes = 0;
+
     @Override
     public Answer deepClone() {
         return this.toBuilder().id(new AnswerId(id.toString())).build();

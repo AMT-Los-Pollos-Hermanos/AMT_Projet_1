@@ -39,6 +39,7 @@ public class AnswerFacade {
                         .answerId(answer.getId())
                         .content(answer.getContent())
                         .createdAt(answer.getCreatedAt())
+                        .nbVotes(answer.getNbVotes())
                         .author(UserDTO.builder()
                                 .id(answer.getAuthor().getId())
                                 .username(answer.getAuthor().getUsername())
