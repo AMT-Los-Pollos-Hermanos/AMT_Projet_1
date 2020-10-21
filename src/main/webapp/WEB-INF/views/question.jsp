@@ -81,11 +81,12 @@
 
     <hr>
     <div class="container mb-3">
-        <form action="" method="post">
+        <form action="${pageContext.request.contextPath}/submitAnswer.do" method="post">
             <div class="form-group">
                 <label for="editor">Your answer</label>
                 <textarea id="editor" name="content" class="form-control"></textarea>
             </div>
+            <input type="hidden" name="question_id" value="${question.questionId}">
             <button type="submit" class="btn btn-primary">Ajouter</button>
         </form>
     </div>
