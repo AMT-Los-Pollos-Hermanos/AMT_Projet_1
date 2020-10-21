@@ -20,8 +20,8 @@ Scenario('Comment for answer', ({ I }) => {
 
 Scenario('Add comment for question', ({ I }) => {
     I.amOnPage('/comment/73dbc27f-d54f-417c-b576-07f1c3cfd301')
-    I.fillField('.ck.ck-content.ck-editor__editable', 'Mon super commentaire')
+    I.fillField('Commentaire', 'Mon super commentaire')
     I.click('Envoyer')
     I.seeInCurrentUrl('/question/73dbc27f-d54f-417c-b576-07f1c3cfd301')
-    // TODO: assert comment is present on page
+    I.see('Mon super commentaire')
 });

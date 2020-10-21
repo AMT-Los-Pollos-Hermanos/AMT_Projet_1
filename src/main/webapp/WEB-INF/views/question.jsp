@@ -33,7 +33,7 @@
         <!-- Comments -->
         <c:forEach items="${question.commentsDTO.comments}" var="comment">
 
-            <c:out value="${comment.content} - ${comment.author.firstName} ${comment.author.lastName}"/>
+            <c:out value="${comment.content} - ${comment.author.firstName} ${comment.author.lastName}" escapeXml="false"/>
             <span class="text-muted"> <c:out value="${comment.formattedCreatedAt()}"/> </span>
             <hr>
         </c:forEach>
@@ -65,7 +65,7 @@
         </div>
         <hr>
         <c:forEach items="${answer.commentsDTO.comments}" var="comment">
-            <c:out value="${comment.content} - ${comment.author.firstName} ${comment.author.lastName}"/>
+            <c:out value="${comment.content} - ${comment.author.firstName} ${comment.author.lastName}" escapeXml="false"/>
             <span class="text-muted"> <c:out value="${comment.formattedCreatedAt()}"/> </span>
             <hr>
         </c:forEach>

@@ -14,8 +14,8 @@
     <hr>
     <form action="${pageContext.request.contextPath}/comment.do" method="post">
         <div class="form-group">
-            <label for="editor">Commentaire</label>
-            <textarea name="comment" id="editor" cols="30" rows="10"></textarea>
+            <label for="comment">Commentaire</label>
+            <textarea name="comment" id="comment" class="form-control"></textarea>
         </div>
         <input type="hidden" name="content_id" value="${requestScope.contentId}">
         <button type="submit" class="btn btn-primary">Envoyer</button>
