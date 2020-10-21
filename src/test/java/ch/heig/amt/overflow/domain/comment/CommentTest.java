@@ -15,7 +15,7 @@ class CommentTest {
         Comment c = Comment.builder()
                 .author(u)
                 .content("The content")
-                .mainContentId(new MainContentId())
+                .mainContentId(id)
                 .build();
         assertNotNull(c.getId());
         assertSame(u, c.getAuthor());
