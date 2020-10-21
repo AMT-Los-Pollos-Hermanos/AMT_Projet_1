@@ -146,4 +146,4 @@ INSERT INTO overflow.comments (content_id, main_content_id) VALUES ('555bc27f-d5
 INSERT INTO votes (id, content_id, user_id, state) VALUES ('111bc27f-d54f-417c-b576-07f1c3cfd301', '73dbc27f-d54f-417c-b576-07f1c3cfd301', '54ce8647-8742-4500-8b2a-ca7eb345da0c', 'UP');
 INSERT INTO votes (id, content_id, user_id, state) VALUES ('112bc27f-d54f-417c-b576-07f1c3cfd301', '35dbc27f-d54f-417c-b576-07f1c3cfd301', '54ce8647-8742-4500-8b2a-ca7eb345da0c', 'UP');
 INSERT INTO votes (id, content_id, user_id, state) VALUES ('113bc27f-d54f-417c-b576-07f1c3cfd301', '11dbc27f-d54f-417c-b576-07f1c3cfd301', '54ce8647-8742-4500-8b2a-ca7eb345da0c', 'DOWN');
-INSERT INTO votes (id, content_id, user_id, state) VALUES ('114bc27f-d54f-417c-b576-07f1c3cfd301', '73dbc27f-d54f-417c-b576-07f1c3cfd301', 'd2acfbba-13f1-4519-8fe5-0d977b3fffa6', 'DOWN');
+INSERT INTO votes (id, content_id, user_id, state) VALUES ('114bc27f-d54f-417c-b576-07f1c3cfd301', '73dbc27f-d54f-417c-b576-07f1c3cfd301', 'd2acfbba-13f1-4519-8fe5-0d977b3fffa6', 'UP');
