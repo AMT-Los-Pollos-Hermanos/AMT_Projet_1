@@ -130,7 +130,6 @@ INSERT INTO overflow.contents (id, user_id, content)
 INSERT INTO overflow.main_contents (content_id) VALUES ('11dbc27f-d54f-417c-b576-07f1c3cfd301');
 INSERT INTO overflow.answers (content_id, question_id) VALUES ('11dbc27f-d54f-417c-b576-07f1c3cfd301', '73dbc27f-d54f-417c-b576-07f1c3cfd301');
 
-
 INSERT INTO overflow.contents (id, user_id, content)
 VALUES ('778bc27f-d54f-417c-b576-07f1c3cfd301', '6a5d8d7a-c34d-49ed-8f6d-1843250b6e5e', 'Comment 1');
 INSERT INTO overflow.comments (content_id, main_content_id) VALUES ('778bc27f-d54f-417c-b576-07f1c3cfd301', '73dbc27f-d54f-417c-b576-07f1c3cfd301');

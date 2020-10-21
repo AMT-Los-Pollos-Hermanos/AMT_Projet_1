@@ -49,7 +49,7 @@
                     <div class="card mb-3">
                         <div class="card-header">
                             <h3 class="h5">
-                                <c:out value="${question.title}"/>
+                                <a href="${pageContext.request.contextPath}/question/${question.questionId}"> <c:out value="${question.title}"/> </a>
                             </h3>
                             <div class="d-flex justify-content-between">
                                 <div class="text-muted">
