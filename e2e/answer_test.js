@@ -6,10 +6,6 @@ Scenario('Answer with unlogged user', ({ I }) => {
     I.amOnPage('/login')
 });
 
-Before(({login}) => {
-    login('user');
-});
-
 Scenario('Answer with logged user', ( {I, login} ) => {
     login('user');
     I.amOnPage('/question/6ec53ae2-1a39-4ab5-8291-bc664051b855')
