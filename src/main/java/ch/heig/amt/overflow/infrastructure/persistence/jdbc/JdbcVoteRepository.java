@@ -47,7 +47,7 @@ public class JdbcVoteRepository implements IVoteRepository {
                 preparedStatement.setString(1, entity.getId().toString());
                 preparedStatement.setString(2, entity.getContentId().toString());
                 preparedStatement.setString(3, entity.getUserId().toString());
-                preparedStatement.setString(3, entity.getStatus().getVote());
+                preparedStatement.setString(4, entity.getStatus().getVote());
 
                 int rows = preparedStatement.executeUpdate();
                 if (rows == 0) {
@@ -149,7 +149,7 @@ public class JdbcVoteRepository implements IVoteRepository {
 
     @Override
     public Optional<Vote> findByUserIdAndContentId(UserId userId, ContentId contentId) {
-        String sql = "SELECT id, content_id, user_id, state FROM votes WHERE user_id = ? AND content = ?";
+        String sql = "SELECT id, content_id, user_id, state FROM votes WHERE user_id = ? AND content_id = ?";
 
         Collection<Vote> votes = resultToVotes(sql, Arrays.asList(userId.toString(), contentId.toString()));
         if (votes.isEmpty()) {

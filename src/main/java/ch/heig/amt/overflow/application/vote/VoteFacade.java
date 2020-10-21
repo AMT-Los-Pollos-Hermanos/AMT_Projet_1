@@ -21,7 +21,7 @@ public class VoteFacade {
     }
 
     public void addNewVote(NewVoteCommand command) {
-        if (hasVoted(command.getUserId(), command.getContentId())) {
+        if (!hasVoted(command.getUserId(), command.getContentId())) {
             Vote submittedVote = Vote.builder()
                     .status(command.getStatus())
                     .userId(command.getUserId())
@@ -29,7 +29,7 @@ public class VoteFacade {
                     .build();
             voteRepository.save(submittedVote);
         } else {
-            throw new IllegalArgumentException("Status is mandatory");
+            throw new IllegalArgumentException("Vous avez déjà voté pour ce contenu !");
         }
     }
 

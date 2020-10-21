@@ -4,8 +4,6 @@
 
 <jsp:useBean scope="request" id="question" type="ch.heig.amt.overflow.application.question.QuestionsDTO.QuestionDTO"/>
 
-
-
 <div class="container">
     <div class="container">
         <h1><c:out value="${question.title}"/> </h1>
@@ -17,9 +15,9 @@
 
         <div class="row">
             <div class="col-sm-1">
-                <p><button type="button" class="btn btn-primary"> + </button></p>
-                <p> Score </p>
-                <p><button type="button" class="btn btn-primary"> - </button></p>
+                <p><a type="button" href="${pageContext.request.contextPath}/submitVote.do?state=up&content_id=${question.questionId}" class="btn btn-primary"> + </a></p>
+                <p> <c:out value="${question.nbVotes}"/> </p>
+                <p><a type="button" href="${pageContext.request.contextPath}/submitVote.do?state=down&content_id=${question.questionId}" class="btn btn-primary"> - </a></p>
             </div>
 
             <div class="col-sm-4">
@@ -52,9 +50,9 @@
         <br>
         <div class="row">
             <div class="col-sm-1">
-                <p><button type="button" class="btn btn-primary"> + </button></p>
-                <p> Score </p>
-                <p><button type="button" class="btn btn-primary"> - </button></p>
+                <p><a type="button" href="${pageContext.request.contextPath}/submitVote.do?state=up&content_id=${answer.answerId}" class="btn btn-primary"> + </a></p>
+                <p> <c:out value="${answer.nbVotes}"/> </p>
+                <p><a type="button" href="${pageContext.request.contextPath}/submitVote.do?state=down&content_id=${answer.answerId}" class="btn btn-primary"> - </a></p>
             </div>
 
             <div class="col-sm-4">
