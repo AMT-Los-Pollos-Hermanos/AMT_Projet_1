@@ -5,6 +5,8 @@ import ch.heig.amt.overflow.domain.user.UserId;
 import lombok.Builder;
 import lombok.Value;
 
+import javax.validation.constraints.NotNull;
+
 @Builder
 @Value
 public class NewAnswerCommand {
