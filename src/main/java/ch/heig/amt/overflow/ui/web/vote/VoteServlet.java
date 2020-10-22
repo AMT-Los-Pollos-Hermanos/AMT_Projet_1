@@ -30,6 +30,7 @@ public class VoteServlet extends HttpServlet {
         String voteType = request.getParameter("state");
         VoteStatus voteStatus = voteType.equals("up") ? new VoteUp() : new VoteDown();
         ContentId contentId = new ContentId(request.getParameter("content_id"));
+        String questionId = request.getParameter("question_id");
 
 
         NewVoteCommand command = NewVoteCommand.builder()
@@ -51,6 +52,6 @@ public class VoteServlet extends HttpServlet {
                     .build());
         }
 
-        response.sendRedirect(request.getContextPath() + "/question/" + contentId);
+        response.sendRedirect(request.getContextPath() + "/question/" + questionId);
     }
 }

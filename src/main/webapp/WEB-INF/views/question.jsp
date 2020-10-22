@@ -17,11 +17,11 @@
             <div class="col-sm-1">
                 <div class="d-flex flex-column align-items-center">
                     <a type="button"
-                       href="${pageContext.request.contextPath}/submitVote.do?state=up&content_id=${question.questionId}"
+                       href="${pageContext.request.contextPath}/submitVote.do?state=up&content_id=${question.questionId}&question_id=${question.questionId}"
                        class="btn btn-primary btn-sm"> + </a>
                     <c:out value="${question.nbVotes}"/>
                     <a type="button"
-                       href="${pageContext.request.contextPath}/submitVote.do?state=down&content_id=${question.questionId}"
+                       href="${pageContext.request.contextPath}/submitVote.do?state=down&content_id=${question.questionId}&question_id=${question.questionId}"
                        class="btn btn-primary btn-sm"> - </a>
                 </div>
             </div>
@@ -44,8 +44,8 @@
                     <span class="text-muted"> <c:out value="${comment.formattedCreatedAt()}"/> </span>
                 </div>
                 <div class="btn-group" role="group" aria-label="Basic example">
-                    <a type="button" href="${pageContext.request.contextPath}/submitVote.do?state=up&content_id=${comment.mainContentId}" class="btn btn-secondary btn-sm">+</a>
-                    <a type="button" href="${pageContext.request.contextPath}/submitVote.do?state=down&content_id=${comment.mainContentId}" class="btn btn-secondary btn-sm">-</a>
+                    <a type="button" href="${pageContext.request.contextPath}/submitVote.do?state=up&content_id=${comment.commentId}&question_id=${question.questionId}" class="btn btn-secondary btn-sm">+</a>
+                    <a type="button" href="${pageContext.request.contextPath}/submitVote.do?state=down&content_id=${comment.commentId}&question_id=${question.questionId}" class="btn btn-secondary btn-sm">-</a>
                 </div>
 
             </div>
@@ -68,11 +68,11 @@
                 <div class="col-sm-1">
                     <div class="d-flex flex-column align-items-center">
                         <a type="button"
-                           href="${pageContext.request.contextPath}/submitVote.do?state=up&content_id=${answer.answerId}"
+                           href="${pageContext.request.contextPath}/submitVote.do?state=up&content_id=${answer.answerId}&question_id=${question.questionId}"
                            class="btn btn-primary btn-sm"> + </a>
                         <c:out value="${answer.nbVotes}"/>
                         <a type="button"
-                           href="${pageContext.request.contextPath}/submitVote.do?state=down&content_id=${answer.answerId}"
+                           href="${pageContext.request.contextPath}/submitVote.do?state=down&content_id=${answer.answerId}&question_id=${question.questionId}"
                            class="btn btn-primary btn-sm"> - </a>
                     </div>
                 </div>
