@@ -71,4 +71,13 @@ class AnswerFacadeTest {
         assertEquals(5, answerDTO.get(0).getNbVotes());
     }
 
+    @Test
+    void getAnswerNoAnswer() {
+        QuestionId id = new QuestionId();
+        when(repository.findByQuestionId(id)).thenReturn(new ArrayList<>());
+        AnswersDTO result = facade.getAnswerFromQuestionId(id);
+        List<AnswersDTO.AnswerDTO> answerDTO = result.getAnswers();
+        assertEquals(0, answerDTO.size());
+    }
+
 }
