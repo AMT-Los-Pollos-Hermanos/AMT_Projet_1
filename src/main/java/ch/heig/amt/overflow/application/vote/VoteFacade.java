@@ -58,11 +58,7 @@ public class VoteFacade {
 
         if(vote.isPresent()) {
             deleteVote(vote.get().getId());
-            if(!vote.get().getStatus().equals(status)) {
-                return false;
-            } else {
-                return true;
-            }
+            return vote.get().getStatus().equals(status);
         } else {
             return false;
         }

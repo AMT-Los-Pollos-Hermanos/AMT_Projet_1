@@ -6,8 +6,7 @@ import ch.heig.amt.overflow.domain.user.UserId;
 import ch.heig.amt.overflow.domain.vote.IVoteRepository;
 import ch.heig.amt.overflow.domain.vote.Vote;
 import ch.heig.amt.overflow.domain.vote.VoteId;
-import ch.heig.amt.overflow.domain.vote.status.VoteDown;
-import ch.heig.amt.overflow.domain.vote.status.VoteUp;
+import ch.heig.amt.overflow.domain.vote.VoteStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,10 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class VoteFacadeTest {
@@ -44,15 +43,33 @@ class VoteFacadeTest {
         NewVoteCommand cmd = NewVoteCommand.builder()
                 .userId(id)
                 .ContentId(contentId)
-                .status(new VoteDown())
+                .status(VoteStatus.DOWN)
                 .build();
-        when(repository.findByUserIdAndContentId(any(), any())).thenReturn(Optional.of(Vote.builder().build()));
+        when(repository.findByUserIdAndContentId(any(), any())).thenReturn(Optional.of(Vote.builder()
+                .status(VoteStatus.UP)
+                .build()));
         facade.addNewVote(cmd);
         ArgumentCaptor<Vote> captor = ArgumentCaptor.forClass(Vote.class);
         verify(repository).save(captor.capture());
         assertSame(id, captor.getValue().getUserId());
         assertSame(contentId, captor.getValue().getContentId());
-        assertTrue(captor.getValue().getStatus() instanceof VoteDown);
+        assertSame(captor.getValue().getStatus(), VoteStatus.DOWN);
+    }
+
+    @Test
+    void testCannotAddNewVote() {
+        UserId id = new UserId();
+        MainContentId contentId = new MainContentId();
+        NewVoteCommand cmd = NewVoteCommand.builder()
+                .userId(id)
+                .ContentId(contentId)
+                .status(VoteStatus.DOWN)
+                .build();
+        when(repository.findByUserIdAndContentId(any(), any())).thenReturn(Optional.of(Vote.builder()
+                .status(VoteStatus.DOWN)
+                .build()));
+        facade.addNewVote(cmd);
+        verify(repository, never()).save(any());
     }
 
     @Test
@@ -84,7 +101,7 @@ class VoteFacadeTest {
         ArrayList<Vote> votes = new ArrayList<>();
         votes.add(Vote.builder()
                 .userId(userId)
-                .status(new VoteUp())
+                .status(VoteStatus.UP)
                 .contentId(contentId)
                 .build());
         when(repository.findByUserId(userId)).thenReturn(votes);
@@ -92,7 +109,7 @@ class VoteFacadeTest {
         verify(repository).findByUserId(userId);
         List<VotesDTO.VoteDTO> voteDTO = result.getVotes();
         assertEquals(1, voteDTO.size());
-        assertTrue(voteDTO.get(0).getStatus() instanceof VoteUp);
+        assertSame(voteDTO.get(0).getStatus(), VoteStatus.UP);
         assertEquals(contentId, voteDTO.get(0).getContentId());
     }
 

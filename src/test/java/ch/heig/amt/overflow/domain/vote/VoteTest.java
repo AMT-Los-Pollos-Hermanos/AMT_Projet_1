@@ -2,10 +2,10 @@ package ch.heig.amt.overflow.domain.vote;
 
 import ch.heig.amt.overflow.domain.ContentId;
 import ch.heig.amt.overflow.domain.user.UserId;
-import ch.heig.amt.overflow.domain.vote.status.VoteDown;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 class VoteTest {
 
@@ -15,13 +15,13 @@ class VoteTest {
         ContentId id = new ContentId();
         Vote v = Vote.builder()
                 .contentId(id)
-                .status(new VoteDown())
+                .status(VoteStatus.DOWN)
                 .userId(u)
                 .build();
         assertNotNull(v.getId());
         assertSame(id, v.getContentId());
         assertSame(u, v.getUserId());
-        assertTrue(v.getStatus() instanceof VoteDown);
+        assertSame(v.getStatus(), VoteStatus.DOWN);
     }
 
 }

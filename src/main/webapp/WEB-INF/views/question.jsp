@@ -98,10 +98,10 @@
                     </div>
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <a type="button"
-                           href="${pageContext.request.contextPath}/submitVote.do?state=up&content_id=${comment.mainContentId.toString()}"
+                           href="${pageContext.request.contextPath}/submitVote.do?state=up&content_id=${comment.commentId}&question_id=${question.questionId}"
                            class="btn btn-secondary btn-sm">+</a>
                         <a type="button"
-                           href="${pageContext.request.contextPath}/submitVote.do?state=down&content_id=${comment.mainContentId.toString()}"
+                           href="${pageContext.request.contextPath}/submitVote.do?state=down&content_id=${comment.commentId}&question_id=${question.questionId}"
                            class="btn btn-secondary btn-sm">-</a>
                     </div>
 
