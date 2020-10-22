@@ -54,6 +54,7 @@ public class JdbcMainContentRepository {
                                     .lastName(rs.getString("last_name"))
                                     .build())
                             .content(rs.getString("content"))
+                            .questionId(new QuestionId(rs.getString("question_id")))
                             .build();
                     return Optional.of(a);
                 }

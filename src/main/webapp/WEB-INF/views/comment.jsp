@@ -18,6 +18,7 @@
             <textarea name="comment" id="comment" class="form-control"></textarea>
         </div>
         <input type="hidden" name="content_id" value="${requestScope.contentId}">
+        <input type="hidden" name="question_id" value="${requestScope.questionId}">
         <button type="submit" class="btn btn-primary">Envoyer</button>
         <a href="${header.get("referer")}" class="btn btn-secondary">Annuler</a>
     </form>

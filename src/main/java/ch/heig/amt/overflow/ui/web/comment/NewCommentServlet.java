@@ -32,6 +32,7 @@ public class NewCommentServlet extends HttpServlet {
         request.setAttribute("question", q);
         request.setAttribute("answer", a);
         request.setAttribute("contentId", id);
+        request.setAttribute("questionId", q != null ? q.getId().toString() : a.getQuestionId().toString());
         request.getRequestDispatcher("/WEB-INF/views/comment.jsp").forward(request, response);
     }
 
