@@ -18,11 +18,11 @@
                 <div class="d-flex flex-column align-items-center">
                     <a type="button"
                        href="${pageContext.request.contextPath}/submitVote.do?state=up&content_id=${question.questionId}&question_id=${question.questionId}"
-                       class="btn btn-primary btn-sm"> + </a>
-                    <c:out value="${question.nbVotes}"/>
+                       class="btn btn-primary btn-sm q-vote-plus"> + </a>
+                    <span class="q-vote"><c:out value="${question.nbVotes}"/></span>
                     <a type="button"
                        href="${pageContext.request.contextPath}/submitVote.do?state=down&content_id=${question.questionId}&question_id=${question.questionId}"
-                       class="btn btn-primary btn-sm"> - </a>
+                       class="btn btn-primary btn-sm q-vote-minus"> - </a>
                 </div>
             </div>
 
@@ -39,19 +39,24 @@
 
             <div class="d-flex justify-content-between">
                 <div>
-                    <c:out value="${comment.nbVotes}  ${comment.content} - ${comment.author.firstName} ${comment.author.lastName}"
-                           escapeXml="false"/>
+                    <span class="c-vote"><c:out
+                            value="${comment.nbVotes}  ${comment.content} - ${comment.author.firstName} ${comment.author.lastName}"/></span>
                     <span class="text-muted"> <c:out value="${comment.formattedCreatedAt()}"/> </span>
                 </div>
                 <div class="btn-group" role="group" aria-label="Basic example">
-                    <a type="button" href="${pageContext.request.contextPath}/submitVote.do?state=up&content_id=${comment.commentId}&question_id=${question.questionId}" class="btn btn-secondary btn-sm">+</a>
-                    <a type="button" href="${pageContext.request.contextPath}/submitVote.do?state=down&content_id=${comment.commentId}&question_id=${question.questionId}" class="btn btn-secondary btn-sm">-</a>
+                    <a type="button"
+                       href="${pageContext.request.contextPath}/submitVote.do?state=up&content_id=${comment.commentId}&question_id=${question.questionId}"
+                       class="btn btn-secondary btn-sm c-vote-plus">+</a>
+                    <a type="button"
+                       href="${pageContext.request.contextPath}/submitVote.do?state=down&content_id=${comment.commentId}&question_id=${question.questionId}"
+                       class="btn btn-secondary btn-sm c-vote-minus">-</a>
                 </div>
 
             </div>
             <hr>
         </c:forEach>
-        <a class="text-muted" href="${pageContext.request.contextPath}/comment/${question.questionId}"> Ajouter un nouveau commentaire </a>
+        <a class="text-muted" href="${pageContext.request.contextPath}/comment/${question.questionId}"> Ajouter un
+            nouveau commentaire </a>
     </div>
 
 
@@ -69,11 +74,11 @@
                     <div class="d-flex flex-column align-items-center">
                         <a type="button"
                            href="${pageContext.request.contextPath}/submitVote.do?state=up&content_id=${answer.answerId}&question_id=${question.questionId}"
-                           class="btn btn-primary btn-sm"> + </a>
-                        <c:out value="${answer.nbVotes}"/>
+                           class="btn btn-primary btn-sm a-vote-plus"> + </a>
+                        <span class="a-vote"><c:out value="${answer.nbVotes}"/></span>
                         <a type="button"
                            href="${pageContext.request.contextPath}/submitVote.do?state=down&content_id=${answer.answerId}&question_id=${question.questionId}"
-                           class="btn btn-primary btn-sm"> - </a>
+                           class="btn btn-primary btn-sm a-vote-minus"> - </a>
                     </div>
                 </div>
 
@@ -87,19 +92,24 @@
             <c:forEach items="${answer.commentsDTO.comments}" var="comment">
                 <div class="d-flex justify-content-between">
                     <div>
-                        <c:out value="${comment.nbVotes}  ${comment.content} - ${comment.author.firstName} ${comment.author.lastName}"
-                               escapeXml="false"/>
+                        <span class="vote"><c:out
+                                value="${comment.nbVotes}  ${comment.content} - ${comment.author.firstName} ${comment.author.lastName}"/></span>
                         <span class="text-muted"> <c:out value="${comment.formattedCreatedAt()}"/> </span>
                     </div>
                     <div class="btn-group" role="group" aria-label="Basic example">
-                        <a type="button" href="${pageContext.request.contextPath}/submitVote.do?state=up&content_id=${comment.mainContentId.toString()}" class="btn btn-secondary btn-sm">+</a>
-                        <a type="button" href="${pageContext.request.contextPath}/submitVote.do?state=down&content_id=${comment.mainContentId.toString()}" class="btn btn-secondary btn-sm">-</a>
+                        <a type="button"
+                           href="${pageContext.request.contextPath}/submitVote.do?state=up&content_id=${comment.mainContentId.toString()}"
+                           class="btn btn-secondary btn-sm">+</a>
+                        <a type="button"
+                           href="${pageContext.request.contextPath}/submitVote.do?state=down&content_id=${comment.mainContentId.toString()}"
+                           class="btn btn-secondary btn-sm">-</a>
                     </div>
 
                 </div>
                 <hr>
             </c:forEach>
-            <a class="text-muted" href="${pageContext.request.contextPath}/comment/${answer.answerId}"> Add new comment </a>
+            <a class="text-muted" href="${pageContext.request.contextPath}/comment/${answer.answerId}"> Add new
+                comment </a>
         </div>
 
     </c:forEach>
