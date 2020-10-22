@@ -11,6 +11,7 @@ import lombok.Value;
 public class NewVoteCommand {
     UserId userId;
 
+    // TODO: Rename
     ContentId ContentId;
 
     VoteStatus status;

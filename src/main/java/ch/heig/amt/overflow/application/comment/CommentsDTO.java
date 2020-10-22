@@ -33,8 +33,6 @@ public class CommentsDTO {
 
     }
 
-
-
     @Singular
     List<CommentDTO> comments;
 
