@@ -2,6 +2,7 @@ package ch.heig.amt.overflow.application.comment;
 
 import ch.heig.amt.overflow.application.auth.UserDTO;
 import ch.heig.amt.overflow.domain.MainContentId;
+import ch.heig.amt.overflow.domain.comment.CommentId;
 import lombok.Builder;
 import lombok.Singular;
 import lombok.Value;
@@ -19,6 +20,7 @@ public class CommentsDTO {
     @Builder
     @Value
     public static class CommentDTO {
+        CommentId commentId;
         MainContentId mainContentId;
         String content;
         Date createdAt;

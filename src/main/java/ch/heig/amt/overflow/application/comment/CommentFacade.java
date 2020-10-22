@@ -36,6 +36,7 @@ public class CommentFacade {
 
         List<CommentsDTO.CommentDTO> mapper = comments.stream().map(comment ->
                 CommentsDTO.CommentDTO.builder()
+                        .commentId(comment.getId())
                         .mainContentId(comment.getMainContentId())
                         .content(comment.getContent())
                         .createdAt(comment.getCreatedAt())
