@@ -2,7 +2,7 @@ Feature('question');
 
 Scenario('test add question with unlogged user', ({ I }) => {
     I.amOnPage('/questions')
-    I.amOnPage('/login')
+    I.seeInCurrentUrl('/login')
 });
 
 Scenario('test add question', ({I, login}) => {
