@@ -1,10 +1,5 @@
 Feature('question');
 
-Scenario('test add question with unlogged user', ({ I }) => {
-    I.amOnPage('/questions')
-    I.seeInCurrentUrl('/login')
-});
-
 Scenario('test add question', ({I, login}) => {
     login('user')
     I.amOnPage('/questions')
