@@ -3,7 +3,6 @@ package ch.heig.amt.overflow.domain.vote;
 import ch.heig.amt.overflow.domain.ContentId;
 import ch.heig.amt.overflow.domain.IEntity;
 import ch.heig.amt.overflow.domain.user.UserId;
-import ch.heig.amt.overflow.domain.vote.status.VoteStatus;
 import lombok.Builder;
 import lombok.Data;
 

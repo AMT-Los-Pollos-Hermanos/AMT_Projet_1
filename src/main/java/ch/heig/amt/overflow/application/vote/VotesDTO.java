@@ -1,7 +1,7 @@
 package ch.heig.amt.overflow.application.vote;
 
 import ch.heig.amt.overflow.domain.ContentId;
-import ch.heig.amt.overflow.domain.vote.status.VoteStatus;
+import ch.heig.amt.overflow.domain.vote.VoteStatus;
 import lombok.Builder;
 import lombok.Singular;
 import lombok.Value;
