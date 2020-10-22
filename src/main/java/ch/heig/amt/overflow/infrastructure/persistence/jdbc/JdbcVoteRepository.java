@@ -6,8 +6,7 @@ import ch.heig.amt.overflow.domain.user.UserId;
 import ch.heig.amt.overflow.domain.vote.IVoteRepository;
 import ch.heig.amt.overflow.domain.vote.Vote;
 import ch.heig.amt.overflow.domain.vote.VoteId;
-import ch.heig.amt.overflow.domain.vote.status.VoteDown;
-import ch.heig.amt.overflow.domain.vote.status.VoteUp;
+import ch.heig.amt.overflow.domain.vote.VoteStatus;
 
 import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
@@ -47,7 +46,7 @@ public class JdbcVoteRepository implements IVoteRepository {
                 preparedStatement.setString(1, entity.getId().toString());
                 preparedStatement.setString(2, entity.getContentId().toString());
                 preparedStatement.setString(3, entity.getUserId().toString());
-                preparedStatement.setString(4, entity.getStatus().getVote());
+                preparedStatement.setString(4, entity.getStatus().name());
 
                 int rows = preparedStatement.executeUpdate();
                 if (rows == 0) {
@@ -58,7 +57,7 @@ public class JdbcVoteRepository implements IVoteRepository {
                 preparedStatement = con.prepareStatement("UPDATE votes SET content_id = ?, user_id = ?, state = ? WHERE id = ?;");
                 preparedStatement.setString(1, entity.getContentId().toString());
                 preparedStatement.setString(2, entity.getUserId().toString());
-                preparedStatement.setString(3, entity.getStatus().getVote());
+                preparedStatement.setString(3, entity.getStatus().name());
                 preparedStatement.setString(4, entity.getId().toString());
 
                 int rows = preparedStatement.executeUpdate();
@@ -175,7 +174,7 @@ public class JdbcVoteRepository implements IVoteRepository {
                         .id(new VoteId(rs.getString("id")))
                         .contentId(new ContentId(rs.getString("content_id")))
                         .userId(new UserId(rs.getString("user_id")))
-                        .status(rs.getString("state").equals(new VoteUp().getVote()) ? new VoteUp() : new VoteDown())
+                        .status(VoteStatus.valueOf(rs.getString("state")))
                         .build()
                 );
             }

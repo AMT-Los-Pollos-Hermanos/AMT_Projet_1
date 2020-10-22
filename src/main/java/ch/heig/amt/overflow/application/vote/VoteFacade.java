@@ -6,6 +6,7 @@ import ch.heig.amt.overflow.domain.user.UserId;
 import ch.heig.amt.overflow.domain.vote.IVoteRepository;
 import ch.heig.amt.overflow.domain.vote.Vote;
 import ch.heig.amt.overflow.domain.vote.VoteId;
+import ch.heig.amt.overflow.domain.vote.VoteStatus;
 
 import java.util.Collection;
 import java.util.List;
@@ -21,15 +22,13 @@ public class VoteFacade {
     }
 
     public void addNewVote(NewVoteCommand command) {
-        if (!hasVoted(command.getUserId(), command.getContentId())) {
+        if (!isVoteCancelled(command.getUserId(), command.getContentId(), command.getStatus())) {
             Vote submittedVote = Vote.builder()
                     .status(command.getStatus())
                     .userId(command.getUserId())
                     .contentId(command.getContentId())
                     .build();
             voteRepository.save(submittedVote);
-        } else {
-            throw new IllegalArgumentException("Vous avez déjà voté pour ce contenu !");
         }
     }
 
@@ -54,8 +53,19 @@ public class VoteFacade {
         return mapVoteDTO(voteRepository.findByUserIdAndQuestionId(userId, questionId));
     }
 
-    public boolean hasVoted(UserId userId, ContentId contentId) {
-        return voteRepository.findByUserIdAndContentId(userId, contentId).isPresent();
+    private boolean isVoteCancelled(UserId userId, ContentId contentId, VoteStatus status) {
+        Optional<Vote> vote = voteRepository.findByUserIdAndContentId(userId, contentId);
+
+        if(vote.isPresent()) {
+            deleteVote(vote.get().getId());
+            if(!vote.get().getStatus().equals(status)) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
     }
 
     private VotesDTO mapVoteDTO(Collection<Vote> votes) {
@@ -70,4 +80,5 @@ public class VoteFacade {
                 .votes(mapper)
                 .build();
     }
+
 }

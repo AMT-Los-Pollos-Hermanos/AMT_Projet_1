@@ -1,14 +1,11 @@
 package ch.heig.amt.overflow.ui.web.vote;
 
 import ch.heig.amt.overflow.application.ServiceRegistry;
-import ch.heig.amt.overflow.application.answer.NewAnswerCommand;
 import ch.heig.amt.overflow.application.auth.UserDTO;
 import ch.heig.amt.overflow.application.vote.NewVoteCommand;
 import ch.heig.amt.overflow.domain.ContentId;
 import ch.heig.amt.overflow.domain.message.FlashMessage;
-import ch.heig.amt.overflow.domain.vote.status.VoteDown;
-import ch.heig.amt.overflow.domain.vote.status.VoteStatus;
-import ch.heig.amt.overflow.domain.vote.status.VoteUp;
+import ch.heig.amt.overflow.domain.vote.VoteStatus;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -28,7 +25,7 @@ public class VoteServlet extends HttpServlet {
 
         UserDTO currentUser = (UserDTO) request.getSession().getAttribute("currentUser");
         String voteType = request.getParameter("state");
-        VoteStatus voteStatus = voteType.equals("up") ? new VoteUp() : new VoteDown();
+        VoteStatus voteStatus = voteType.equals("up") ? VoteStatus.UP : VoteStatus.DOWN;
         ContentId contentId = new ContentId(request.getParameter("content_id"));
         String questionId = request.getParameter("question_id");
 
@@ -41,9 +38,6 @@ public class VoteServlet extends HttpServlet {
 
         try{
             serviceRegistry.getVoteFacade().addNewVote(command);
-            request.getSession().setAttribute("flash", FlashMessage.builder()
-                    .message("Vote effectué avec succès")
-                    .build());
         }
         catch(Exception e){
             request.getSession().setAttribute("flash", FlashMessage.builder()

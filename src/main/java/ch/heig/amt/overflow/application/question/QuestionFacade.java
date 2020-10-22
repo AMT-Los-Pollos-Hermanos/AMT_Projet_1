@@ -44,7 +44,7 @@ public class QuestionFacade {
     public QuestionsDTO.QuestionDTO getQuestion(QuestionId questionId) throws QuestionNotFoundException {
         Optional<Question> question = questionRepository.findById(questionId);
 
-        if (!question.isPresent()) {
+        if (question.isEmpty()) {
             throw new QuestionNotFoundException("Question not found");
         }
 
