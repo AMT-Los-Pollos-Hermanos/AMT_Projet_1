@@ -60,7 +60,7 @@ public class QuestionServlet extends HttpServlet {
                     .message(e.getMessage())
                     .type("danger")
                     .build());
-            response.sendRedirect("questions");
+            response.sendRedirect(request.getContextPath() + "/questions");
             return;
         }
 

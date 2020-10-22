@@ -23,6 +23,7 @@ public class AddNewCommentServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserDTO currentUser = (UserDTO) request.getSession().getAttribute("currentUser");
         String id = request.getParameter("content_id");
+        String questionId = request.getParameter("question_id");
         NewCommentCommand cmd = NewCommentCommand.builder()
                 .authorId(currentUser.getId())
                 .content(request.getParameter("comment"))
@@ -36,7 +37,7 @@ public class AddNewCommentServlet extends HttpServlet {
                     .type("danger")
                     .build());
         }
-        response.sendRedirect(request.getContextPath() + "/question/" + id);
+        response.sendRedirect(request.getContextPath() + "/question/" + questionId);
     }
 
 }
