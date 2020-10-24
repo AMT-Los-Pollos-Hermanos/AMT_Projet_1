@@ -3,9 +3,6 @@ package ch.heig.amt.overflow.application.auth;
 import ch.heig.amt.overflow.domain.user.IUserRepository;
 import ch.heig.amt.overflow.domain.user.User;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-
 public class AuthFacade {
 
     IUserRepository userRepository;
@@ -32,6 +29,26 @@ public class AuthFacade {
             userRepository.save(newUser);
         } catch (Exception e) {
             throw new RegistrationFailedException(e.getMessage());
+        }
+    }
+
+    public void updateUser(RegisterCommand command) throws UserUpdateException {
+        if (userRepository.findByUsername(command.getUsername()).isPresent()) {
+            throw new UserUpdateException("Username doesn't exist");
+        }
+
+        try {
+            userRepository.save(
+                User.builder()
+                    .username(command.getUsername())
+                    .firstName(command.getFirstName())
+                    .lastName(command.getLastName())
+                    .email(command.getEmail())
+                    .clearTextPassword(command.getClearTextPassword())
+                    .build()
+            );
+        } catch (Exception e) {
+            throw new UserUpdateException(e.getMessage());
         }
     }
 
