@@ -53,7 +53,8 @@ public class JdbcQuestionRepository implements IQuestionRepository {
                 questions.add(resultToQuestion(rs));
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // TODO handle SQL exception
+            e.printStackTrace();
+            throw new RuntimeException("Problème lié à la base de donnée");
         }
         return questions;
     }
@@ -146,7 +147,8 @@ public class JdbcQuestionRepository implements IQuestionRepository {
                 question = resultToQuestion(rs);
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // TODO handle SQL exception
+            e.printStackTrace();
+            throw new RuntimeException("Problème lié à la base de donnée");
         }
 
         if (question != null) {
@@ -181,9 +183,9 @@ public class JdbcQuestionRepository implements IQuestionRepository {
                     .nbVotes(rs.getInt("nb_votes"))
                     .build();
         } catch (ParseException e) {
-            e.printStackTrace(); // TODO handle SQL exception
+            e.printStackTrace();
+            throw new RuntimeException("Problème lié à la base de donnée");
         }
-        return null;
     }
 
     @Override

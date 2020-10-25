@@ -108,7 +108,8 @@ public class JdbcAnswerRepository implements IAnswerRepository {
                 answers.add(resulToAnswer(rs));
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // TODO handle SQL exception
+            e.printStackTrace();
+            throw new RuntimeException("Problème lié à la base de donnée");
         }
         return answers;
     }
@@ -128,7 +129,8 @@ public class JdbcAnswerRepository implements IAnswerRepository {
                 answer = resulToAnswer(rs);
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // TODO handle SQL exception
+            e.printStackTrace();
+            throw new RuntimeException("Problème lié à la base de donnée");
         }
 
         if (answer != null) {
@@ -152,12 +154,13 @@ public class JdbcAnswerRepository implements IAnswerRepository {
                 answers.add(resulToAnswer(rs));
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // TODO handle SQL exception
+            e.printStackTrace();
+            throw new RuntimeException("Problème lié à la base de donnée");
         }
         return answers;
     }
 
-    private Answer resulToAnswer(ResultSet rs) throws SQLException {
+    private Answer resulToAnswer(ResultSet rs) {
         Date updateAt = null;
         DateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -180,10 +183,10 @@ public class JdbcAnswerRepository implements IAnswerRepository {
                     .updatedAt(updateAt)
                     .nbVotes(rs.getInt("nb_votes"))
                     .build();
-        } catch (ParseException e) {
-            e.printStackTrace(); // TODO handle SQL exception
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Problème lié à la base de donnée");
         }
-        return null;
     }
 
     private String getQuery(String condition) {

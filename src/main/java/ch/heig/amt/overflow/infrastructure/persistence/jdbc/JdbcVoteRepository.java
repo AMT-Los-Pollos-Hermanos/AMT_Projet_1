@@ -179,7 +179,8 @@ public class JdbcVoteRepository implements IVoteRepository {
                 );
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // TODO handle SQL exception
+            e.printStackTrace();
+            throw new RuntimeException("Problème lié à la base de données");
         }
         return votes;
     }

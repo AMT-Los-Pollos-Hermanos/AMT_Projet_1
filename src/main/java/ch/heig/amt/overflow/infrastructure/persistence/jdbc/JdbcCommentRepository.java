@@ -85,7 +85,7 @@ public class JdbcCommentRepository implements ICommentRepository {
                 throw new RuntimeException("No comments deleted, answer with id '" + id.toString() + "' not found in database");
             }
         } catch (SQLException e) {
-            throw new RuntimeException("SQL error");
+            throw new RuntimeException("Problème lié à la base de données");
         }
     }
 
@@ -104,7 +104,8 @@ public class JdbcCommentRepository implements ICommentRepository {
                 comments.add(resultToComment(rs));
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // TODO handle SQL exception
+            e.printStackTrace();
+            throw new RuntimeException("Problème lié à la base de données");
         }
         return comments;
     }
@@ -124,7 +125,8 @@ public class JdbcCommentRepository implements ICommentRepository {
                 comment = resultToComment(rs);
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // TODO handle SQL exception
+            e.printStackTrace();
+            throw new RuntimeException("Problème lié à la base de données");
         }
 
         if (comment != null) {
@@ -148,7 +150,8 @@ public class JdbcCommentRepository implements ICommentRepository {
                 comments.add(resultToComment(rs));
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // TODO handle SQL exception
+            e.printStackTrace();
+            throw new RuntimeException("Problème lié à la base de données");
         }
         return comments;
     }
@@ -177,9 +180,9 @@ public class JdbcCommentRepository implements ICommentRepository {
                     .nbVotes(rs.getInt("nb_votes"))
                     .build();
         } catch (ParseException e) {
-            e.printStackTrace(); // TODO handle SQL exception
+            e.printStackTrace();
+            throw new RuntimeException("Problème lié à la base de données");
         }
-        return null;
     }
 
     private String getQuery(String condition) {

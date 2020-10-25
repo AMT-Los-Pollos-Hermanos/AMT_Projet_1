@@ -4,6 +4,7 @@ import ch.heig.amt.overflow.application.ServiceRegistry;
 import ch.heig.amt.overflow.application.question.QuestionFacade;
 import ch.heig.amt.overflow.application.question.QuestionQuery;
 import ch.heig.amt.overflow.application.question.QuestionsDTO;
+import ch.heig.amt.overflow.domain.message.FlashMessage;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -34,11 +35,19 @@ public class QuestionListServlet extends HttpServlet {
         } else {
             query = QuestionQuery.builder().build();
         }
-        QuestionsDTO questionsDTO = questionFacade.getQuestions(query);
-        request.setAttribute("questions", questionsDTO);
-        request.setAttribute("search", search);
-        request.getRequestDispatcher("/WEB-INF/views/questionList.jsp").forward(request, response);
-        request.getSession().removeAttribute("flash");
+        try {
+            QuestionsDTO questionsDTO = questionFacade.getQuestions(query);
+            request.setAttribute("questions", questionsDTO);
+            request.setAttribute("search", search);
+            request.getRequestDispatcher("/WEB-INF/views/questionList.jsp").forward(request, response);
+            request.getSession().removeAttribute("flash");
+        } catch (Exception e) {
+            request.getSession().setAttribute("flash", FlashMessage.builder()
+                    .message(e.getMessage())
+                    .type("danger")
+                    .build());
+            response.sendRedirect(request.getContextPath() + "/");
+        }
     }
 
 }

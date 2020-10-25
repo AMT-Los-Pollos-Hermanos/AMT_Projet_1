@@ -42,6 +42,12 @@ public class RegisterCommandServlet extends HttpServlet {
                     .type("danger")
                     .build());
             resp.sendRedirect("login");
+        } catch (Exception e) {
+            req.getSession().setAttribute("flash", FlashMessage.builder()
+                    .message(e.getMessage())
+                    .type("danger")
+                    .build());
+            resp.sendRedirect(req.getContextPath() + "/");
         }
     }
 

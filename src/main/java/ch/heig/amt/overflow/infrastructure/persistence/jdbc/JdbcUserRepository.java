@@ -47,7 +47,8 @@ public class JdbcUserRepository implements IUserRepository {
                         .build();
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // TODO handle SQL exception
+            e.printStackTrace();
+            throw new RuntimeException("Problème lié à la base de données");
         }
 
         if (user != null) {
@@ -140,7 +141,8 @@ public class JdbcUserRepository implements IUserRepository {
                         .build();
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // TODO handle SQL exception
+            e.printStackTrace();
+            throw new RuntimeException("Problème lié à la base de données");
         }
 
         if (user != null) {
@@ -170,7 +172,8 @@ public class JdbcUserRepository implements IUserRepository {
                         .build());
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // TODO handle SQL exception
+            e.printStackTrace();
+            throw new RuntimeException("Problème lié à la base de données");
         }
 
         return users;

@@ -32,7 +32,7 @@ public class VoteServlet extends HttpServlet {
 
         NewVoteCommand command = NewVoteCommand.builder()
                 .userId(currentUser.getId())
-                .ContentId(contentId)
+                .contentId(contentId)
                 .status(voteStatus)
                 .build();
 
