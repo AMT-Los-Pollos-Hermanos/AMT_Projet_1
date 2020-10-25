@@ -18,6 +18,7 @@ public class CommentFacade {
         this.commentRepository = commentRepository;
     }
 
+    // add comment to the repository throw exception if incomplete
     public void addNewComment(NewCommentCommand command) {
         if (!command.getContent().isEmpty()) {
             Comment submittedComment = Comment.builder()
@@ -31,6 +32,7 @@ public class CommentFacade {
         }
     }
 
+    // return list of commentsDTO  with the corresponding ID
     public CommentsDTO getCommentFromMainContentId(MainContentId mainContentId) {
         Collection<Comment> comments = commentRepository.findByMainContentId(mainContentId);
 

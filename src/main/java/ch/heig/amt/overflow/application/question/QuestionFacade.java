@@ -20,6 +20,7 @@ public class QuestionFacade {
         this.questionRepository = questionRepository;
     }
 
+    // add new question to the repository throw exception if incomplete
     public void addNewQuestion(NewQuestionCommand command) {
         if(!command.getTitle().isEmpty() && !command.getContent().isEmpty()) {
             Question submittedQuestion = Question.builder()
@@ -32,7 +33,7 @@ public class QuestionFacade {
             throw new IllegalArgumentException("Title and content are mandatory");
         }
     }
-
+    // return questionDTO corresponding to the query
     public QuestionsDTO getQuestions(QuestionQuery query) {
         Collection<Question> allQuestions = questionRepository.find(query);
 
@@ -40,7 +41,7 @@ public class QuestionFacade {
                 .questions(mapQuestionDTO(allQuestions))
                 .build();
     }
-
+    // return questionDTO with the corresponding ID
     public QuestionsDTO.QuestionDTO getQuestion(QuestionId questionId) throws QuestionNotFoundException {
         Optional<Question> question = questionRepository.findById(questionId);
 
@@ -53,7 +54,7 @@ public class QuestionFacade {
 
         return mapQuestionDTO(allQuestions).get(0);
     }
-
+    // return list of all questionsDTO
     private List<QuestionsDTO.QuestionDTO> mapQuestionDTO(Collection<Question> allQuestions) {
         return allQuestions.stream().map(question ->
                 QuestionsDTO.QuestionDTO.builder()

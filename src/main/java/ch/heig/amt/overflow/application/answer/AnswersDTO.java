@@ -28,6 +28,7 @@ public class AnswersDTO {
         @Setter
         private CommentsDTO commentsDTO;
 
+        // initialise the Date createdAt with the current timestamp
         public String formattedCreatedAt() {
             DateFormat format = new SimpleDateFormat("'Le 'dd.MM.yyyy' à 'HH:mm:ss");
             format.setTimeZone(TimeZone.getTimeZone("Europe/Zurich"));
