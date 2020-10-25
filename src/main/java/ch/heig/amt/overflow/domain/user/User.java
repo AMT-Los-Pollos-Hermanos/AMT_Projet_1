@@ -21,6 +21,7 @@ public class User implements IEntity<User, UserId> {
     @EqualsAndHashCode.Exclude
     private String encryptedPassword;
 
+    // return true if password match with the encrypted one
     public boolean authenticate(String clearTextPassword) {
         return BCryptPasswordEncoder.verify(clearTextPassword, encryptedPassword);
     }
@@ -39,6 +40,7 @@ public class User implements IEntity<User, UserId> {
 
     public static class UserBuilder {
 
+        // hash password and set it
         public UserBuilder clearTextPassword(String clearTextPassword) {
             if(clearTextPassword == null || clearTextPassword.isEmpty()) {
                 throw new IllegalArgumentException("Password is mandatory");
