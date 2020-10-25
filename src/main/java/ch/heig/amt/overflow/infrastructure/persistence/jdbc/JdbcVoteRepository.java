@@ -50,7 +50,7 @@ public class JdbcVoteRepository implements IVoteRepository {
 
                 int rows = preparedStatement.executeUpdate();
                 if (rows == 0) {
-                    throw new RuntimeException("Error while adding new vote to the database");
+                    throw new RuntimeException("Erreur lors de l'ajout du vote dans la base de données");
                 }
             } else {
                 // Update comment
@@ -62,12 +62,12 @@ public class JdbcVoteRepository implements IVoteRepository {
 
                 int rows = preparedStatement.executeUpdate();
                 if (rows == 0) {
-                    throw new RuntimeException("Error while updating new vote to the database");
+                    throw new RuntimeException("Erreur lors de la mise à jour du vote dans la base de données");
                 }
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error while adding/updating vote to the database");
+            throw new RuntimeException("Erreur lors de l'ajout/mise à jour du vote dans la base de données");
         }
     }
 
@@ -78,10 +78,10 @@ public class JdbcVoteRepository implements IVoteRepository {
             preparedStatement.setString(1, id.toString());
             int rows = preparedStatement.executeUpdate();
             if (rows == 0) {
-                throw new RuntimeException("No answer deleted, answer with id '" + id.toString() + "' not found in database");
+                throw new RuntimeException("Aucun vote supprimé, le vote avec l'ID '" + id.toString() + "' n'a pas été trouvé");
             }
         } catch (SQLException e) {
-            throw new RuntimeException("SQL error");
+            throw new RuntimeException("Problème lié à la base de données");
         }
     }
 

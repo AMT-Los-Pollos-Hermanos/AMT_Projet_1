@@ -27,7 +27,7 @@ public class AnswerFacade {
                     .build();
             answerRepository.save(submittedAnswer);
         } else {
-            throw new IllegalArgumentException("Content are mandatory");
+            throw new IllegalArgumentException("Le contenu est obligatoire");
         }
     }
 

@@ -82,7 +82,7 @@ public class JdbcUserRepository implements IUserRepository {
                 create.setString(i, entity.getLastName());
                 int rows = create.executeUpdate();
                 if (rows == 0) {
-                    throw new RuntimeException("Error while adding new user to the database");
+                    throw new RuntimeException("Erreur lors de l'ajout de l'utilisateur dans la base de données");
                 }
             } else {
                 // Update user
@@ -98,11 +98,11 @@ public class JdbcUserRepository implements IUserRepository {
                 create.setString(i, entity.getId().toString());
                 int rows = create.executeUpdate();
                 if (rows == 0) {
-                    throw new RuntimeException("Error while updating user in the database");
+                    throw new RuntimeException("Erreur lors de le mise à jour de l'utilisateur dans la base de données");
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("SQL error");
+            throw new RuntimeException("Problème lié à la base de données");
         }
     }
 
@@ -113,10 +113,10 @@ public class JdbcUserRepository implements IUserRepository {
             preparedStatement.setString(1, id.toString());
             int rows = preparedStatement.executeUpdate();
             if (rows == 0) {
-                throw new RuntimeException("No user deleted, user with id '" + id.toString() + "' not found in database");
+                throw new RuntimeException("Aucun utilisateur supprimé, l'utilisateur avec l'ID '" + id.toString() + "' n'a pas été trouvé");
             }
         } catch (SQLException e) {
-            throw new RuntimeException("SQL error");
+            throw new RuntimeException("Problème lié à la base de données");
         }
     }
 

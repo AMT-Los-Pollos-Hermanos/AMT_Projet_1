@@ -71,7 +71,7 @@ public class JdbcCommentRepository implements ICommentRepository {
             con.commit();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error while adding/updating comment to the database");
+            throw new RuntimeException("Erreur lors de l'ajout/mise à jour du commentaire dans la base de données");
         }
     }
 
@@ -82,7 +82,7 @@ public class JdbcCommentRepository implements ICommentRepository {
             preparedStatement.setString(1, id.toString());
             int rows = preparedStatement.executeUpdate();
             if (rows == 0) {
-                throw new RuntimeException("No comments deleted, answer with id '" + id.toString() + "' not found in database");
+                throw new RuntimeException("Aucun commentaire supprimé, le comm avec l'ID '" + id.toString() + "' n'a pas été trouvé");
             }
         } catch (SQLException e) {
             throw new RuntimeException("Problème lié à la base de données");
