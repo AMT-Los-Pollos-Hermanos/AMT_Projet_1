@@ -18,7 +18,7 @@ public class NewCommentServlet extends HttpServlet {
 
     @Inject
     MainContentFacade facade;
-
+    // set question or answer to the request
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         MainContentId id = new MainContentId(request.getPathInfo().split("/")[1]);
         Object o = facade.getContentFromId(id);

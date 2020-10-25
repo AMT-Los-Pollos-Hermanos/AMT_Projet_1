@@ -18,7 +18,7 @@ public class AuthFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpSession session = request.getSession(false);
 
-        // Accès à la page de login n'a pas de restriction
+        // access to login page has no restriction
         if (isPublicRessource(request.getRequestURI(), request.getContextPath())) {
             chain.doFilter(req, resp);
             return;
@@ -40,7 +40,7 @@ public class AuthFilter implements Filter {
     }
 
     boolean isPublicRessource(String uri, String prefix) {
-        // Seulement la page de login est accessible pour tout le monde.
+        // only the login page is open to everybody
         return uri.startsWith(prefix + "/login") ||
                 uri.startsWith(prefix + "/register.do") ||
                 uri.startsWith(prefix + "/questions") ||

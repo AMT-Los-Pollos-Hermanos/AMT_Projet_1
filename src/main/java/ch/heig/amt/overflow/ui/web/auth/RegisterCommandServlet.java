@@ -21,6 +21,7 @@ public class RegisterCommandServlet extends HttpServlet {
     ServiceRegistry serviceRegistry;
 
     @Override
+    // register user throw the facade from the req or throw exception
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         RegisterCommand command = RegisterCommand.builder()
                 .firstName(req.getParameter("firstName"))

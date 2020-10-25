@@ -22,6 +22,7 @@ public class NewAnswerServlet extends HttpServlet {
     @Inject
     ServiceRegistry serviceRegistry;
 
+    // add new answer to the answer facade or throw exception 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         UserDTO currentUser = (UserDTO) request.getSession().getAttribute("currentUser");

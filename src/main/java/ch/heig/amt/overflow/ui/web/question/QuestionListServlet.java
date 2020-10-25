@@ -26,6 +26,7 @@ public class QuestionListServlet extends HttpServlet {
         questionFacade = serviceRegistry.getQuestionFacade();
     }
 
+    // search for question
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String search = request.getParameter("s");
         QuestionQuery query;

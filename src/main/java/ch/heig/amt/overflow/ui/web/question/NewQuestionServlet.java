@@ -18,7 +18,7 @@ public class NewQuestionServlet extends HttpServlet {
 
     @Inject
     ServiceRegistry serviceRegistry;
-
+     // add new question to the question facade
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserDTO currentUser = (UserDTO) request.getSession().getAttribute("currentUser");
         NewQuestionCommand command = NewQuestionCommand.builder()

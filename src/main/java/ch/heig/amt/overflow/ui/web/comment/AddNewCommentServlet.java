@@ -20,6 +20,7 @@ public class AddNewCommentServlet extends HttpServlet {
     @Inject
     ServiceRegistry registry;
 
+    // add new comment to the facade from the req or throw exception
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserDTO currentUser = (UserDTO) request.getSession().getAttribute("currentUser");
         String id = request.getParameter("content_id");
