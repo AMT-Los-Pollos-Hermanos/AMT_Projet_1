@@ -20,7 +20,7 @@ public class LogoutCommandServlet extends HttpServlet {
         req.getSession().setAttribute("flash", FlashMessage.builder()
                 .message("Vous êtes maintenant déconnecté.")
                 .build());
-        resp.sendRedirect("login");
+        resp.sendRedirect(req.getContextPath() + "/login");
     }
 
 }

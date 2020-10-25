@@ -24,7 +24,7 @@
                                 <c:out value="${sessionScope.currentUser.firstName} ${sessionScope.currentUser.lastName}"/>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="<c:url value="logout.do" />">Déconnexion</a>
+                                <a class="dropdown-item" href="<c:url value="/logout.do" />">Déconnexion</a>
                             </div>
                         </li>
                     </c:when>
