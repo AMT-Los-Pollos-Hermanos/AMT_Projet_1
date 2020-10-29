@@ -1,3 +1,9 @@
+/*
+ * AMT : Project 1 - Overflow
+ * Authors : Gil Balsiger, Chris Barros Henriques, Julien Béguin & Gaëtan Daubresse
+ * Date : 29.10.2020
+ */
+
 package ch.heig.amt.overflow.infrastructure.persistence.jdbc;
 
 import ch.heig.amt.overflow.domain.answer.Answer;
@@ -16,7 +22,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -201,4 +206,5 @@ public class JdbcAnswerRepository implements IAnswerRepository {
                 condition + " " +
                 "GROUP BY answers.content_id";
     }
+
 }

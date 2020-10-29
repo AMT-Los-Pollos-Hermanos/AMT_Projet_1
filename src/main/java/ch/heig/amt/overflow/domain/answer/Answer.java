@@ -1,3 +1,9 @@
+/*
+ * AMT : Project 1 - Overflow
+ * Authors : Gil Balsiger, Chris Barros Henriques, Julien Béguin & Gaëtan Daubresse
+ * Date : 29.10.2020
+ */
+
 package ch.heig.amt.overflow.domain.answer;
 
 import ch.heig.amt.overflow.domain.IEntity;
@@ -33,4 +39,5 @@ public class Answer implements IEntity<Answer, AnswerId> {
     public Answer deepClone() {
         return this.toBuilder().id(new AnswerId(id.toString())).build();
     }
+
 }

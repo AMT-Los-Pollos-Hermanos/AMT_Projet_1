@@ -1,3 +1,9 @@
+/*
+ * AMT : Project 1 - Overflow
+ * Authors : Gil Balsiger, Chris Barros Henriques, Julien Béguin & Gaëtan Daubresse
+ * Date : 29.10.2020
+ */
+
 package ch.heig.amt.overflow.domain.vote;
 
 import ch.heig.amt.overflow.domain.ContentId;
@@ -23,4 +29,5 @@ public class Vote implements IEntity<Vote, VoteId> {
     public Vote deepClone() {
         return this.toBuilder().id(new VoteId(id.toString())).build();
     }
+
 }

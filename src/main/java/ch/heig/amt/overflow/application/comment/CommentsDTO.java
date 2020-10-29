@@ -1,3 +1,9 @@
+/*
+ * AMT : Project 1 - Overflow
+ * Authors : Gil Balsiger, Chris Barros Henriques, Julien Béguin & Gaëtan Daubresse
+ * Date : 29.10.2020
+ */
+
 package ch.heig.amt.overflow.application.comment;
 
 import ch.heig.amt.overflow.application.auth.UserDTO;
@@ -20,6 +26,7 @@ public class CommentsDTO {
     @Builder
     @Value
     public static class CommentDTO {
+
         CommentId commentId;
         MainContentId mainContentId;
         String content;

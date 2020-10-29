@@ -1,3 +1,9 @@
+/*
+ * AMT : Project 1 - Overflow
+ * Authors : Gil Balsiger, Chris Barros Henriques, Julien Béguin & Gaëtan Daubresse
+ * Date : 29.10.2020
+ */
+
 package ch.heig.amt.overflow.application.answer;
 
 import ch.heig.amt.overflow.application.auth.UserDTO;
@@ -31,6 +37,7 @@ public class AnswerFacade {
             throw new IllegalArgumentException("Le contenu est obligatoire");
         }
     }
+
     // search answer with corresponding ID and return answerDTO
     public AnswersDTO getAnswerFromQuestionId(QuestionId questionId) {
         Collection<Answer> answers = answerRepository.findByQuestionId(questionId);
@@ -55,4 +62,5 @@ public class AnswerFacade {
                 .answers(mapper)
                 .build();
     }
+
 }

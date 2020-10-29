@@ -1,3 +1,9 @@
+/*
+ * AMT : Project 1 - Overflow
+ * Authors : Gil Balsiger, Chris Barros Henriques, Julien Béguin & Gaëtan Daubresse
+ * Date : 29.10.2020
+ */
+
 package ch.heig.amt.overflow.application.vote;
 
 import ch.heig.amt.overflow.domain.ContentId;
@@ -49,14 +55,10 @@ public class VoteFacade {
         return mapVoteDTO(voteRepository.findByUserId(userId));
     }
 
-    public VotesDTO getUserVotesInQuestionPage(UserId userId, QuestionId questionId) {
-        return mapVoteDTO(voteRepository.findByUserIdAndQuestionId(userId, questionId));
-    }
-
     private boolean isVoteCancelled(UserId userId, ContentId contentId, VoteStatus status) {
         Optional<Vote> vote = voteRepository.findByUserIdAndContentId(userId, contentId);
 
-        if(vote.isPresent()) {
+        if (vote.isPresent()) {
             deleteVote(vote.get().getId());
             return vote.get().getStatus().equals(status);
         } else {

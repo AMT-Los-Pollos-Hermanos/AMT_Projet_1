@@ -1,3 +1,9 @@
+/*
+ * AMT : Project 1 - Overflow
+ * Authors : Gil Balsiger, Chris Barros Henriques, Julien Béguin & Gaëtan Daubresse
+ * Date : 29.10.2020
+ */
+
 package ch.heig.amt.overflow.ui.web.comment;
 
 import ch.heig.amt.overflow.application.content.MainContentFacade;
@@ -19,6 +25,7 @@ public class NewCommentServlet extends HttpServlet {
 
     @Inject
     MainContentFacade facade;
+
     // set question or answer to the request
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         MainContentId id = new MainContentId(request.getPathInfo().split("/")[1]);
@@ -37,7 +44,7 @@ public class NewCommentServlet extends HttpServlet {
             request.setAttribute("questionId", q != null ? q.getId().toString() : a.getQuestionId().toString());
             request.getRequestDispatcher("/WEB-INF/views/comment.jsp").forward(request, response);
 
-        }  catch (Exception e) {
+        } catch (Exception e) {
             request.getSession().setAttribute("flash", FlashMessage.builder()
                     .message(e.getMessage())
                     .type("danger")

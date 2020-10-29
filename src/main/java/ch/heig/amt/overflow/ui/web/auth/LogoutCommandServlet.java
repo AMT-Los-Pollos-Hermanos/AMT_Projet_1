@@ -1,3 +1,9 @@
+/*
+ * AMT : Project 1 - Overflow
+ * Authors : Gil Balsiger, Chris Barros Henriques, Julien Béguin & Gaëtan Daubresse
+ * Date : 29.10.2020
+ */
+
 package ch.heig.amt.overflow.ui.web.auth;
 
 import ch.heig.amt.overflow.domain.message.FlashMessage;
@@ -15,7 +21,7 @@ public class LogoutCommandServlet extends HttpServlet {
     @Override
     // remove user from session to logout
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if(req.getSession().getAttribute("currentUser") != null) {
+        if (req.getSession().getAttribute("currentUser") != null) {
             req.getSession().removeAttribute("currentUser");
         }
         req.getSession().setAttribute("flash", FlashMessage.builder()

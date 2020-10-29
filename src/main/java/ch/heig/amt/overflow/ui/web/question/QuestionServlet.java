@@ -1,3 +1,9 @@
+/*
+ * AMT : Project 1 - Overflow
+ * Authors : Gil Balsiger, Chris Barros Henriques, Julien Béguin & Gaëtan Daubresse
+ * Date : 29.10.2020
+ */
+
 package ch.heig.amt.overflow.ui.web.question;
 
 import ch.heig.amt.overflow.application.ServiceRegistry;
@@ -69,4 +75,5 @@ public class QuestionServlet extends HttpServlet {
         request.getSession().removeAttribute("flash");
 
     }
+
 }

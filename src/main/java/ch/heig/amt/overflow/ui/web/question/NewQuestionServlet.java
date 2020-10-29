@@ -1,3 +1,9 @@
+/*
+ * AMT : Project 1 - Overflow
+ * Authors : Gil Balsiger, Chris Barros Henriques, Julien Béguin & Gaëtan Daubresse
+ * Date : 29.10.2020
+ */
+
 package ch.heig.amt.overflow.ui.web.question;
 
 import ch.heig.amt.overflow.application.ServiceRegistry;
@@ -18,7 +24,8 @@ public class NewQuestionServlet extends HttpServlet {
 
     @Inject
     ServiceRegistry serviceRegistry;
-     // add new question to the question facade
+
+    // add new question to the question facade
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserDTO currentUser = (UserDTO) request.getSession().getAttribute("currentUser");
         NewQuestionCommand command = NewQuestionCommand.builder()

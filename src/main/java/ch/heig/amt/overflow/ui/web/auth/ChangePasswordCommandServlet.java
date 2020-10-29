@@ -1,3 +1,9 @@
+/*
+ * AMT : Project 1 - Overflow
+ * Authors : Gil Balsiger, Chris Barros Henriques, Julien Béguin & Gaëtan Daubresse
+ * Date : 29.10.2020
+ */
+
 package ch.heig.amt.overflow.ui.web.auth;
 
 import ch.heig.amt.overflow.application.ServiceRegistry;
@@ -15,6 +21,7 @@ import java.io.IOException;
 
 @WebServlet(name = "ChangePasswordCommandServlet", urlPatterns = "/changePassword.do")
 public class ChangePasswordCommandServlet extends HttpServlet {
+
     @Inject
     ServiceRegistry serviceRegistry;
 
@@ -46,4 +53,5 @@ public class ChangePasswordCommandServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/profile");
         }
     }
+
 }

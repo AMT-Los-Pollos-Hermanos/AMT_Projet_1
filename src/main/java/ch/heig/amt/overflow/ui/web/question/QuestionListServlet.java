@@ -1,3 +1,9 @@
+/*
+ * AMT : Project 1 - Overflow
+ * Authors : Gil Balsiger, Chris Barros Henriques, Julien Béguin & Gaëtan Daubresse
+ * Date : 29.10.2020
+ */
+
 package ch.heig.amt.overflow.ui.web.question;
 
 import ch.heig.amt.overflow.application.ServiceRegistry;
@@ -31,7 +37,7 @@ public class QuestionListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String search = request.getParameter("s");
         QuestionQuery query;
-        if(search != null && !search.isEmpty()) {
+        if (search != null && !search.isEmpty()) {
             query = QuestionQuery.builder().search(search).build();
         } else {
             query = QuestionQuery.builder().build();

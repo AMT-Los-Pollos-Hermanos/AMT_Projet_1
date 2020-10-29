@@ -1,3 +1,9 @@
+/*
+ * AMT : Project 1 - Overflow
+ * Authors : Gil Balsiger, Chris Barros Henriques, Julien Béguin & Gaëtan Daubresse
+ * Date : 29.10.2020
+ */
+
 package ch.heig.amt.overflow.ui.web.vote;
 
 import ch.heig.amt.overflow.application.ServiceRegistry;
@@ -37,10 +43,11 @@ public class VoteServlet extends HttpServlet {
                 .status(voteStatus)
                 .build();
 
-        try{
-            serviceRegistry.getVoteFacade().addNewVote(command);
-        }
-        catch(Exception e){
+        try {
+            synchronized (this) {
+                serviceRegistry.getVoteFacade().addNewVote(command);
+            }
+        } catch (Exception e) {
             request.getSession().setAttribute("flash", FlashMessage.builder()
                     .message("Une erreur s'est produite lors du vote: " + e.getMessage())
                     .type("danger")
@@ -49,4 +56,5 @@ public class VoteServlet extends HttpServlet {
 
         response.sendRedirect(request.getContextPath() + "/question/" + questionId);
     }
+
 }

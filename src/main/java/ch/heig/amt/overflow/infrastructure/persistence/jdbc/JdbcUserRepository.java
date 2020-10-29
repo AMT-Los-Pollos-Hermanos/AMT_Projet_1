@@ -1,15 +1,17 @@
+/*
+ * AMT : Project 1 - Overflow
+ * Authors : Gil Balsiger, Chris Barros Henriques, Julien Béguin & Gaëtan Daubresse
+ * Date : 29.10.2020
+ */
+
 package ch.heig.amt.overflow.infrastructure.persistence.jdbc;
 
 import ch.heig.amt.overflow.domain.user.IUserRepository;
 import ch.heig.amt.overflow.domain.user.User;
 import ch.heig.amt.overflow.domain.user.UserId;
-import ch.heig.amt.overflow.infrastructure.security.BCryptPasswordEncoder;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;

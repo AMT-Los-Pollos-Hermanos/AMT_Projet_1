@@ -1,3 +1,9 @@
+/*
+ * AMT : Project 1 - Overflow
+ * Authors : Gil Balsiger, Chris Barros Henriques, Julien Béguin & Gaëtan Daubresse
+ * Date : 29.10.2020
+ */
+
 package ch.heig.amt.overflow.infrastructure.persistence.jdbc;
 
 import ch.heig.amt.overflow.application.question.QuestionQuery;
@@ -11,12 +17,14 @@ import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import javax.sql.DataSource;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.Date;
 
 @ApplicationScoped
 @Named("JdbcQuestionRepository")
@@ -134,9 +142,9 @@ public class JdbcQuestionRepository implements IQuestionRepository {
                     "users.id, username, email, password, last_name, first_name, " +
                     "(COUNT(IF(state = 'UP', 1, NULL)) - COUNT(IF(state = 'DOWN', 1, NULL))) AS nb_votes " +
                     "FROM questions " +
-                    "INNER JOIN main_contents on questions.content_id = main_contents.content_id " +
-                    "INNER JOIN contents on main_contents.content_id = contents.id " +
-                    "INNER JOIN users on contents.user_id = users.id " +
+                    "INNER JOIN main_contents ON questions.content_id = main_contents.content_id " +
+                    "INNER JOIN contents ON main_contents.content_id = contents.id " +
+                    "INNER JOIN users ON contents.user_id = users.id " +
                     "LEFT JOIN votes ON contents.id = votes.content_id " +
                     "WHERE questions.content_id = ? " +
                     "GROUP BY questions.content_id";

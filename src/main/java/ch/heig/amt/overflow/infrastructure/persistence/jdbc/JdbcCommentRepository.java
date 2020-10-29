@@ -1,3 +1,9 @@
+/*
+ * AMT : Project 1 - Overflow
+ * Authors : Gil Balsiger, Chris Barros Henriques, Julien Béguin & Gaëtan Daubresse
+ * Date : 29.10.2020
+ */
+
 package ch.heig.amt.overflow.infrastructure.persistence.jdbc;
 
 import ch.heig.amt.overflow.domain.MainContentId;
@@ -196,4 +202,5 @@ public class JdbcCommentRepository implements ICommentRepository {
                 condition + " " +
                 "GROUP BY comments.content_id";
     }
+
 }

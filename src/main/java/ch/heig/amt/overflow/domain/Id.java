@@ -1,3 +1,9 @@
+/*
+ * AMT : Project 1 - Overflow
+ * Authors : Gil Balsiger, Chris Barros Henriques, Julien Béguin & Gaëtan Daubresse
+ * Date : 29.10.2020
+ */
+
 package ch.heig.amt.overflow.domain;
 
 import lombok.EqualsAndHashCode;
@@ -18,7 +24,7 @@ public abstract class Id {
     }
 
     public Id(UUID id) {
-        if(id == null) {
+        if (id == null) {
             throw new NullPointerException();
         }
         this.id = id;
@@ -28,4 +34,5 @@ public abstract class Id {
     public String toString() {
         return id.toString();
     }
+
 }

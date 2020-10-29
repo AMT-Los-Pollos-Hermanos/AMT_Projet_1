@@ -1,3 +1,9 @@
+/*
+ * AMT : Project 1 - Overflow
+ * Authors : Gil Balsiger, Chris Barros Henriques, Julien Béguin & Gaëtan Daubresse
+ * Date : 29.10.2020
+ */
+
 package ch.heig.amt.overflow.application.answer;
 
 import ch.heig.amt.overflow.application.auth.UserDTO;
@@ -19,6 +25,7 @@ public class AnswersDTO {
     @Getter
     @EqualsAndHashCode
     public static class AnswerDTO {
+
         private final AnswerId answerId;
         private final String content;
         private final Date createdAt;
@@ -36,7 +43,6 @@ public class AnswersDTO {
         }
 
     }
-
 
 
     @Singular

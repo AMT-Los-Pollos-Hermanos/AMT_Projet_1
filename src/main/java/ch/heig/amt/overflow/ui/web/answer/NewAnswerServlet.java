@@ -1,10 +1,14 @@
+/*
+ * AMT : Project 1 - Overflow
+ * Authors : Gil Balsiger, Chris Barros Henriques, Julien Béguin & Gaëtan Daubresse
+ * Date : 29.10.2020
+ */
+
 package ch.heig.amt.overflow.ui.web.answer;
 
 import ch.heig.amt.overflow.application.ServiceRegistry;
 import ch.heig.amt.overflow.application.answer.NewAnswerCommand;
 import ch.heig.amt.overflow.application.auth.UserDTO;
-import ch.heig.amt.overflow.application.question.NewQuestionCommand;
-import ch.heig.amt.overflow.application.question.QuestionsDTO;
 import ch.heig.amt.overflow.domain.message.FlashMessage;
 import ch.heig.amt.overflow.domain.question.QuestionId;
 
@@ -48,4 +52,5 @@ public class NewAnswerServlet extends HttpServlet {
         }
         response.sendRedirect(request.getContextPath() + "/question/" + questionId);
     }
+
 }

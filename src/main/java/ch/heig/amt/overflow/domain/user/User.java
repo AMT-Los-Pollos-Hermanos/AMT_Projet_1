@@ -1,3 +1,9 @@
+/*
+ * AMT : Project 1 - Overflow
+ * Authors : Gil Balsiger, Chris Barros Henriques, Julien Béguin & Gaëtan Daubresse
+ * Date : 29.10.2020
+ */
+
 package ch.heig.amt.overflow.domain.user;
 
 import ch.heig.amt.overflow.domain.IEntity;
@@ -42,7 +48,7 @@ public class User implements IEntity<User, UserId> {
 
         // hash password and set it
         public UserBuilder clearTextPassword(String clearTextPassword) {
-            if(clearTextPassword == null || clearTextPassword.isEmpty()) {
+            if (clearTextPassword == null || clearTextPassword.isEmpty()) {
                 throw new IllegalArgumentException("Password is mandatory");
             } else {
                 encryptedPassword = BCryptPasswordEncoder.hash(clearTextPassword);

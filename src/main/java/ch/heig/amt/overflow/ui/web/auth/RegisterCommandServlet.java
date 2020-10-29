@@ -1,13 +1,17 @@
+/*
+ * AMT : Project 1 - Overflow
+ * Authors : Gil Balsiger, Chris Barros Henriques, Julien Béguin & Gaëtan Daubresse
+ * Date : 29.10.2020
+ */
+
 package ch.heig.amt.overflow.ui.web.auth;
 
 import ch.heig.amt.overflow.application.ServiceRegistry;
-import ch.heig.amt.overflow.application.auth.AuthFacade;
 import ch.heig.amt.overflow.application.auth.RegisterCommand;
 import ch.heig.amt.overflow.application.auth.RegistrationFailedException;
 import ch.heig.amt.overflow.domain.message.FlashMessage;
 
 import javax.inject.Inject;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
