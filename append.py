@@ -2,7 +2,7 @@
 
 import os
 
-header = "/*\n" + " * AMT : Project 1 - Overflow\n" + " * Authors : Gil Balsiger, Chris Barros, Julien Béguin & Gaëtan Daubresse\n" + " * Date : 24.10.2020\n" + " */\n\n"
+header = "/*\n" + " * AMT : Project 1 - Overflow\n" + " * Authors : Gil Balsiger, Chris Barros Henriques, Julien Béguin & Gaëtan Daubresse\n" + " * Date : 29.10.2020\n" + " */\n\n"
 
 stream = os.popen('find src/ -type f -iname "*.java"')
 output = stream.read()
