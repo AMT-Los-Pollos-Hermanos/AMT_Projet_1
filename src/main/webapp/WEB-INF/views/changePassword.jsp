@@ -5,12 +5,12 @@
 
     <form action="changePassword.do" method="post">
         <div class="form-group">
-            <label for="oldPassword">Ancien Password</label>
+            <label for="oldPassword">Ancien mot de passe</label>
             <input type="password" class="form-control" id="oldPassword" name="oldPassword"
                    aria-describedby="oldPasswordHelp" placeholder="Entrer l'ancien mot de passe">
         </div>
         <div class="form-group">
-            <label for="newPassword">Nouveau Password</label>
+            <label for="newPassword">Nouveau mot de passe</label>
             <input type="password" class="form-control" id="newPassword" name="newPassword"
                    aria-describedby="newPasswordHelp" placeholder="Entrer le nouveau mot de passe">
         </div>
