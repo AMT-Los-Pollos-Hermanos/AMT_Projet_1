@@ -8,7 +8,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex flex-column align-items-center text-center">
-                        <img src="https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png" alt="Admin" class="rounded-circle" width="150">
+                        <img src="${pageContext.request.contextPath}/assets/img/avatar.png" alt="Admin" class="rounded-circle" width="150">
                         <div class="mt-3">
                             <h4> <c:out value="${sessionScope.currentUser.username}"/> </h4>
                         </div>
@@ -43,7 +43,7 @@
                             <h6 class="mb-0">Mot de passe</h6>
                         </div>
                         <div class="col-sm-9 text-secondary">
-                            <button class="btn btn-dark">Changer mot de passe</button>
+                            <a type="button" class="btn btn-dark" href="${pageContext.request.contextPath}/changePassword">Changer mot de passe</a>
                         </div>
                     </div>
                 </div>
