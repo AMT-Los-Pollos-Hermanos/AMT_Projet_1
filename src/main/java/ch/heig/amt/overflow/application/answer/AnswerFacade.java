@@ -18,6 +18,7 @@ public class AnswerFacade {
         this.answerRepository = answerRepository;
     }
 
+    // add answer to the answerRepository throw exception if incomplete
     public void addNewAnswer(NewAnswerCommand command) {
         if (!command.getContent().isEmpty()) {
             Answer submittedAnswer = Answer.builder()
@@ -30,7 +31,7 @@ public class AnswerFacade {
             throw new IllegalArgumentException("Content are mandatory");
         }
     }
-
+    // search answer with corresponding ID and return answerDTO
     public AnswersDTO getAnswerFromQuestionId(QuestionId questionId) {
         Collection<Answer> answers = answerRepository.findByQuestionId(questionId);
 

@@ -21,6 +21,7 @@ public class VoteServlet extends HttpServlet {
     @Inject
     ServiceRegistry serviceRegistry;
 
+    // set the user vote to the facade
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         UserDTO currentUser = (UserDTO) request.getSession().getAttribute("currentUser");

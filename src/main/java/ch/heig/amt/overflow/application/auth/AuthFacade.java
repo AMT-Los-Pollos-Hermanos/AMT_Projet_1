@@ -12,6 +12,7 @@ public class AuthFacade {
         this.userRepository = userRepository;
     }
 
+    // register new user in the repository, throw exception if user already there
     public void register(RegisterCommand command) throws RegistrationFailedException {
         User existingUser = userRepository.findByUsername(command.getUsername()).orElse(null);
 
@@ -32,7 +33,7 @@ public class AuthFacade {
             throw new RegistrationFailedException(e.getMessage());
         }
     }
-
+  
     public void changePassword(ChangePasswordCommand command) {
 
         User existingUser = userRepository.findById(command.getUserId()).orElse(null);
@@ -62,6 +63,7 @@ public class AuthFacade {
 
     }
 
+    // check if authentication if valid throw exception if not
     public UserDTO authenticate(AuthenticateCommand command) throws AuthenticationFailedException {
         User user = userRepository.findByUsername(command.getUsername()).orElse(null);
 

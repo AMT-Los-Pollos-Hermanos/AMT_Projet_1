@@ -24,6 +24,7 @@ public class LoginCommandServlet extends HttpServlet {
     ServiceRegistry serviceRegistry;
 
     @Override
+    // authenticate the user with cmd throw the authFacade
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getParameter("username");
         String clearTextPassword = req.getParameter("password");

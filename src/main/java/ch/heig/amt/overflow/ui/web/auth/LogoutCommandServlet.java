@@ -13,6 +13,7 @@ import java.io.IOException;
 public class LogoutCommandServlet extends HttpServlet {
 
     @Override
+    // remove user from session to logout
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if(req.getSession().getAttribute("currentUser") != null) {
             req.getSession().removeAttribute("currentUser");
