@@ -27,6 +27,7 @@
 | Provide answer                        | Connected Users |
 | Add comments (to question or answer)  | Connected Users |
 | Vote (to question, answer or comment) | Connected Users |
+| Change password                       | Connected Users |
 
 ### Page layout
 
@@ -36,13 +37,16 @@
 
 **Footer** : statistics (number of registered users, number of questions, etc.)
 
-### Password policy
-
-[To define]
-
 ### Vote policy
 
-[To define]
+- Un utilisateur peut voter pour:
+    - Une question
+    - Une réponse
+    - Un commentaire
+- Ces votes sont soit des upvotes, soit des downvotes
+- Un contenu a un score de points et change selon si l'utilisateura upvote ou downvote
+- Un contenu ne peut pas être à la fois upvote ou downvote
+- Rappuyer sur le bouton d'upvote alors que l'on avait déjà upvote annule ce upvote. Pareil pour le downvote 
 
 ### Database
 
