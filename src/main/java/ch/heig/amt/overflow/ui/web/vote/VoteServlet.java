@@ -44,7 +44,9 @@ public class VoteServlet extends HttpServlet {
                 .build();
 
         try {
-            serviceRegistry.getVoteFacade().addNewVote(command);
+            synchronized (this) {
+                serviceRegistry.getVoteFacade().addNewVote(command);
+            }
         } catch (Exception e) {
             request.getSession().setAttribute("flash", FlashMessage.builder()
                     .message("Une erreur s'est produite lors du vote: " + e.getMessage())
