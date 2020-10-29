@@ -53,7 +53,7 @@ Un formulaire qui demande l'ancien mot de passe utilisateur, le nouveau qui sera
 
 ### Politique de vote
 
-- Un utilisateur peut voter pour:
+- Un utilisateur peut voter pour :
     - Une question
     - Une réponse
     - Un commentaire
@@ -97,7 +97,7 @@ Finally, to connect to the web-app, you need to connect to: http://localhost:908
 ##### Création du test JMeter 
 
 - Ouvrir JMeter 
-- Aller dans File > Open et choisir le fichier overflow_test1.jmx situé dans le répértoire jmeter de notre projet 
+- Aller dans File > Open et choisir le fichier overflow_test2.jmx situé dans le répertoire jmeter de notre projet 
 - Cliquer sur Start  
 - Les résultats sont visibles dans la section View Results Tree
 
