@@ -2,9 +2,7 @@ package ch.heig.amt.overflow.application.auth;
 
 import ch.heig.amt.overflow.domain.user.IUserRepository;
 import ch.heig.amt.overflow.domain.user.User;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import ch.heig.amt.overflow.infrastructure.security.BCryptPasswordEncoder;
 
 public class AuthFacade {
 
@@ -17,7 +15,7 @@ public class AuthFacade {
     public void register(RegisterCommand command) throws RegistrationFailedException {
         User existingUser = userRepository.findByUsername(command.getUsername()).orElse(null);
 
-        if(existingUser != null) {
+        if (existingUser != null) {
             throw new RegistrationFailedException("Username is already used");
         }
 
@@ -35,10 +33,39 @@ public class AuthFacade {
         }
     }
 
+    public void changePassword(ChangePasswordCommand command) {
+
+        User existingUser = userRepository.findById(command.getUserId()).orElse(null);
+        String encryptedNewPassword = BCryptPasswordEncoder.hash(command.getNewPassword());
+
+        if (existingUser != null) {
+            if (BCryptPasswordEncoder.verify(command.getOldPassword(), existingUser.getEncryptedPassword())){
+                    if(!BCryptPasswordEncoder.verify(command.getNewPassword(), existingUser.getEncryptedPassword())){
+                            if( command.getNewPassword().equals(command.getNewPasswordAgain())) {
+                                existingUser.setEncryptedPassword(encryptedNewPassword);
+                                userRepository.save(existingUser);
+                            }
+                            else{
+                                throw new ChangePasswordException("Le deux nouveaux mots de passe doivent être pareils");
+                            }
+                    }
+                    else{
+                        throw new ChangePasswordException("Le nouveau mot de passe doit être différent de l'ancien");
+                    }
+            }
+            else{
+                throw new ChangePasswordException("L'ancien mot de passe ne correspond pas");
+            }
+        } else {
+            throw new RuntimeException("Utilisateur non trouvé");
+        }
+
+    }
+
     public UserDTO authenticate(AuthenticateCommand command) throws AuthenticationFailedException {
         User user = userRepository.findByUsername(command.getUsername()).orElse(null);
 
-        if(!(user != null && user.authenticate(command.getClearTextPassword()))) {
+        if (!(user != null && user.authenticate(command.getClearTextPassword()))) {
             throw new AuthenticationFailedException("Invalid credentials");
         }
 
