@@ -11,6 +11,7 @@ import ch.heig.amt.overflow.domain.ContentId;
 import java.util.UUID;
 
 public class CommentId extends ContentId {
+
     public CommentId() {
         super();
     }
@@ -22,4 +23,5 @@ public class CommentId extends ContentId {
     public CommentId(UUID id) {
         super(id);
     }
+
 }

@@ -15,9 +15,11 @@ import lombok.Value;
 @Builder
 @Value
 public class NewVoteCommand {
+
     UserId userId;
 
     ContentId contentId;
 
     VoteStatus status;
+
 }

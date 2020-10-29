@@ -24,7 +24,7 @@ public abstract class Id {
     }
 
     public Id(UUID id) {
-        if(id == null) {
+        if (id == null) {
             throw new NullPointerException();
         }
         this.id = id;
@@ -34,4 +34,5 @@ public abstract class Id {
     public String toString() {
         return id.toString();
     }
+
 }

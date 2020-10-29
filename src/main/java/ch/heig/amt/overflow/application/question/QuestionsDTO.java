@@ -26,6 +26,7 @@ public class QuestionsDTO {
     @Getter
     @EqualsAndHashCode
     public static class QuestionDTO {
+
         private final QuestionId questionId;
         private final String title;
         private final String content;

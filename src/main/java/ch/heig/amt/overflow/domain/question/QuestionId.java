@@ -23,4 +23,5 @@ public class QuestionId extends MainContentId {
     public QuestionId(UUID id) {
         super(id);
     }
+
 }

@@ -16,8 +16,9 @@ import java.io.IOException;
 @WebServlet(name = "ChangePasswordServlet", urlPatterns = "/changePassword")
 public class ChangePasswordServlet extends HttpServlet {
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)  throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("/WEB-INF/views/changePassword.jsp").forward(request, response);
         request.getSession().removeAttribute("flash");
     }
+
 }

@@ -21,10 +21,11 @@ public class VotesDTO {
     @Builder
     @Value
     public static class VoteDTO {
+
         ContentId contentId;
         VoteStatus status;
-    }
 
+    }
 
 
     @Singular

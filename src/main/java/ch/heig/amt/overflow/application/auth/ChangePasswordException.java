@@ -6,6 +6,12 @@
 
 package ch.heig.amt.overflow.application.auth;
 
-public class ChangePasswordException extends RuntimeException{
-    public ChangePasswordException(String message) { super(message); }
+import ch.heig.amt.overflow.application.BusinessException;
+
+public class ChangePasswordException extends BusinessException {
+
+    public ChangePasswordException(String message) {
+        super(message);
+    }
+
 }

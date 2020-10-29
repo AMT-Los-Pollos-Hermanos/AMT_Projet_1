@@ -37,7 +37,7 @@ public class QuestionListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String search = request.getParameter("s");
         QuestionQuery query;
-        if(search != null && !search.isEmpty()) {
+        if (search != null && !search.isEmpty()) {
             query = QuestionQuery.builder().search(search).build();
         } else {
             query = QuestionQuery.builder().build();

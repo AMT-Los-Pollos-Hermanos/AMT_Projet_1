@@ -11,6 +11,7 @@ import ch.heig.amt.overflow.domain.MainContentId;
 import java.util.UUID;
 
 public class AnswerId extends MainContentId {
+
     public AnswerId() {
         super();
     }
@@ -22,4 +23,5 @@ public class AnswerId extends MainContentId {
     public AnswerId(UUID id) {
         super(id);
     }
+
 }

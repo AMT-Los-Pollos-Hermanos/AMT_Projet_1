@@ -12,7 +12,6 @@ import ch.heig.amt.overflow.domain.question.Question;
 import ch.heig.amt.overflow.domain.question.QuestionId;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Default;
 import javax.inject.Named;
 import java.util.Collection;
 import java.util.stream.Collectors;

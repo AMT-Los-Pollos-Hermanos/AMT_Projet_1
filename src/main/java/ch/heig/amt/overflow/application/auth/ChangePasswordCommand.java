@@ -13,8 +13,10 @@ import lombok.Value;
 @Builder
 @Value
 public class ChangePasswordCommand {
+
     UserId userId;
     String oldPassword;
     String newPassword;
     String newPasswordAgain;
+
 }

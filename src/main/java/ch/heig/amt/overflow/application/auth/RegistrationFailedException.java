@@ -13,4 +13,5 @@ public class RegistrationFailedException extends BusinessException {
     public RegistrationFailedException(String message) {
         super(message);
     }
+
 }

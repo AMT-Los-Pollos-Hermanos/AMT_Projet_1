@@ -39,4 +39,5 @@ public class Answer implements IEntity<Answer, AnswerId> {
     public Answer deepClone() {
         return this.toBuilder().id(new AnswerId(id.toString())).build();
     }
+
 }

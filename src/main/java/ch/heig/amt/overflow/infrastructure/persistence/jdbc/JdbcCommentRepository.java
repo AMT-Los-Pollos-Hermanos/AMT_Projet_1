@@ -202,4 +202,5 @@ public class JdbcCommentRepository implements ICommentRepository {
                 condition + " " +
                 "GROUP BY comments.content_id";
     }
+
 }

@@ -48,7 +48,7 @@ public class User implements IEntity<User, UserId> {
 
         // hash password and set it
         public UserBuilder clearTextPassword(String clearTextPassword) {
-            if(clearTextPassword == null || clearTextPassword.isEmpty()) {
+            if (clearTextPassword == null || clearTextPassword.isEmpty()) {
                 throw new IllegalArgumentException("Password is mandatory");
             } else {
                 encryptedPassword = BCryptPasswordEncoder.hash(clearTextPassword);

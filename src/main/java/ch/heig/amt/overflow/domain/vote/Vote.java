@@ -29,4 +29,5 @@ public class Vote implements IEntity<Vote, VoteId> {
     public Vote deepClone() {
         return this.toBuilder().id(new VoteId(id.toString())).build();
     }
+
 }

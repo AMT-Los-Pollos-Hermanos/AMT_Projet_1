@@ -13,4 +13,5 @@ public class QuestionNotFoundException extends BusinessException {
     public QuestionNotFoundException(String message) {
         super(message);
     }
+
 }

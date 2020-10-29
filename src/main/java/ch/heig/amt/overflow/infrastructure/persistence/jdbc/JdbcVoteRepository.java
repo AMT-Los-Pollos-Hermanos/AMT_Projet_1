@@ -177,11 +177,11 @@ public class JdbcVoteRepository implements IVoteRepository {
             while (rs.next()) {
                 votes.add(
                         Vote.builder()
-                        .id(new VoteId(rs.getString("id")))
-                        .contentId(new ContentId(rs.getString("content_id")))
-                        .userId(new UserId(rs.getString("user_id")))
-                        .status(VoteStatus.valueOf(rs.getString("state")))
-                        .build()
+                                .id(new VoteId(rs.getString("id")))
+                                .contentId(new ContentId(rs.getString("content_id")))
+                                .userId(new UserId(rs.getString("user_id")))
+                                .status(VoteStatus.valueOf(rs.getString("state")))
+                                .build()
                 );
             }
         } catch (SQLException e) {

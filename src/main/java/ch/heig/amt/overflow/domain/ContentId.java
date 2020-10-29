@@ -9,6 +9,7 @@ package ch.heig.amt.overflow.domain;
 import java.util.UUID;
 
 public class ContentId extends Id {
+
     public ContentId() {
         super();
     }
@@ -20,4 +21,5 @@ public class ContentId extends Id {
     public ContentId(UUID id) {
         super(id);
     }
+
 }

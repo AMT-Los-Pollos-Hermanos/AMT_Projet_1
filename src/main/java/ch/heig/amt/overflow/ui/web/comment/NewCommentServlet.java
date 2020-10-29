@@ -25,6 +25,7 @@ public class NewCommentServlet extends HttpServlet {
 
     @Inject
     MainContentFacade facade;
+
     // set question or answer to the request
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         MainContentId id = new MainContentId(request.getPathInfo().split("/")[1]);
@@ -43,7 +44,7 @@ public class NewCommentServlet extends HttpServlet {
             request.setAttribute("questionId", q != null ? q.getId().toString() : a.getQuestionId().toString());
             request.getRequestDispatcher("/WEB-INF/views/comment.jsp").forward(request, response);
 
-        }  catch (Exception e) {
+        } catch (Exception e) {
             request.getSession().setAttribute("flash", FlashMessage.builder()
                     .message(e.getMessage())
                     .type("danger")

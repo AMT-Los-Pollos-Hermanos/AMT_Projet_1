@@ -75,4 +75,5 @@ public class QuestionServlet extends HttpServlet {
         request.getSession().removeAttribute("flash");
 
     }
+
 }

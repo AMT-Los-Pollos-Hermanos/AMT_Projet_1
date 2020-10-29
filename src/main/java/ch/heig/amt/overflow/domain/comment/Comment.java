@@ -39,4 +39,5 @@ public class Comment implements IEntity<Comment, CommentId> {
     public Comment deepClone() {
         return this.toBuilder().id(new CommentId(id.toString())).build();
     }
+
 }

@@ -21,6 +21,7 @@ import java.io.IOException;
 
 @WebServlet(name = "ChangePasswordCommandServlet", urlPatterns = "/changePassword.do")
 public class ChangePasswordCommandServlet extends HttpServlet {
+
     @Inject
     ServiceRegistry serviceRegistry;
 
@@ -52,4 +53,5 @@ public class ChangePasswordCommandServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/profile");
         }
     }
+
 }

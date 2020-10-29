@@ -14,7 +14,7 @@ import lombok.Value;
 public class FlashMessage {
 
     String message;
-    
+
     @Builder.Default
     String type = "success";
 

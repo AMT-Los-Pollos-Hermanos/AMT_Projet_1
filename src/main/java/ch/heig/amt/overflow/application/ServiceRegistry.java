@@ -25,19 +25,24 @@ import javax.inject.Named;
 @ApplicationScoped
 public class ServiceRegistry {
 
-    @Inject @Named("JdbcQuestionRepository")
+    @Inject
+    @Named("JdbcQuestionRepository")
     private IQuestionRepository questionRepository;
 
-    @Inject @Named("JdbcUserRepository")
+    @Inject
+    @Named("JdbcUserRepository")
     private IUserRepository userRepository;
 
-    @Inject @Named("JdbcAnswerRepository")
+    @Inject
+    @Named("JdbcAnswerRepository")
     private IAnswerRepository answerRepository;
 
-    @Inject @Named("JdbcCommentRepository")
+    @Inject
+    @Named("JdbcCommentRepository")
     private ICommentRepository commentRepository;
 
-    @Inject @Named("JdbcVoteRepository")
+    @Inject
+    @Named("JdbcVoteRepository")
     private IVoteRepository voteRepository;
 
     private QuestionFacade questionFacade;
@@ -58,12 +63,15 @@ public class ServiceRegistry {
     public QuestionFacade getQuestionFacade() {
         return questionFacade;
     }
+
     public AnswerFacade getAnswerFacade() {
         return answerFacade;
     }
+
     public CommentFacade getCommentFacade() {
         return commentFacade;
     }
+
     public VoteFacade getVoteFacade() {
         return voteFacade;
     }

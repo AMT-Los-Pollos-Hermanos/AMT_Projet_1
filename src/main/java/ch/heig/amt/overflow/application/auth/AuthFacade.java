@@ -22,7 +22,7 @@ public class AuthFacade {
     public void register(RegisterCommand command) throws RegistrationFailedException {
         User existingUser = userRepository.findByUsername(command.getUsername()).orElse(null);
 
-        if(existingUser != null) {
+        if (existingUser != null) {
             throw new RegistrationFailedException("Nom d'utilisateur déjà utilisé");
         }
 
@@ -39,28 +39,25 @@ public class AuthFacade {
             throw new RegistrationFailedException(e.getMessage());
         }
     }
-  
-    public void changePassword(ChangePasswordCommand command) {
+
+    public void changePassword(ChangePasswordCommand command) throws ChangePasswordException {
 
         User existingUser = userRepository.findById(command.getUserId()).orElse(null);
         String encryptedNewPassword = BCryptPasswordEncoder.hash(command.getNewPassword());
 
         if (existingUser != null) {
-            if (BCryptPasswordEncoder.verify(command.getOldPassword(), existingUser.getEncryptedPassword())){
-                    if(!BCryptPasswordEncoder.verify(command.getNewPassword(), existingUser.getEncryptedPassword())){
-                            if( command.getNewPassword().equals(command.getNewPasswordAgain())) {
-                                existingUser.setEncryptedPassword(encryptedNewPassword);
-                                userRepository.save(existingUser);
-                            }
-                            else{
-                                throw new ChangePasswordException("Le deux nouveaux mots de passe doivent être pareils");
-                            }
+            if (BCryptPasswordEncoder.verify(command.getOldPassword(), existingUser.getEncryptedPassword())) {
+                if (!BCryptPasswordEncoder.verify(command.getNewPassword(), existingUser.getEncryptedPassword())) {
+                    if (command.getNewPassword().equals(command.getNewPasswordAgain())) {
+                        existingUser.setEncryptedPassword(encryptedNewPassword);
+                        userRepository.save(existingUser);
+                    } else {
+                        throw new ChangePasswordException("Le deux nouveaux mots de passe doivent être pareils");
                     }
-                    else{
-                        throw new ChangePasswordException("Le nouveau mot de passe doit être différent de l'ancien");
-                    }
-            }
-            else{
+                } else {
+                    throw new ChangePasswordException("Le nouveau mot de passe doit être différent de l'ancien");
+                }
+            } else {
                 throw new ChangePasswordException("L'ancien mot de passe ne correspond pas");
             }
         } else {
@@ -74,7 +71,7 @@ public class AuthFacade {
         User user = userRepository.findByUsername(command.getUsername()).orElse(null);
 
 
-        if(!(user != null && user.authenticate(command.getClearTextPassword()))) {
+        if (!(user != null && user.authenticate(command.getClearTextPassword()))) {
             throw new AuthenticationFailedException("Identifiants invalides");
         }
 

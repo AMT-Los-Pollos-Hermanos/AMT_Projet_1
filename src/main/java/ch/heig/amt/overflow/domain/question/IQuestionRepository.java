@@ -12,5 +12,7 @@ import ch.heig.amt.overflow.domain.IRepository;
 import java.util.Collection;
 
 public interface IQuestionRepository extends IRepository<Question, QuestionId> {
+
     Collection<Question> find(QuestionQuery query);
+
 }

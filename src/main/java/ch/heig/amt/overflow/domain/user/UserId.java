@@ -23,4 +23,5 @@ public class UserId extends Id {
     public UserId(UUID id) {
         super(id);
     }
+
 }

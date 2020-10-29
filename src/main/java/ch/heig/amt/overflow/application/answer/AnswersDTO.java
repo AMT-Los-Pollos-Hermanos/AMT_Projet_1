@@ -25,6 +25,7 @@ public class AnswersDTO {
     @Getter
     @EqualsAndHashCode
     public static class AnswerDTO {
+
         private final AnswerId answerId;
         private final String content;
         private final Date createdAt;
@@ -42,7 +43,6 @@ public class AnswersDTO {
         }
 
     }
-
 
 
     @Singular

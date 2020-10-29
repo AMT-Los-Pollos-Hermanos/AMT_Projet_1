@@ -14,10 +14,12 @@ import lombok.Value;
 @Builder
 @Value
 public class NewCommentCommand {
+
     UserId authorId;
 
     MainContentId mainContentId;
 
     @Builder.Default
     String content = "No content";
+
 }

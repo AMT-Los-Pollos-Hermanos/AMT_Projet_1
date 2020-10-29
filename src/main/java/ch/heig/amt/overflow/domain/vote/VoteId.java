@@ -11,6 +11,7 @@ import ch.heig.amt.overflow.domain.Id;
 import java.util.UUID;
 
 public class VoteId extends Id {
+
     public VoteId() {
         super();
     }
@@ -22,4 +23,5 @@ public class VoteId extends Id {
     public VoteId(UUID id) {
         super(id);
     }
+
 }

@@ -37,6 +37,7 @@ public class AnswerFacade {
             throw new IllegalArgumentException("Le contenu est obligatoire");
         }
     }
+
     // search answer with corresponding ID and return answerDTO
     public AnswersDTO getAnswerFromQuestionId(QuestionId questionId) {
         Collection<Answer> answers = answerRepository.findByQuestionId(questionId);
@@ -61,4 +62,5 @@ public class AnswerFacade {
                 .answers(mapper)
                 .build();
     }
+
 }

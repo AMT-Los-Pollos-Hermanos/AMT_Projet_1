@@ -26,6 +26,7 @@ public class CommentsDTO {
     @Builder
     @Value
     public static class CommentDTO {
+
         CommentId commentId;
         MainContentId mainContentId;
         String content;
