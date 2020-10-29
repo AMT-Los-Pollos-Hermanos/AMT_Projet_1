@@ -3,7 +3,7 @@ Feature('search');
 Scenario('test search title', ({ I }) => {
     I.amOnPage('/')
     I.fillField('s', 'question 2')
-    I.click('Search')
+    I.click('Rechercher')
     I.see('Question 2')
     I.see('Contenu 2')
     I.dontSee('Question 1')
@@ -15,7 +15,7 @@ Scenario('test search title', ({ I }) => {
 Scenario('test search author', ({ I }) => {
     I.amOnPage('/')
     I.fillField('s', 'gil')
-    I.click('Search')
+    I.click('Rechercher')
     I.see('Question 1')
     I.see('Contenu 1')
     I.dontSee('Question 2')

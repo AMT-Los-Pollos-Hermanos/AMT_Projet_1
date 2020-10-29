@@ -5,9 +5,9 @@
     <h1 class="text-center">OverFlow</h1>
     <hr>
     <form action="${pageContext.request.contextPath}/questions" method="get">
-        <input type="text" name="s" class="form-control form-control-lg" placeholder="If you have to ask, you’ll never know. If you know, you need only ask.">
+        <input type="text" name="s" class="form-control form-control-lg" placeholder="Recherchez une question par titre ou auteur ...">
         <div class="d-flex justify-content-center mt-3">
-            <button type="submit" class="btn btn-lg btn-primary">Search</button>
+            <button type="submit" class="btn btn-lg btn-primary">Rechercher</button>
         </div>
     </form>
 </div>

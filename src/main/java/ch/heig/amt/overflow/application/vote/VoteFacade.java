@@ -41,7 +41,7 @@ public class VoteFacade {
         if (vote.isPresent()) {
             voteRepository.remove(vote.get().getId());
         } else {
-            throw new RuntimeException("Vote not found");
+            throw new RuntimeException("Vote non trouvé");
         }
     }
 

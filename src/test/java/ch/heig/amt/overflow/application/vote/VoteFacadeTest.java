@@ -42,7 +42,7 @@ class VoteFacadeTest {
         MainContentId contentId = new MainContentId();
         NewVoteCommand cmd = NewVoteCommand.builder()
                 .userId(id)
-                .ContentId(contentId)
+                .contentId(contentId)
                 .status(VoteStatus.DOWN)
                 .build();
         when(repository.findByUserIdAndContentId(any(), any())).thenReturn(Optional.of(Vote.builder()
@@ -62,7 +62,7 @@ class VoteFacadeTest {
         MainContentId contentId = new MainContentId();
         NewVoteCommand cmd = NewVoteCommand.builder()
                 .userId(id)
-                .ContentId(contentId)
+                .contentId(contentId)
                 .status(VoteStatus.DOWN)
                 .build();
         when(repository.findByUserIdAndContentId(any(), any())).thenReturn(Optional.of(Vote.builder()

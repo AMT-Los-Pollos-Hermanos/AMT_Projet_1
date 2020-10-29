@@ -53,7 +53,8 @@ public class JdbcQuestionRepository implements IQuestionRepository {
                 questions.add(resultToQuestion(rs));
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // TODO handle SQL exception
+            e.printStackTrace();
+            throw new RuntimeException("Problème lié à la base de donnée");
         }
         return questions;
     }
@@ -106,7 +107,7 @@ public class JdbcQuestionRepository implements IQuestionRepository {
             con.commit();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error while adding/updating question to the database");
+            throw new RuntimeException("Erreur lors de l'ajout/mise à jour de la question dans la base de données");
         }
     }
 
@@ -117,7 +118,7 @@ public class JdbcQuestionRepository implements IQuestionRepository {
             preparedStatement.setString(1, id.toString());
             int rows = preparedStatement.executeUpdate();
             if (rows == 0) {
-                throw new RuntimeException("No question deleted, question with id '" + id.toString() + "' not found in database");
+                throw new RuntimeException("Aucune question supprimée, la question avec l'ID '" + id.toString() + "' n'a pas été trouvée");
             }
         } catch (SQLException e) {
             throw new RuntimeException("SQL error");
@@ -146,7 +147,8 @@ public class JdbcQuestionRepository implements IQuestionRepository {
                 question = resultToQuestion(rs);
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // TODO handle SQL exception
+            e.printStackTrace();
+            throw new RuntimeException("Problème lié à la base de donnée");
         }
 
         if (question != null) {
@@ -181,9 +183,9 @@ public class JdbcQuestionRepository implements IQuestionRepository {
                     .nbVotes(rs.getInt("nb_votes"))
                     .build();
         } catch (ParseException e) {
-            e.printStackTrace(); // TODO handle SQL exception
+            e.printStackTrace();
+            throw new RuntimeException("Problème lié à la base de donnée");
         }
-        return null;
     }
 
     @Override

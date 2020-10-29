@@ -42,7 +42,7 @@
                 </c:choose>
                 <form action="${pageContext.request.contextPath}/questions" method="get">
                     <input type="text" name="s" class="form-control mb-3"
-                           placeholder="If you have to ask, you’ll never know. If you know, you need only ask."
+                           placeholder="Recherchez une question par titre ou auteur ..."
                            value="${requestScope.search}">
                 </form>
                 <c:forEach items="${requestScope.questions.questions}" var="question">

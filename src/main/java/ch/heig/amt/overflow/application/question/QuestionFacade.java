@@ -30,7 +30,7 @@ public class QuestionFacade {
                     .build();
             questionRepository.save(submittedQuestion);
         } else {
-            throw new IllegalArgumentException("Title and content are mandatory");
+            throw new IllegalArgumentException("Le titre et le contenu sont obligatoires");
         }
     }
     // return questionDTO corresponding to the query
@@ -46,7 +46,7 @@ public class QuestionFacade {
         Optional<Question> question = questionRepository.findById(questionId);
 
         if (question.isEmpty()) {
-            throw new QuestionNotFoundException("Question not found");
+            throw new QuestionNotFoundException("Question non trouvée");
         }
 
         Collection<Question> allQuestions = new ArrayList<>();

@@ -75,7 +75,7 @@ public class JdbcAnswerRepository implements IAnswerRepository {
             con.commit();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error while adding/updating answer to the database");
+            throw new RuntimeException("Erreur lors de l'ajout/mise à jour de la réponse dans la base de données");
         }
     }
 
@@ -86,10 +86,10 @@ public class JdbcAnswerRepository implements IAnswerRepository {
             preparedStatement.setString(1, id.toString());
             int rows = preparedStatement.executeUpdate();
             if (rows == 0) {
-                throw new RuntimeException("No answer deleted, answer with id '" + id.toString() + "' not found in database");
+                throw new RuntimeException("Aucune réponse supprimée, la réponse avec l'ID '" + id.toString() + "' n'a pas été trouvée");
             }
         } catch (SQLException e) {
-            throw new RuntimeException("SQL error");
+            throw new RuntimeException("Problème lié à la base de données");
         }
     }
 
@@ -108,7 +108,8 @@ public class JdbcAnswerRepository implements IAnswerRepository {
                 answers.add(resulToAnswer(rs));
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // TODO handle SQL exception
+            e.printStackTrace();
+            throw new RuntimeException("Problème lié à la base de données");
         }
         return answers;
     }
@@ -128,7 +129,8 @@ public class JdbcAnswerRepository implements IAnswerRepository {
                 answer = resulToAnswer(rs);
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // TODO handle SQL exception
+            e.printStackTrace();
+            throw new RuntimeException("Problème lié à la base de données");
         }
 
         if (answer != null) {
@@ -152,12 +154,13 @@ public class JdbcAnswerRepository implements IAnswerRepository {
                 answers.add(resulToAnswer(rs));
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // TODO handle SQL exception
+            e.printStackTrace();
+            throw new RuntimeException("Problème lié à la base de données");
         }
         return answers;
     }
 
-    private Answer resulToAnswer(ResultSet rs) throws SQLException {
+    private Answer resulToAnswer(ResultSet rs) {
         Date updateAt = null;
         DateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -180,10 +183,10 @@ public class JdbcAnswerRepository implements IAnswerRepository {
                     .updatedAt(updateAt)
                     .nbVotes(rs.getInt("nb_votes"))
                     .build();
-        } catch (ParseException e) {
-            e.printStackTrace(); // TODO handle SQL exception
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Problème lié à la base de données");
         }
-        return null;
     }
 
     private String getQuery(String condition) {

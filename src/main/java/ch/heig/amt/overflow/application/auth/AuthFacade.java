@@ -16,8 +16,8 @@ public class AuthFacade {
     public void register(RegisterCommand command) throws RegistrationFailedException {
         User existingUser = userRepository.findByUsername(command.getUsername()).orElse(null);
 
-        if (existingUser != null) {
-            throw new RegistrationFailedException("Username is already used");
+        if(existingUser != null) {
+            throw new RegistrationFailedException("Nom d'utilisateur déjà utilisé");
         }
 
         try {
@@ -67,8 +67,9 @@ public class AuthFacade {
     public UserDTO authenticate(AuthenticateCommand command) throws AuthenticationFailedException {
         User user = userRepository.findByUsername(command.getUsername()).orElse(null);
 
-        if (!(user != null && user.authenticate(command.getClearTextPassword()))) {
-            throw new AuthenticationFailedException("Invalid credentials");
+
+        if(!(user != null && user.authenticate(command.getClearTextPassword()))) {
+            throw new AuthenticationFailedException("Identifiants invalides");
         }
 
         return UserDTO.builder()

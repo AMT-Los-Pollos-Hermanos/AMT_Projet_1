@@ -28,7 +28,7 @@ public class CommentFacade {
                     .build();
             commentRepository.save(submittedComment);
         } else {
-            throw new IllegalArgumentException("Content are mandatory");
+            throw new IllegalArgumentException("Le contenu est obligatoire");
         }
     }
 

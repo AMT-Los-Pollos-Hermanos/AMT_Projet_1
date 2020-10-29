@@ -6,6 +6,15 @@ Scenario('Comment for question with unlogged user', ({ I}) => {
     I.seeInCurrentUrl('/login')
 });
 
+Scenario('Comment from question page', ( {I, login} ) => {
+    login('user')
+    I.amOnPage('/question/abdbc27f-d54f-417c-b576-07f1c3cfd301')
+    I.click('Ajouter un nouveau commentaire')
+    I.seeInCurrentUrl('/comment/abdbc27f-d54f-417c-b576-07f1c3cfd301')
+    I.click('Annuler')
+    I.seeInCurrentUrl('/question/abdbc27f-d54f-417c-b576-07f1c3cfd301')
+});
+
 Scenario('Comment for question', ( {I, login} ) => {
     login('user')
     I.amOnPage('/comment/73dbc27f-d54f-417c-b576-07f1c3cfd301')

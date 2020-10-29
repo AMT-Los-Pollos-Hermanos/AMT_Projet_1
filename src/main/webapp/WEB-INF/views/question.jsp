@@ -55,8 +55,8 @@
             </div>
             <hr>
         </c:forEach>
-        <a class="text-muted" href="${pageContext.request.contextPath}/comment/${question.questionId}"> Ajouter un
-            nouveau commentaire </a>
+        <a class="text-muted" href="${pageContext.request.contextPath}/comment/${question.questionId}">Ajouter un
+            nouveau commentaire</a>
     </div>
 
 
@@ -108,8 +108,8 @@
                 </div>
                 <hr>
             </c:forEach>
-            <a class="text-muted" href="${pageContext.request.contextPath}/comment/${answer.answerId}"> Add new
-                comment </a>
+            <a class="text-muted" href="${pageContext.request.contextPath}/comment/${answer.answerId}">Ajouter un
+                nouveau commentaire</a>
         </div>
 
     </c:forEach>
@@ -118,7 +118,7 @@
     <div class="container mb-3">
         <form action="${pageContext.request.contextPath}/submitAnswer.do" method="post">
             <div class="form-group">
-                <label for="editor">Your answer</label>
+                <label for="editor">Votre réponse</label>
                 <textarea id="editor" name="content" class="form-control"></textarea>
             </div>
             <input type="hidden" name="question_id" value="${question.questionId}">
