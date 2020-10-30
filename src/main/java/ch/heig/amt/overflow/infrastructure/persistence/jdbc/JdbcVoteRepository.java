@@ -116,43 +116,6 @@ public class JdbcVoteRepository implements IVoteRepository {
     }
 
     @Override
-    public Collection<Vote> findByUserIdAndQuestionId(UserId userId, QuestionId questionId) {
-        String sql = "SELECT votes.id, votes.content_id, votes.user_id, votes.state FROM comments " +
-                "INNER JOIN main_contents on comments.main_content_id = main_contents.content_id " +
-                "INNER JOIN votes ON votes.content_id = comments.content_id " +
-                "WHERE main_content_id = ? " +
-                "AND votes.user_id = ? " +
-                "UNION " +
-                "SELECT votes.id, votes.content_id, votes.user_id, votes.state FROM answers " +
-                "INNER JOIN votes ON votes.content_id = answers.content_id " +
-                "WHERE answers.question_id = ? " +
-                "AND votes.user_id = ? " +
-                "UNION " +
-                "SELECT votes.id, votes.content_id, votes.user_id, votes.state FROM questions " +
-                "INNER JOIN votes ON votes.content_id = questions.content_id " +
-                "WHERE questions.content_id = ? " +
-                "AND votes.user_id = ? " +
-                "UNION " +
-                "SELECT votes.id, votes.content_id, votes.user_id, votes.state FROM comments " +
-                "INNER JOIN main_contents on comments.main_content_id = main_contents.content_id " +
-                "INNER JOIN votes ON votes.content_id = comments.content_id " +
-                "WHERE main_content_id IN (SELECT answers.content_id FROM answers " +
-                "                          WHERE answers.question_id = ?) " +
-                "AND votes.user_id = ?";
-
-        return resultToVotes(sql, Arrays.asList(
-                questionId.toString(),
-                userId.toString(),
-                questionId.toString(),
-                userId.toString(),
-                questionId.toString(),
-                userId.toString(),
-                questionId.toString(),
-                userId.toString()
-        ));
-    }
-
-    @Override
     public Optional<Vote> findByUserIdAndContentId(UserId userId, ContentId contentId) {
         String sql = "SELECT id, content_id, user_id, state FROM votes WHERE user_id = ? AND content_id = ?";
 
