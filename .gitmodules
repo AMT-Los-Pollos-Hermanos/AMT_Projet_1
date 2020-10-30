@@ -1,0 +1,3 @@
+[submodule "deployment/lab"]
+	path = deployment/lab
+	url = https://github.com/balsigergil/hashicorp-vagrant-lab.git
