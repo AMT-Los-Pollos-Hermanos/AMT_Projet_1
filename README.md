@@ -68,11 +68,13 @@ Un formulaire qui demande l'ancien mot de passe utilisateur, le nouveau qui sera
 
 ## Installation
 
-1. Clone le repo
-2. Lancer une nouvelle terminal session dans le dossier fraîchement cloné  
-3. Lancer la commande `docker-compose up`
-4. Aller à l'adresse http://localhost:9080/overflow-1.0-SNAPSHOT
+```shell script
+git clone --recurse-submodules https://github.com/AMT-Los-Pollos-Hermanos/AMT_Projet_1.git
+cd AMT_Projet_1
+docker-compose up
+```
 
+Aller à l'adresse http://localhost:9080/overflow
 
 > À noter: Il est aussi possible d'obtenir une image Docker de l'application via le Github Repository en utilisant la
 > commande suivante: 
@@ -82,22 +84,41 @@ Un formulaire qui demande l'ancien mot de passe utilisateur, le nouveau qui sera
 > À ce moment, il n'est pas nécessaire de lancer l'application via docker-compose, mais seulement la base de données avec la 
 >commande : 
 >
->`docker-compose up -d db`   
+>`docker-compose up -d db`
 
-<!--
-First you need to pull the image from GitHub Packages. The package is public, so you only need to copy the command of the [overflow package](https://github.com/orgs/AMT-Los-Pollos-Hermanos/packages/container/package/overflow). 
+## Infrastructure cloud avec Nomad et Consul
 
-Then when the pull is finished, you need to run this command: `docker run -p 9080:9080 <image_id>`. The id of the image can be found using `docker images`.
+### Lancement de l'infra
+```shell script
+cd deployment/lab
+vagrant up
+```
 
-Finally, to connect to the web-app, you need to connect to: http://localhost:9080/overflow-1.0-SNAPSHOT/login
--->
+Plus d'information sur [balsigergil/hashicorp-vagrant-lab](https://github.com/balsigergil/hashicorp-vagrant-lab).
+
+| Service | URL                          |
+|---------|------------------------------|
+| Nomad   | http://192.168.33.10:4646/ui |
+| Consul  | http://192.168.33.10:8500/ui |
+
+### Jobs Nomad
+
+Les jobspec Nomad sont dans le dossier [deployment](https://github.com/AMT-Los-Pollos-Hermanos/AMT_Projet_1/tree/master/deployment) et ont l'extension `.nomad`.
+
+Il suffit de les lancer via [l'interface utilisateur de Nomad](http://192.168.33.10:4646/ui/jobs/run). En premier, le jobspec `traefik.nomad` et ensuite `overflow.nomad`.
+
+L'interface de Traefik est disponible sur [http://192.168.33.10:8080](http://192.168.33.10:8080) 
+
+L'application déployée est ensuite disponible via le load balancer à l'adresse : [http://192.168.33.10/overflow](http://192.168.33.10/overflow)
 
 ### JMeter
 
-##### Création du test JMeter 
-
 - Ouvrir JMeter 
 - Aller dans File > Open et choisir le fichier overflow_test2.jmx situé dans le répertoire jmeter de notre projet 
-- Cliquer sur Start  
-- Les résultats sont visibles dans la section View Results Tree
+
+#### Lancer les tests de charge
+
+```shell script
+./scripts/run-load-tests.sh
+```
 

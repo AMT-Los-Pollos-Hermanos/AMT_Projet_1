@@ -1,7 +1,7 @@
 job "traefik" {
   datacenters = ["dc1"]
 
-  # On force le
+  # On force le job à se lancer sur le noeud appelé 'server'
   constraint {
     attribute = "${node.unique.name}"
     value     = "server"
