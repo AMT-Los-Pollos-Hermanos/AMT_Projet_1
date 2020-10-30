@@ -27,6 +27,9 @@ Contient un bouton qui donne accès à la liste des questions postées.
 #### Page de connexion/inscription
 Contient deux formulaires : un permettant la création d'un compte utilisateur, et un autre pour se connecter.
 
+Pour le développement, il est possible de se connecter les utilisateurs suivant : 
+gil, chris, gaetan et julien. Leur mot de passe est identique à leur nom d'utilisateur.
+
 #### Page de la liste des questions
 Contient la liste des questions qui ont été postées. Il est possible de chercher une question à l'aide de la barre de 
 recherche selon son contenu ou son auteur. Il est possible de cliquer sur le titre d'une question pour accéder à son
@@ -71,6 +74,7 @@ Un formulaire qui demande l'ancien mot de passe utilisateur, le nouveau qui sera
 ```shell script
 git clone --recurse-submodules https://github.com/AMT-Los-Pollos-Hermanos/AMT_Projet_1.git
 cd AMT_Projet_1
+docker pull ghcr.io/amt-los-pollos-hermanos/overflow:latest
 docker-compose up
 ```
 
