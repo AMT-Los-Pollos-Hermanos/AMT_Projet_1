@@ -1,4 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<c:if test="${requestScope.name != null && requestScope.port != null}">
+    <div class="container mt-4">
+        <hr>
+        <div class="text-center text-muted mt-3">
+                ${requestScope.name}:${requestScope.port}
+        </div>
+    </div>
+</c:if>
 
 <script src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/bootstrap.bundle.min.js"></script>

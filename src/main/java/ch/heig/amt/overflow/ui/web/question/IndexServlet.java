@@ -17,6 +17,10 @@ import java.io.IOException;
 public class IndexServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String name = request.getServerName();
+        int port = request.getServerPort();
+        request.setAttribute("name", name);
+        request.setAttribute("port", port);
         request.getRequestDispatcher("/WEB-INF/views/index.jsp").forward(request, response);
         request.getSession().removeAttribute("flash");
     }
