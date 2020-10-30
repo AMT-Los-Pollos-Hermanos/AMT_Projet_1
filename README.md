@@ -80,16 +80,6 @@ docker-compose up
 
 Aller à l'adresse http://localhost:9080/overflow
 
-> À noter: Il est aussi possible d'obtenir une image Docker de l'application via le Github Repository en utilisant la
-> commande suivante: 
->
-> `docker pull ghcr.io/amt-los-pollos-hermanos/overflow:latest`
->
-> À ce moment, il n'est pas nécessaire de lancer l'application via docker-compose, mais seulement la base de données avec la 
->commande : 
->
->`docker-compose up -d db`
-
 ## Infrastructure cloud avec Nomad et Consul
 
 ### Lancement de l'infra
